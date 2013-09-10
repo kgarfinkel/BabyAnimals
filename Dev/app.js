@@ -1,14 +1,11 @@
-var express = require('express'),
-  mongoose = require('mongoose'),
-  fs = require('fs'),
-  config = require('./config/config');
+var express = require('express');
+var mongoose = require('mongoose');
+var fs = require('fs');
+var config = require('./config/config');
 
-mongoose.connect(config.db);
-var db = mongoose.connection;
-db.on('error', function () {
-  throw new Error('unable to connect to database at ' + config.db);
-});
+var app = express();
 
+//models
 var modelsPath = __dirname + '/app/models';
 fs.readdirSync(modelsPath).forEach(function (file) {
   if (file.indexOf('.js') >= 0) {
@@ -16,9 +13,11 @@ fs.readdirSync(modelsPath).forEach(function (file) {
   }
 });
 
-var app = express();
-
+//express
 require('./config/express')(app, config);
+
+//routes
 require('./config/routes')(app);
 
+//start the app
 app.listen(config.port);
