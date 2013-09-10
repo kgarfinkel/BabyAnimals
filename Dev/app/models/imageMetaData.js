@@ -8,7 +8,7 @@ var imageMetaSchema = new Schema({
   width: Number,
   format: String,
   bytes: Number,
-  created_at: String,
+  created_at: {type: Date, 'default': Date.now},
   bucket: String,
   key: String,
   url: String
