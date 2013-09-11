@@ -2,8 +2,7 @@ var mongoose = require('mongoose');
 var ImageMetaData = mongoose.model('ImageMetaData');
 
 module.exports.storeImageMetaData = function(request, response) {
-  var imageMetaData = new ImageMetaData({url: request.body.url, format: request.body.content_type});
-  
+  var imageMetaData = new ImageMetaData({url: request.body.url, format: request.body.content_type}); 
   imageMetaData.save();
 
   // ImageMetaData.find({}, function(error, data) {
@@ -11,7 +10,8 @@ module.exports.storeImageMetaData = function(request, response) {
   //   res.json('data',data);
   // });
 
-  response.send(200, 'success');
+  response.writeHead(200, {'Content-Type': 'application/json'});
+  response.end(JSON.stringify(imageMetaData));
 };
 
   
