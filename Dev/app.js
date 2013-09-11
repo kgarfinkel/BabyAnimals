@@ -24,8 +24,6 @@ fs.readdirSync(modelsPath).forEach(function (file) {
 //   headers:{'content-type': 'application/x-www-form-urlencoded'},
 //   body: require('querystring').stringify(data) 
 // }, function(err, res, bod) {
-//   console.log(bod);
-//   console.log(res.statusCode);
 // });
 
 //express
