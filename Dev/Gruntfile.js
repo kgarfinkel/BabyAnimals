@@ -30,6 +30,15 @@ module.exports = function (grunt) {
       }
     },
 
+    concurrent: {
+      target: {
+        tasks: ['nodemon', 'watch'],
+        options: {
+          logCurrentOutput: true
+        }
+      }
+    },
+
     mochaTest: {
       test: {
         options: {
@@ -48,7 +57,9 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-nodemon');
   grunt.loadNpmTasks('grunt-mocha-test');
+  grunt.loadNpmTasks('grunt-concurrent');
 
-  grunt.registerTask('default', ['develop', 'watch', 'mochaTest']);
+  grunt.registerTask('default', ['develop', 'watch']);
+  //grunt.registerTask('default', ['concurrent:target']);
 };
 
