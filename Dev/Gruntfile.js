@@ -26,7 +26,7 @@ module.exports = function (grunt) {
           'app/**/*.js',
           'config/*.js'
         ],
-        tasks: ['develop', 'nodemon']
+        tasks: 'default'
       }
     },
 
@@ -57,8 +57,9 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-nodemon');
   grunt.loadNpmTasks('grunt-mocha-test');
-  grunt.loadNpmTasks('grunt-concurrent');
+  //grunt.loadNpmTasks('grunt-concurrent');
 
+  grunt.registerTask('test', ['mochaTest']);
   grunt.registerTask('default', ['develop', 'watch']);
   //grunt.registerTask('default', ['concurrent:target']);
 };
