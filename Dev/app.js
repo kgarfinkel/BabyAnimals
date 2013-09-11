@@ -5,6 +5,7 @@ var fs = require('fs');
 var config = require('./config/config');
 
 var app = express();
+module.exports = app;
 
 //models
 var modelsPath = __dirname + '/app/models';

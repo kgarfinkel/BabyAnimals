@@ -13,11 +13,11 @@ var data = {
 
 describe('POST', function(){
   it('responds with a json success message', function(done){
-    // request(app)
-    // .post('/image')
-    // .send(data)
-    // .set('Content-Type', 'application/x-www-form-urlencoded')
-    // .expect(200, done);
+    request(app)
+    .post('/image')
+    .send(data)
+    .set('Content-Type', 'application/x-www-form-urlencoded')
+    .expect(200, done);
     done();
   });
 });
