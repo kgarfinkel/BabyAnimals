@@ -11,13 +11,24 @@ var data = {
   content_type: 'image/png'
 };
 
-describe('POST', function(){
-  it('responds with a json success message', function(done){
-    request(app)
-    .post('/image')
-    .send(data)
-    .set('Content-Type', 'application/x-www-form-urlencoded')
-    .expect(200, done);
-    done();
-  });
+describe('#Upload', function() {
+  describe('POST', function(){
+      it('should have a response body equal to "success" on /image request', function(done){
+        request(app)
+        .post('/image')
+        .send(data)
+        .set('Accept', 'application/json')
+        .expect(200)
+        .expect('Content-Type', 'application/json')
+        .end(function(error, response) {
+          if (error) {
+            return done(error);
+          }
+      
+          done();
+        });
+      });
+    });
+  
+    // it('should create an Image model instance in response to /image request',)
 });
