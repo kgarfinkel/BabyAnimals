@@ -3,6 +3,7 @@ var request = require('supertest');
 var express = require('express');
 var config = require('../config/config');
 var mongoose = require('mongoose');
+var should = require('should');
 
 var app = require('../app.js');
 
@@ -13,7 +14,7 @@ var data = {
 
 describe('#Upload', function() {
   describe('POST', function(){
-      it('should have a response body equal to "success" on /image request', function(done){
+      it('should have a response with status 200 on /image request', function(done){
         request(app)
         .post('/image')
         .send(data)
@@ -28,7 +29,21 @@ describe('#Upload', function() {
           done();
         });
       });
+
+
+      it('should create an Image model instance in response to /image request', function(done) {
+        request(app)
+        .post('/image')
+        .send(data)
+        .set('Accept', 'application/json')
+        .end(function(error, response) {
+          if (error) {
+            return done(error);
+          }
+          
+          response.body.should.have.property('url');
+          done();
+        });
+      });
     });
-  
-    // it('should create an Image model instance in response to /image request',)
 });
