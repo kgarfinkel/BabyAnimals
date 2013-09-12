@@ -14,4 +14,4 @@ var imageMetaSchema = new Schema({
   url: String
 });
 
-mongoose.model('ImageMetaData', imageMetaSchema);
+module.exports = mongoose.model('ImageMetaData', imageMetaSchema);

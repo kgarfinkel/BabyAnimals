@@ -11,6 +11,6 @@ module.exports = function(app, config) {
   });
 
   db.once('open', function() {
-    console.log('yay');
+    console.log('mongo connected');
   });
 };
