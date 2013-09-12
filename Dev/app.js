@@ -22,7 +22,7 @@ require('./config/express')(app, config);
 require('./config/routes')(app);
 
 //database
-//require('./config/db')(app, config);
+require('./config/db')(app, config);
 
 //start app
 app.listen(config.port);
