@@ -1,6 +1,6 @@
-var path = require('path'),
-    rootPath = path.normalize(__dirname + '/..'),
-    env = process.env.NODE_ENV || 'development';
+var path = require('path');
+var rootPath = path.normalize(__dirname + '/..');
+var env = process.env.NODE_ENV || 'development';
 
 var config = {
   development: {
@@ -15,7 +15,7 @@ var config = {
   test: {
     root: rootPath,
     app: {
-      name: 'dev'
+      name: 'test'
     },
     port: 3000,
     db: 'mongodb://localhost/dev-test'
@@ -24,7 +24,7 @@ var config = {
   production: {
     root: rootPath,
     app: {
-      name: 'dev'
+      name: 'prod'
     },
     port: 3000,
     db: 'mongodb://localhost/dev-production'
