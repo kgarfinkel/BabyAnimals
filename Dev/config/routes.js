@@ -1,9 +1,34 @@
 var request = require('request');
 var fs = require('fs');
 var url = require('url');
+var im = require('imagemagick');
+var imageDataController = require('../app/controllers/ImageData.js');
 
-var fetchURL = function(url, path) {
-  request(url).pipe(fs.createWriteStream('/Users/Kristina/js_books/temp/images'));
+//load file data to server
+var fetchURL = function(url, path, cb) {
+  var picStream = fs.createWriteStream(path);
+  picStream.on('close', function() {
+    cb();
+  });
+  request(url).pipe(picStream);
+
+};
+
+//store metadata to db 
+var addMetaData = function(path, cb) {
+
+  //add s3 url
+  im.identify('/Users/Kristina/js_books/temp/images', function(error, features) {
+    if (error) {
+      throw new Error('</3', error);
+    }
+
+    console.log('features', features);
+    //imageDataController.storeImageMetaData(features);
+  });
+
+  cb();
+
 };
 
 module.exports = function(app) {
@@ -12,19 +37,17 @@ module.exports = function(app) {
   app.get('/', home.index);
   
   //image route  
-  var imageDataController = require('../app/controllers/ImageData.js');
   app.post('/image', function(req, response) {
-    
 
-    //store metadata to db 
-    var result = imageDataController.storeImageMetaData(req, response);
-    
-    //load file data to server
-    fetchURL(req.body.imgUrl);
+    //add env[var]
+    path = '/Users/Kristina/js_books/temp/images';
 
-    //send response
-    response.writeHead(200, {'Content-Type': 'application/json'});
-    response.end(JSON.stringify(result));
+    fetchURL(req.body.imgUrl, path, function() {
+      addMetaData(path, function() {
+        console.log('response');
+        response.writeHead(200);
+        response.end();
+      });
+    });
   });
 };
-
