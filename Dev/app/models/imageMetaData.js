@@ -3,7 +3,6 @@ var Schema = mongoose.Schema;
 
 var imageMetaSchema = new Schema({
   id: Number,
-  version: Number,
   height: Number,
   width: Number,
   format: String,
