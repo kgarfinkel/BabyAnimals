@@ -3,10 +3,9 @@ var Schema = mongoose.Schema;
 
 var imageMetaSchema = new Schema({
   id: Number,
+  format: String,
   height: Number,
   width: Number,
-  format: String,
-  bytes: Number,
   created_at: {type: Date, 'default': Date.now},
   bucket: String,
   key: String,
