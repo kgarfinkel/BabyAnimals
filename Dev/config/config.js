@@ -4,13 +4,12 @@ var rootPath = path.normalize(__dirname + '/..');
 var env = process.env.NODE_ENV || 'development';
 
 //change in credentials.json?
-var accessKeyId = process.env.AWS_ACCESS_KEY || 'xxxxx';
-var secretAccessKey = process.env.AWS_SECRET_KEY || "xxxxx";
+var accessKeyId = process.env.AWS_ACCESS_KEY;
+var secretAccessKey = process.env.AWS_SECRET_KEY;
 
 //updata amazon credentials
 // TODO: uncomment
-console.log('access', accessKeyId)
-AWS.config.update({accessKeyId: accessKeyId, secretAccessKey: secretAccessKey, region: 'us-west-2'});
+AWS.config.update({accessKeyId: accessKeyId, secretAccessKey: secretAccessKey, region: 'us-west-1'});
 
 var config = {
   development: {
@@ -33,4 +32,3 @@ var config = {
 };
 
 module.exports = config[env];
-module.exports.accessKeyId = accessKeyId;
