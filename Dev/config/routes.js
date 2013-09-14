@@ -1,4 +1,7 @@
 var upload = require('../lib/upload.js');
+var url = require('url');
+var qs = require('qs');
+
 
 module.exports = function(app) {
   //home route
@@ -6,12 +9,12 @@ module.exports = function(app) {
   app.get('/', home.index);
   
   //image route  
-  app.post('/photo', function(req, response) {
+  app.post('/upload', function(req, response) {
 
-    //add env[var]
+    //TODO: add env[var]
     path = '/Users/Kristina/js_books/temp/images';
 
-    upload.fetchURL(req.body.imgUrl, path, function() {
+    upload.fetchURL(req.query.imgUrl, path, function() {
       upload.addMetaData(path, function() {
         response.writeHead(200);
         response.end();

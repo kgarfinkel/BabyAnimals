@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var imageMetaSchema = new Schema({
-  id: Number,
+  id: String,
   format: String,
   height: Number,
   width: Number,

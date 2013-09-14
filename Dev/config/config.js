@@ -27,16 +27,9 @@ var config = {
     },
     port: 3000,
     db: 'mongodb://localhost/dev-test'
-  },
-
-  production: {
-    root: rootPath,
-    app: {
-      name: 'prod'
-    },
-    port: 3000,
-    db: 'mongodb://localhost/dev-production'
   }
 };
 
 module.exports = config[env];
+module.exports.accessKeyId = accessKeyId;
+module.exports.secretAccessKey = secretAccessKey;
