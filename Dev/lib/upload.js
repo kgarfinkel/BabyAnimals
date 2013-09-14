@@ -11,18 +11,6 @@ var knox = require('knox');
 var s3 = new AWS.S3();
 
 module.exports = {
-
-  //load file data to server
-  fetchURL: function(url, path, cb) {
-    var picStream = fs.createWriteStream(path);
-    picStream.on('close', function() {
-      cb();
-    });
-
-    request(url).pipe(picStream);
-
-  },
-
   addToS3: function(url, path, cb) {
     var client = knox.createClient({
       key: process.env.AWS_ACCESS_KEY,
@@ -35,7 +23,7 @@ module.exports = {
 
     picStream.on('close', function() {
       fs.readFile(path, function(err, buff){
-        var req = client.put(path, {
+        var req = client.put('babyanimals', {
             'Content-Length': buff.length,
             'Content-Type': 'text/plain',
             'x-amz-acl': 'public-read'
@@ -48,6 +36,7 @@ module.exports = {
         });
 
         req.end(buff);
+        cb('babyanimals');
       });
     });
 
@@ -55,17 +44,8 @@ module.exports = {
   },
 
   //store metadata to db 
-  addMetaData: function(path, cb) {
-    //TODO: add s3 url
-    im.identify('/Users/Kristina/js_books/temp/images', function(error, features) {
-      if (error) {
-        console.error('</3');
-        throw error;
-      }
-      //TODO: remove console.log
-      
-      var results = imageDataController.storeImageMetaData(features);
-      cb(results.toString());
-    });
+  addMetaData: function(key, cb) {
+    var results = imageDataController.storeImageMetaData(key);
+    cb(results.toString());
   },
 };
