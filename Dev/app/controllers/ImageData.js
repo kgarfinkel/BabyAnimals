@@ -12,9 +12,6 @@ module.exports.storeImageMetaData = function(features) {
   });
 
   imageMetaData.save();
-
-  console.log('metadata', imageMetaData);
-
   return imageMetaData;
 };
 
