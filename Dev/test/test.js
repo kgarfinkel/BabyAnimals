@@ -15,7 +15,7 @@ var hashKey;
 
 describe('#Upload', function() {
   describe('POST', function(){
-      it('should have a response with status 200 on /image request', function(done){
+      it('should respond with status 200 and a JSON object', function(done){
         request(app)
         .post('/upload?imgUrl=http://maxcdn.thedesigninspiration.com/wp-content/uploads/2009/09/cute-animals/baby01.jpg')
         .expect(200)
@@ -23,7 +23,8 @@ describe('#Upload', function() {
           if (error) {
             return done(error);
           }
-      
+          
+          response.body.should.be.a('object');
           done();
         });
       });
@@ -37,10 +38,9 @@ describe('#Upload', function() {
           }
           response.text = JSON.parse(response.text);
           
-          //use for later request
           hashKey = response.text.imgId;
-
-          response.text.should.be.a('object').and.have.property('imgId');
+          
+          response.text.should.have.property('imgId');
           done();
         });
       });
@@ -57,6 +57,19 @@ describe('#Upload', function() {
             _.each(models, function(model) {
               model.should.have.property('key', hashKey);
             });
+
+            done();
+          });
+        });
+
+        it('should store the uploaded image in S3 bucket', function(done) {
+          request(app)
+          .get('https://testbucket1989.s3.amazonaws.com/' +  hashKey)
+          .expect(200)
+          .end(function(error, response) {
+            if (error) {
+              return done(error);
+            }
 
             done();
           });
