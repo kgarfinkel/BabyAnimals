@@ -6,16 +6,12 @@ var config = require('../config/config');
 var mongoose = require('mongoose');
 var ImageModel = require('../app/models/imageMetaData.js');
 var should = require('should');
+var _ = require('underscore');
 
 
 // express server
 var app = require('../app.js');
-
-//test data
-var data = {
-  url: 'https://www.google.com/images/srpr/logo4w.png', 
-  content_type: 'image/png'
-};
+var hashKey;
 
 describe('#Upload', function() {
   describe('POST', function(){
@@ -32,39 +28,40 @@ describe('#Upload', function() {
         });
       });
 
+      it('should assign a uuid key to an uploaded image', function(done) {
+        request(app)
+        .post('/upload?imgUrl=http://maxcdn.thedesigninspiration.com/wp-content/uploads/2009/09/cute-animals/baby01.jpg')
+        .end(function(error, response) {
+          if (error) {
+            return done(error);
+          }
+          response.text = JSON.parse(response.text);
+          
+          //use for later request
+          hashKey = response.text.imgId;
 
-      // it('should send an ImageMetaData instance in response to /image request', function(done) {
-      //   request(app)
-      //   .post('/image')
-      //   .send(data)
-      //   .set('Accept', 'application/json')
-      //   .end(function(error, response) {
-      //     if (error) {
-      //       return done(error);
-      //     }
+          response.text.should.be.a('object').and.have.property('imgId');
+          done();
+        });
+      });
 
-      //     response.body.should.be.a('object').and.have.property('url', 'https://www.google.com/images/srpr/logo4w.png');
-      //     response.body.should.have.property('format', 'image/png');
-      //     done();
-      //   });
-      // });
+      it('should store the uuid into a local db', function(done) {
+        request(app)
+        .post('/upload?imgUrl=http://maxcdn.thedesigninspiration.com/wp-content/uploads/2009/09/cute-animals/baby01.jpg')
+        .end(function(error, response) {
+          if (error) {
+            return done(error);
+          }
 
-      // it('should store ImageMetaData instance into local db', function(done) {
-      //   request(app)
-      //   .post('/image')
-      //   .send(data)
-      //   .end(function(error, response) {
-      //     if (error) {
-      //       return done(error);
-      //     }
+          ImageModel.find({}, function(error, models) {
+            _.each(models, function(model) {
+              model.should.have.property('key', hashKey);
+            });
 
+            done();
+          });
+        });
+      });
 
-      //     ImageModel.find({}, function(err, models) {
-      //       models.should.have.length(1);
-      //     });
-
-      //     done();
-      //   });
-      // });
     });
 });
