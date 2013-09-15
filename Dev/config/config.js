@@ -6,6 +6,8 @@ var env = process.env.NODE_ENV || 'development';
 //change in credentials.json?
 var accessKeyId = process.env.AWS_ACCESS_KEY;
 var secretAccessKey = process.env.AWS_SECRET_KEY;
+var bucket = process.env.AWS_BUCKET;
+var path = process.env.LOCAL_FILE_PATH;
 
 //updata amazon credentials
 // TODO: uncomment

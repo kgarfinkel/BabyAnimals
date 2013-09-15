@@ -2,24 +2,29 @@ var upload = require('../lib/upload.js');
 var url = require('url');
 var qs = require('qs');
 var fs = require('fs');
-var key = (123849320385).toString();
-var path = '/Users/Kristina/projammin/hackreactor/personalproject/Dev/data/images/';
+var uuid = require('node-uuid');
 
-module.exports = function(app) {
-  //home route
-  var home = require('../app/controllers/home');
-  app.get('/', home.index);
+module.exports = {
+  routeHandler: function(app) {
+    var key = this.key();
 
-  //image route  
-  app.post('/upload', function(req, response) {
+    //home route
+    var home = require('../app/controllers/home');
+    app.get('/', home.index);
 
-    var newPath = path + key;
-    //TODO: add env[var]
-    upload.addToS3(req.query.imgUrl, newPath.toString(), function() {
-      upload.addMetaData(key, function(res) {
-        response.writeHead(200);
-        response.end(res);
+    //upload route  
+    app.post('/upload', function(req, response) {
+      upload.upload(req.query.imgUrl, process.env.LOCAL_FILE_PATH + '/' + key, function() {
+        upload.insertDB(key, function(res) {
+          response.writeHead(200);
+          response.end(res);
+        });
       });
     });
-  });
+
+  },
+
+  key: function() {
+    return uuid.v4().split('-').pop();
+  }
 };
