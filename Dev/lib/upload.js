@@ -1,27 +1,26 @@
 var imageDataController = require('../app/controllers/ImageData.js');
-var config = require('/Users/Kristina/projammin/hackreactor/personalproject/Dev/config/config.js');
 var fs = require('fs');
 var request = require('request');
 var im = require('imagemagick');
-var AWS = require('aws-sdk');
 var knox = require('knox');
 
 //var s3 = new AWS.S3();
-
 module.exports = {
 
-  addToS3: function(url, path, cb) {
+  upload: function(url, path, cb) {
+    var hashKey = path.split('/').pop();
+    
     var client = knox.createClient({
       key: process.env.AWS_ACCESS_KEY,
       secret: process.env.AWS_SECRET_KEY,
-      bucket: 'testbucket1989'
+      bucket: process.env.AWS_BUCKET
     });  
 
     var picStream = fs.createWriteStream(path);
 
     picStream.on('close', function() {
-      fs.readFile(path, function(err, buff){
-        var req = client.put(path + client.bucket, {
+      fs.readFile(process.env.LOCAL_FILE_PATH + '/' + hashKey, function(err, buff){
+        var req = client.put(hashKey, {
             'Content-Length': buff.length,
             'Content-Type': 'text/plain',
             'x-amz-acl': 'public-read'
@@ -42,13 +41,17 @@ module.exports = {
   },
 
   //store metadata to db 
-  addMetaData: function(key, cb) {
+  insertDB: function(key, cb) {
     var metaData = imageDataController.storeImageMetaData(key);
     var response = {};
 
     response.createdAt = new Date();
     response.imgId = metaData.key;
     
-    cb(response.toString());
+    cb(JSON.stringify(response));
   },
+
+  respond: function() {
+
+  }
 };
