@@ -8,6 +8,7 @@ module.exports.storeImageMetaData = function(key) {
     key: key
   });
 
+
   imageMetaData.save();
   return imageMetaData;
 };
