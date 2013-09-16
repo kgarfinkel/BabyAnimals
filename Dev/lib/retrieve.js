@@ -8,24 +8,19 @@ var client = knox.createClient({
 });  
 
 module.exports = {
-  retrieve: function(key) {
-    return function(req, res, next) {
+  retrieve: function(req, res, next) {
       if (req.params.image) {
-        var outstream = fs.createWriteStream(process.env.LOCAL_FILE_PATH + '/' + key);
-        //resize: buffer ='';
+        var outstream = fs.createWriteStream(process.env.LOCAL_FILE_PATH + '/' + req.key);
         client.get(req.key)
 
         .on('response', function(res) {
-
           res.on('data', function(chunk) {
             outstream.write(chunk);
           });
 
         }).end();
-        next();
-      }
-
-      next();
-    };
-  }
+        return next();
+      } 
+      return next();
+    }
 };

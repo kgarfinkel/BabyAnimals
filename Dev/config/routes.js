@@ -1,5 +1,6 @@
 var upload = require('../lib/upload');
 var retrieve = require('../lib/retrieve'); 
+var resize = require('../lib/resize');
 var url = require('url');
 var qs = require('qs');
 var fs = require('fs');
@@ -50,17 +51,14 @@ module.exports = {
       });
     });
 
-    app.get('/:image', retrieve.retrieve(key), function(req, res) {
-      console.log('success1');
-
-      res.writeHead(200, responseHeaders);
-      res.end();
+    app.get('/:image', retrieve.retrieve, function(req, res) {
+      // res.writeHead(200, responseHeaders);
+      // res.end();
     });
 
-    app.get('/:image', function(req, res) {
-      if (req.query.size) {
-        console.log('success2');
-      }
+    app.get('/:image/size', retrieve.retrieve, resize.resize, function(req, res) {
+      // res.writeHead(200, responseHeaders);
+      // res.end();
     });
   },
 };
