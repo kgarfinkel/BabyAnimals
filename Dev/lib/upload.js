@@ -16,7 +16,7 @@ module.exports = {
     var key = path.split('/').pop();
     var outStream = fs.createWriteStream(path);
 
-    picStream.on('close', function() {
+    outStream.on('close', function() {
       fs.readFile(process.env.LOCAL_FILE_PATH + '/' + key, function(err, buff){
         var req = client.put(key, {
             'Content-Length': buff.length,
