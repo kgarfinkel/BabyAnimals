@@ -1,3 +1,4 @@
+//dependencies
 var path = require('path');
 var AWS = require('aws-sdk');
 var rootPath = path.normalize(__dirname + '/..');
@@ -9,8 +10,7 @@ var secretAccessKey = process.env.AWS_SECRET_KEY;
 var bucket = process.env.AWS_BUCKET;
 var path = process.env.LOCAL_FILE_PATH;
 
-//updata amazon credentials
-// TODO: uncomment
+//TODO: update amazon credential
 AWS.config.update({accessKeyId: accessKeyId, secretAccessKey: secretAccessKey, region: 'us-west-1'});
 
 var config = {

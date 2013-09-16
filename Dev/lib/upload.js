@@ -4,23 +4,21 @@ var request = require('request');
 var im = require('imagemagick');
 var knox = require('knox');
 
-//var s3 = new AWS.S3();
+var client = knox.createClient({
+  key: process.env.AWS_ACCESS_KEY,
+  secret: process.env.AWS_SECRET_KEY,
+  bucket: process.env.AWS_BUCKET
+});  
+
 module.exports = {
-
+  //stream requested image to fs and store in s3 bucket
   upload: function(url, path, cb) {
-    var hashKey = path.split('/').pop();
-    
-    var client = knox.createClient({
-      key: process.env.AWS_ACCESS_KEY,
-      secret: process.env.AWS_SECRET_KEY,
-      bucket: process.env.AWS_BUCKET
-    });  
-
-    var picStream = fs.createWriteStream(path);
+    var key = path.split('/').pop();
+    var outStream = fs.createWriteStream(path);
 
     picStream.on('close', function() {
-      fs.readFile(process.env.LOCAL_FILE_PATH + '/' + hashKey, function(err, buff){
-        var req = client.put(hashKey, {
+      fs.readFile(process.env.LOCAL_FILE_PATH + '/' + key, function(err, buff){
+        var req = client.put(key, {
             'Content-Length': buff.length,
             'Content-Type': 'text/plain',
             'x-amz-acl': 'public-read'
@@ -37,7 +35,7 @@ module.exports = {
       });
     });
 
-    request(url).pipe(picStream);
+    request(url).pipe(outStream);
   },
 
   //store metadata to db 
