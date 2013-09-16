@@ -50,9 +50,16 @@ module.exports = {
       });
     });
 
+    app.get('/:image', retrieve.retrieve(key), function(req, res) {
+      console.log('success1');
+
+      res.writeHead(200, responseHeaders);
+      res.end();
+    });
+
     app.get('/:image', function(req, res) {
-      if (req.params.image) {
-        retrieve.retrieve(req.key);
+      if (req.query.size) {
+        console.log('success2');
       }
     });
   },
