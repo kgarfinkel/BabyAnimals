@@ -1,4 +1,5 @@
 var helpers = require('./helperfunctions');
+var upload = require('./upload');
 var fs = require('fs');
 var im = require('imagemagick');
 var uuid = require('node-uuid');
@@ -7,59 +8,63 @@ var knox = require('knox');
 var client = helpers.awsClient();
   
 module.exports = {
-  retrieve: function(req, res, next) {
-    if (req.params.image) {
-      var outstream = fs.createWriteStream(process.env.LOCAL_FILE_PATH + '/' + req.key + '.jpg');
-      var reqs = client.get(req.key);
+  identify: function(req, res) {
+    var w;
+    var h;
 
-      reqs.on('response', function(res) {
-        res.on('data', function(chunk) {
-          console.log('chunk');
-          outstream.write(chunk);
-        });
+    im.identify(process.env.LOCAL_FILE_PATH + '/' + req.key + '.jpg', function(err, features) {
+      if (err) {
+        console.error('could not process image </3');
+        throw err;
+      }
 
-        res.on('error', function(err) {
-          console.log(err);
-        });
+      //TODO: change default to square?
+      w = req.query.w || features.width;
+      h = req.query.h || features.height; 
 
-        res.on('end', function() {
-          identify(req, res);
-        });
-      });
-
-      reqs.end();
-    } 
+      console.log('wh1', w, h);
+      resize(req, res, w, h);
+    });
   }
 };
 
-//set height and width to queries or original dimensions
-var identify = function(req, res) {
-  var w;
-  var h;
-
-  im.identify(process.env.LOCAL_FILE_PATH + '/' + req.key + '.jpg', function(err, features) {
-    if (err) {
-      console.error('could not process image </3');
-      throw err;
-    }
-
-    //TODO: change default to square?
-    w = req.query.w || features.width;
-    h = req.query.h || features.height; 
-
-    resize(req, res, w, h);
-  });
-};
-
 var resize = function(req, res, w, h) {
+  var key = uuid.v4().split('-').pop();
+
   im.resize({
     srcPath: process.env.LOCAL_FILE_PATH + '/' + req.key + '.jpg',
+    dstPath: process.env.LOCAL_FILE_PATH + '/' + key + '.jpg',
     width: w,
-    heigth: h
+    height: h
   }, function(err, stdout, stderr) {
+    console.log('stdout', stdout);
     if (err) {
       console.error('could not process image </3');
       throw err;
     }
+
+    if (stderr) {
+      throw stderr;
+    }
+
+    upload(req, res, process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', key);
   });
 };
+
+var upload = function(req, res, path, key) {
+
+  fs.readFile(path, function(err, data) {
+    var req = client.put(key, {
+      'Content-Length': data.length,
+      'Content-Type': 'image/jpeg',
+      'x-amz-acl': 'public-read'
+    });
+
+    req.on('response', function(res) {
+      console.log('respnse');
+    });
+
+    req.end(data);
+  });
+};
+

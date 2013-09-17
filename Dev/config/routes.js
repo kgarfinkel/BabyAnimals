@@ -16,7 +16,7 @@ module.exports = {
 
           if (data.length === 0) {
             console.error('image has not been uploaded </3');
-            helpers.write(req, res, 404);
+            return helpers.write(req, res, 404);
           }
 
           req.key = key;
@@ -29,17 +29,17 @@ module.exports = {
     app.get('/', home.index);
 
     //upload route
-    app.post('/upload', upload.upload, function(req, res) {
+    app.post('/upload', upload.upload, function(req, res, next) {
       helpers.write(req, res, 201);
     });
 
     //get image route
-    app.get('/:image', retrieve.retrieve, function(req, res) {
+    app.get('/:image', retrieve.retrieve, function(req, res, next) {
       helpers.write(req, res, 200);
     });
 
     //resize image route
-    app.get('/:image/size', resize.retrieve, function(req, res) {
+    app.get('/:image/size', retrieve.retrieve, resize.identify, function(req, res, next) {
       helpers.write(req, res, 200);
     });
   },
