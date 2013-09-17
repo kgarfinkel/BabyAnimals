@@ -37,20 +37,14 @@ module.exports = {
     var home = require('../app/controllers/home');
     app.get('/', home.index);
 
-    //upload route  
-    //change to middleware?
-    //change so url is not a query using upload/:image
-    app.post('/upload', function(req, response) {
-      upload.upload(req.query.imgUrl, process.env.LOCAL_FILE_PATH + '/' + key, function() {
-        upload.insertDB(key, function(res) {
-          response.writeHead(200, responseHeaders);
-          response.end(res);
-        });
-      });
+    //upload route
+    app.post('/upload', upload.upload, function(req, res) {
+      console.log('upload');
     });
 
     app.get('/:image', retrieve.retrieve, function(req, res) {
-      res.send('getting image', req.key);
+      res.writeHead(200, responseHeaders);
+      res.end();
     });
 
     app.get('/:image/size', resize.retrieve, function(req, res) {
