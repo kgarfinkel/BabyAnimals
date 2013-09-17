@@ -4,6 +4,7 @@ var fs = require('fs');
 var im = require('imagemagick');
 var uuid = require('node-uuid');
 var knox = require('knox');
+var imageDataController = require('../app/controllers/ImageData.js');
 
 var client = helpers.awsClient();
   
@@ -37,7 +38,6 @@ var resize = function(req, res, w, h) {
     width: w,
     height: h
   }, function(err, stdout, stderr) {
-    console.log('stdout', stdout);
     if (err) {
       console.error('could not process image </3');
       throw err;
@@ -52,19 +52,36 @@ var resize = function(req, res, w, h) {
 };
 
 var upload = function(req, res, path, key) {
+  var data = '';
+  var readStream = fs.createReadStream(path);
 
-  fs.readFile(path, function(err, data) {
-    var req = client.put(key, {
+  readStream.on('data', function(chunk) {
+    data += chunk;
+  });
+
+  readStream.on('close', function() {
+    //TODO: not put in seperate folder?
+    var req = client.put('resize/' + key, {
       'Content-Length': data.length,
       'Content-Type': 'image/jpeg',
       'x-amz-acl': 'public-read'
     });
 
-    req.on('response', function(res) {
-      console.log('respnse');
-    });
-
     req.end(data);
+    insertDB(req, res, key);
   });
 };
+
+//store metadata to db 
+var insertDB = function(req, res, key) {
+  var metaData = imageDataController.storeImageMetaData(key);
+  var response = {};
+
+  response.createdAt = new Date();
+  response.imgId = metaData.key;
+
+  res.writeHead(200);
+  res.end(JSON.stringify(response));
+};
+
 
