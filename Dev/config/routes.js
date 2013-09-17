@@ -1,18 +1,12 @@
 var upload = require('../lib/upload');
 var retrieve = require('../lib/retrieve'); 
 var resize = require('../lib/resize');
+var helpers = require('../lib/helperfunctions');
 var url = require('url');
 var qs = require('qs');
 var fs = require('fs');
 var uuid = require('node-uuid');
 var db = require('../app/models/imageMetaData');
-
-var responseHeaders = {
-    "access-control-allow-origin": "*",
-    "access-control-allow-methods": "GET, POST, PUT, DELETE, OPTIONS",
-    "access-control-allow-headers": "content-type, accept",
-    "access-control-max-age": 10 // Seconds.
-};
 
 module.exports = {
   routeHandler: function(app) {
@@ -25,9 +19,11 @@ module.exports = {
             return next(error);
           }
 
-          if (!data) {
-            throw new Error ('</3 the image you have requested has not been stored');
+          if (data.length === 0) {
+            console.error('image has not been uploaded </3');
+            helpers.write(req, res, 404);
           }
+
           req.key = key;
           next();
         });
@@ -39,17 +35,17 @@ module.exports = {
 
     //upload route
     app.post('/upload', upload.upload, function(req, res) {
-      console.log('upload');
+      helpers.write(req, res, 201);
     });
 
+    //get image route
     app.get('/:image', retrieve.retrieve, function(req, res) {
-      res.writeHead(200, responseHeaders);
-      res.end();
+      helpers.write(req, res, 200);
     });
 
+    //resize image route
     app.get('/:image/size', resize.retrieve, function(req, res) {
-      res.writeHead(200, responseHeaders);
-      res.end();
+      helpers.write(req, res, 200);
     });
   },
 };
