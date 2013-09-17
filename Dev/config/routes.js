@@ -2,16 +2,11 @@ var upload = require('../lib/upload');
 var retrieve = require('../lib/retrieve'); 
 var resize = require('../lib/resize');
 var helpers = require('../lib/helperfunctions');
-var url = require('url');
-var qs = require('qs');
-var fs = require('fs');
-var uuid = require('node-uuid');
 var db = require('../app/models/imageMetaData');
+var uuid = require('node-uuid');
 
 module.exports = {
-  routeHandler: function(app) {
-    var key = uuid.v4().split('-').pop();
-    
+  routeHandler: function(app) {    
     //middleware for retrieving images
     app.param('image', function(req, res, next, key) {
       db.find({key: key}, function(error, data) {
