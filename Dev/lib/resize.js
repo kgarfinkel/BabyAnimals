@@ -55,7 +55,6 @@ var identify = function(req, res) {
 };
 
 var resize = function(req, res, w, h) {
-  console.log('wh', w, h);
   im.resize({
     srcPath: process.env.LOCAL_FILE_PATH + '/' + req.key + '.jpg',
     width: w,
