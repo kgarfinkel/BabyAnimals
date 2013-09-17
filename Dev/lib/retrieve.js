@@ -16,7 +16,6 @@ module.exports = {
 
         reqs.on('response', function(res) {
           res.on('data', function(chunk) {
-            console.log('chunk');
             outstream.write(chunk);
           });
 

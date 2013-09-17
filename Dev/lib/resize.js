@@ -1,15 +1,11 @@
+var helpers = require('./helperfunctions');
 var fs = require('fs');
 var im = require('imagemagick');
-var gm = require('gm');
 var uuid = require('node-uuid');
 var knox = require('knox');
 
-var client = knox.createClient({
-  key: process.env.AWS_ACCESS_KEY,
-  secret: process.env.AWS_SECRET_KEY,
-  bucket: process.env.AWS_BUCKET
-});  
-
+var client = helpers.awsClient();
+  
 module.exports = {
   retrieve: function(req, res, next) {
     if (req.params.image) {
@@ -31,8 +27,7 @@ module.exports = {
         });
       });
 
-      //try next here
-      reqs.end('end');
+      reqs.end();
     } 
   }
 };
@@ -44,9 +39,11 @@ var identify = function(req, res) {
 
   im.identify(process.env.LOCAL_FILE_PATH + '/' + req.key + '.jpg', function(err, features) {
     if (err) {
+      console.error('could not process image </3');
       throw err;
     }
 
+    //TODO: change default to square?
     w = req.query.w || features.width;
     h = req.query.h || features.height; 
 
@@ -61,7 +58,8 @@ var resize = function(req, res, w, h) {
     heigth: h
   }, function(err, stdout, stderr) {
     if (err) {
-      console.error(err);
+      console.error('could not process image </3');
+      throw err;
     }
   });
 };
