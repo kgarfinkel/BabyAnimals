@@ -4,6 +4,7 @@ var resize = require('../lib/resize');
 var helpers = require('../lib/helperfunctions');
 var db = require('../app/models/imageMetaData');
 var uuid = require('node-uuid');
+var async = require('async');
 
 module.exports = {
   routeHandler: function(app) {    

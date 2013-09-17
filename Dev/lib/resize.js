@@ -4,10 +4,11 @@ var fs = require('fs');
 var im = require('imagemagick');
 var uuid = require('node-uuid');
 var knox = require('knox');
+var async = require('async');
 var imageDataController = require('../app/controllers/ImageData.js');
 
 var client = helpers.awsClient();
-  
+
 module.exports = {
   identify: function(req, res) {
     var w;
@@ -23,7 +24,6 @@ module.exports = {
       w = req.query.w || features.width;
       h = req.query.h || features.height; 
 
-      console.log('wh1', w, h);
       resize(req, res, w, h);
     });
   }
@@ -68,6 +68,7 @@ var upload = function(req, res, path, key) {
     });
 
     req.end(data);
+    //TODO: ask larry about how to ensure sync
     insertDB(req, res, key);
   });
 };
