@@ -10,8 +10,6 @@ var client = knox.createClient({
   bucket: process.env.AWS_BUCKET
 });  
 
-//size?w=100&h=200
-//if heigth or width are not specified, original image height is used
 module.exports = {
   retrieve: function(req, res, next) {
     if (req.params.image) {
@@ -29,7 +27,7 @@ module.exports = {
         });
 
         res.on('end', function() {
-          resize(req, res);
+          identify(req, res);
         });
       });
 
@@ -39,10 +37,8 @@ module.exports = {
   }
 };
 
-var resize = function(req, res) {
-  console.log(req.query.w);
-  console.log(req.query.h);
-
+//set height and width to queries or original dimensions
+var identify = function(req, res) {
   var w;
   var h;
 
@@ -52,19 +48,21 @@ var resize = function(req, res) {
     }
 
     w = req.query.w || features.width;
-    h = req.query.h || features.width; 
+    h = req.query.h || features.height; 
 
-    im.resize({
-      srcPath: process.env.LOCAL_FILE_PATH + '/' + req.key + '.jpg',
-      width: w,
-      heigth: h
-    }, function(err, stdout, stderr) {
-      if (err) {
-        console.error(err);
-      }
-
-      console.log('width, height', w, h);
-    });
+    resize(req, res, w, h);
   });
+};
 
+var resize = function(req, res, w, h) {
+  console.log('wh', w, h);
+  im.resize({
+    srcPath: process.env.LOCAL_FILE_PATH + '/' + req.key + '.jpg',
+    width: w,
+    heigth: h
+  }, function(err, stdout, stderr) {
+    if (err) {
+      console.error(err);
+    }
+  });
 };

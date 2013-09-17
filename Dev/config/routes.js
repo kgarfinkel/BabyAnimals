@@ -19,14 +19,12 @@ module.exports = {
     var key = uuid.v4().split('-').pop();
     
     //middleware for retrieving images
-    //map logic to route parameters
     app.param('image', function(req, res, next, key) {
       db.find({key: key}, function(error, data) {
           if (error) {
             return next(error);
           }
 
-          //TODO: upload 
           if (!data) {
             throw new Error ('</3 the image you have requested has not been stored');
           }
