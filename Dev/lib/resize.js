@@ -68,7 +68,6 @@ var upload = function(req, res, path, key) {
     });
 
     req.end(data);
-    //TODO: ask larry about how to ensure sync
     insertDB(req, res, key);
   });
 };
@@ -76,13 +75,15 @@ var upload = function(req, res, path, key) {
 //store metadata to db 
 var insertDB = function(req, res, key) {
   var metaData = imageDataController.storeImageMetaData(key);
+
+  response(req, res, metaData.key);
+};
+
+var response = function(req, res, key) {
   var response = {};
 
   response.createdAt = new Date();
-  response.imgId = metaData.key;
+  response.imgId = key;
 
-  res.writeHead(200);
-  res.end(JSON.stringify(response));
+  helpers.write(req, res, 202, JSON.stringify(response));
 };
-
-

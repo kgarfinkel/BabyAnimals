@@ -31,7 +31,6 @@ module.exports = {
 
     //upload route
     app.post('/upload', upload.upload, function(req, res, next) {
-      helpers.write(req, res, 201);
     });
 
     //get image route
