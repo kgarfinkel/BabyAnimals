@@ -23,13 +23,9 @@ module.exports = {
           res.on('error', function(err) {
             console.log(err);
           });
-
-          res.on('end', function() {
-            resize.resize(req, res);
-          });
         });
 
-        reqs.end('end');
+        reqs.end();
       } 
     }
 };
