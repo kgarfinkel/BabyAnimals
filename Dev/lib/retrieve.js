@@ -9,7 +9,7 @@ var client = knox.createClient({
 });  
 
 module.exports = {
-  retrieve: function(req, res, next) {
+  retrieve: function(req, res) {
       if (req.params.image) {
         var outstream = fs.createWriteStream(process.env.LOCAL_FILE_PATH + '/' + req.key + '.jpg');
         var reqs = client.get(req.key);
@@ -25,9 +25,7 @@ module.exports = {
           });
 
           res.on('end', function() {
-            if (req.query.size) {
-              resize.resize(req, res);
-            }
+            resize.resize(req, res);
           });
         });
 

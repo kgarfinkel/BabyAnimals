@@ -55,9 +55,9 @@ module.exports = {
       res.send('getting image', req.key);
     });
 
-    app.get('/:image/size', resize.resize, function(req, res) {
-      // res.writeHead(200, responseHeaders);
-      // res.end();
+    app.get('/:image/size', resize.retrieve, function(req, res) {
+      res.writeHead(200, responseHeaders);
+      res.end();
     });
   },
 };
