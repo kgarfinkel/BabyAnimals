@@ -52,11 +52,10 @@ module.exports = {
     });
 
     app.get('/:image', retrieve.retrieve, function(req, res) {
-      // res.writeHead(200, responseHeaders);
-      // res.end();
+      res.send('getting image', req.key);
     });
 
-    app.get('/:image/size', retrieve.retrieve, resize.resize, function(req, res) {
+    app.get('/:image/size', resize.resize, function(req, res) {
       // res.writeHead(200, responseHeaders);
       // res.end();
     });

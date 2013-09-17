@@ -14,13 +14,13 @@ module.exports = {
   //stream requested image to fs and store in s3 bucket
   upload: function(url, path, cb) {
     var key = path.split('/').pop();
-    var outStream = fs.createWriteStream(path);
+    var outStream = fs.createWriteStream(path + '.jpg');
 
     outStream.on('close', function() {
-      fs.readFile(process.env.LOCAL_FILE_PATH + '/' + key, function(err, buff){
+      fs.readFile(process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', function(err, buff){
         var req = client.put(key, {
             'Content-Length': buff.length,
-            'Content-Type': 'text/plain',
+            'Content-Type': 'image/jpeg',
             'x-amz-acl': 'public-read'
           });
 

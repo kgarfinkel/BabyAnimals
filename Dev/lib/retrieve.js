@@ -1,5 +1,6 @@
 var knox = require('knox');
 var fs = require('fs');
+var resize = require('./resize');
 
 var client = knox.createClient({
   key: process.env.AWS_ACCESS_KEY,
@@ -10,17 +11,27 @@ var client = knox.createClient({
 module.exports = {
   retrieve: function(req, res, next) {
       if (req.params.image) {
-        var outstream = fs.createWriteStream(process.env.LOCAL_FILE_PATH + '/' + req.key);
-        client.get(req.key)
+        var outstream = fs.createWriteStream(process.env.LOCAL_FILE_PATH + '/' + req.key + '.jpg');
+        var reqs = client.get(req.key);
 
-        .on('response', function(res) {
+        reqs.on('response', function(res) {
           res.on('data', function(chunk) {
+            console.log('chunk');
             outstream.write(chunk);
           });
 
-        }).end();
-        return next();
+          res.on('error', function(err) {
+            console.log(err);
+          });
+
+          res.on('end', function() {
+            if (req.query.size) {
+              resize.resize(req, res);
+            }
+          });
+        });
+
+        reqs.end('end');
       } 
-      return next();
     }
 };
