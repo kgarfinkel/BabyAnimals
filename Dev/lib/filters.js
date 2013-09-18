@@ -17,8 +17,8 @@ module.exports = {
 var filters = {
   blur : function(req, res) {
     //default values for radius and sigma of blur filter
-    var rad = req.r || 0;
-    var sig = req.s || 6;
+    var rad = req.query.r || 0;
+    var sig = req.query.s || 6;
 
     //create new s3 key
     var key = uuid.v4().split('-').pop();
