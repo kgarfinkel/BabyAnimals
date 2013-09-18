@@ -1,6 +1,7 @@
 var upload = require('../lib/upload');
 var retrieve = require('../lib/retrieve'); 
 var resize = require('../lib/resize');
+var filters = require('../lib/filters');
 var helpers = require('../lib/helperfunctions');
 var db = require('../app/models/imageMetaData');
 var uuid = require('node-uuid');
@@ -25,6 +26,11 @@ module.exports = {
         });
     });
 
+    app.param('filter', function(req, res, next, filter) {
+      req.filter = filter;
+      next();
+    });
+
     //home route
     var home = require('../app/controllers/home');
     app.get('/', home.index);
@@ -42,5 +48,10 @@ module.exports = {
     app.get('/:image/size', retrieve.retrieve, resize.identify, function(req, res, next) {
       helpers.write(req, res, 200);
     });
+
+    //transform image
+    app.get('/:image/:filter', retrieve.retrieve, filters.routeFilter, function(req, res, next) {
+    });
   },
 };
+
