@@ -5,7 +5,7 @@ var request = require('request');
 var knox = require('knox');
 var uuid = require('node-uuid');
 
-var client = helpers.awsClient();
+var client = helpers.helper.awsClient();
 
 module.exports = {
   //stream requested image to fs and store in s3 bucket
@@ -37,7 +37,6 @@ module.exports = {
 };
 
 //store metadata to db 
-//store metadata to db 
 var insertDB = function(req, res, key) {
   var metaData = imageDataController.storeImageMetaData(key);
 
@@ -45,12 +44,10 @@ var insertDB = function(req, res, key) {
 };
 
 var response = function(req, res, key) {
-  console.log('in response');
-  
   var response = {};
 
   response.createdAt = new Date();
   response.imgId = key;
 
-  helpers.write(req, res, 201, JSON.stringify(response));
+  helpers.helper.write(req, res, 201, JSON.stringify(response));
 };
