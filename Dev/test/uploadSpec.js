@@ -11,7 +11,7 @@ var _ = require('underscore');
 
 // express server
 var app = require('../app.js');
-var hashKey;
+var key;
 
 describe('#Upload', function() {
   describe('POST', function(){
@@ -36,11 +36,8 @@ describe('#Upload', function() {
           if (error) {
             return done(error);
           }
-          response.text = JSON.parse(response.text);
-          
-          hashKey = response.text.imgId;
-          
-          response.text.should.have.property('imgId');
+
+          JSON.parse(response.text).should.have.property('imgId');
           done();
         });
       });
@@ -53,9 +50,11 @@ describe('#Upload', function() {
             return done(error);
           }
 
+          key = JSON.parse(response.text).imgId;
+
           ImageModel.find({}, function(error, models) {
             _.each(models, function(model) {
-              model.should.have.property('key', hashKey);
+              model.should.have.property('key', key);
             });
 
             done();
@@ -64,7 +63,7 @@ describe('#Upload', function() {
 
         it('should store the uploaded image in S3 bucket', function(done) {
           request(app)
-          .get('https://testbucket1989.s3.amazonaws.com/' +  hashKey)
+          .get('https://testbucket1989.s3.amazonaws.com/' +  key)
           .expect(200)
           .end(function(error, response) {
             if (error) {

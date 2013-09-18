@@ -44,7 +44,7 @@ module.exports = function (grunt) {
         options: {
           reporter: 'spec'
         },
-        src: ['test/retrieveSpec.js']
+        src: ['test/**/*.js']
       }
     }
   });
