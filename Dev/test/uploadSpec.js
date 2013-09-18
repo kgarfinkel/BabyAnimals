@@ -1,9 +1,6 @@
 //dependencies
 var utils = require('./utils');
 var request = require('supertest');
-var express = require('express');
-var config = require('../config/config');
-var mongoose = require('mongoose');
 var ImageModel = require('../app/models/imageMetaData.js');
 var should = require('should');
 var _ = require('underscore');
@@ -47,7 +44,7 @@ describe('#Upload', function() {
         .post('/upload?imgUrl=http://maxcdn.thedesigninspiration.com/wp-content/uploads/2009/09/cute-animals/baby01.jpg')
         .end(function(error, response) {
           var hasKey = false;
-          
+
           if (error) {
             return done(error);
           }

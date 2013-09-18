@@ -4,7 +4,6 @@ var config = require('../config/config');
 var mongoose = require('mongoose');
 var should = require('should');
 var request = require('supertest');
-var express = require('express');
 var _ = require('underscore');
 
 // express server
