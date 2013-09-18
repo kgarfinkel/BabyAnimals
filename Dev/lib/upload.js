@@ -52,5 +52,5 @@ var response = function(req, res, key) {
   response.createdAt = new Date();
   response.imgId = key;
 
-  helpers.write(req, res, 202, JSON.stringify(response));
+  helpers.write(req, res, 201, JSON.stringify(response));
 };

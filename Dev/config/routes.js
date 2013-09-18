@@ -46,7 +46,6 @@ module.exports = {
 
     //resize image route
     app.get('/:image/size', retrieve.retrieve, resize.identify, function(req, res, next) {
-      helpers.write(req, res, 200);
     });
 
     //transform image
