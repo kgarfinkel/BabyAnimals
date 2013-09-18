@@ -5,12 +5,13 @@ var filters = require('../lib/filters');
 var helpers = require('../lib/helperfunctions');
 var db = require('../app/models/imageMetaData');
 var uuid = require('node-uuid');
-var async = require('async');
 
 module.exports = {
   routeHandler: function(app) {    
-    //middleware for retrieving images
+    //middleware for any image retrieval
     app.param('image', function(req, res, next, key) {
+      //if image exists in db, set key as a property of
+      //the request object
       db.find({key: key}, function(error, data) {
           if (error) {
             return next(error);
@@ -26,6 +27,7 @@ module.exports = {
         });
     });
 
+    //middlware for filter requests
     app.param('filter', function(req, res, next, filter) {
       req.filter = filter;
       next();
@@ -41,7 +43,7 @@ module.exports = {
 
     //get image route
     app.get('/:image', retrieve.retrieve, function(req, res, next) {
-      helpers.write(req, res, 200);
+      helpers.helper.write(req, res, 200);
     });
 
     //resize image route
