@@ -21,6 +21,11 @@
     "grunt-contrib-compass": "~0.2.0",
     "grunt-mocha-test": "latest",
     "grunt-concurrent": "latest",
-    "request": "~2.22.0"
+    "request": "~2.22.0",
+    "node-uuid": "latest",
+    "imagemagick": "latest",
+    "gm": "latest",
+    "knox": "latest",
+    "should": "latest"
   }
 }
