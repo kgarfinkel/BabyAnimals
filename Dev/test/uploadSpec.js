@@ -46,17 +46,24 @@ describe('#Upload', function() {
         request(app)
         .post('/upload?imgUrl=http://maxcdn.thedesigninspiration.com/wp-content/uploads/2009/09/cute-animals/baby01.jpg')
         .end(function(error, response) {
+          var hasKey = false;
+          
           if (error) {
             return done(error);
           }
 
           key = JSON.parse(response.text).imgId;
-
+          
           ImageModel.find({}, function(error, models) {
+            lastModel = models[-1];
+
             _.each(models, function(model) {
-              model.should.have.property('key', key);
+              if (model.key === key) {
+                hasKey = true;
+              }            
             });
 
+            hasKey.should.be.true;
             done();
           });
         });
