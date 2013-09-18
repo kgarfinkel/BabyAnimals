@@ -1,17 +1,35 @@
 //dependencies
 var utils = require('./utils');
-var request = require('supertest');
-var express = require('express');
 var config = require('../config/config');
 var mongoose = require('mongoose');
-var ImageModel = require('../app/models/imageMetaData.js');
 var should = require('should');
+var request = require('supertest');
+var express = require('express');
+var _ = require('underscore');
 
 // express server
 var app = require('../app.js');
 var key;
 
+mongoose.connect(config.db, function(err) {
+  if (err) {
+    throw err;
+  }
+});
+
 describe('#retrieve', function() {
+  before(function(done) {
+    _.each(mongoose.connection.collections, function(item) {
+      item.remove(function(err) {
+        if (err) {
+          throw new Error('</3', err);
+        }
+      });
+    });
+  
+    return done();
+  });
+
   before(function(done) {
     request(app)
     .post('/upload?imgUrl=http://maxcdn.thedesigninspiration.com/wp-content/uploads/2009/09/cute-animals/baby01.jpg')
@@ -21,6 +39,7 @@ describe('#retrieve', function() {
         return done(err);
       }
 
+      console.log('res', res.text);
       key = JSON.parse(res.text).imgId;
       done();
     });
@@ -40,7 +59,7 @@ describe('#retrieve', function() {
 
   it('should respond with a status of 404 when image has not been uploaded', function(done) {
     request(app)
-    .get('1234')
+    .get('/1234')
     .expect(404)
     .end(function(err, res) {
       if (err) {
@@ -51,14 +70,14 @@ describe('#retrieve', function() {
     });
   });
 
-  it('should respond with a sttus of 404 when image has been deleted', function(done) {
+  xit('should respond with a status of 404 when image has been deleted', function(done) {
     //delete
     request(app)
     .get('/' + key)
-    .expect(200)
+    .expect(404)
     .end(function(err, res) {
       if (err) {
-        return done(error);
+        return done(err);
       }
     });
   });

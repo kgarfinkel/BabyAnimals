@@ -7,29 +7,15 @@ var mongoose = require('mongoose');
 var _ = require('underscore');
 
 beforeEach(function(done) {
-  var clearDB = function() {
-    _.each(mongoose.connection.collections, function(item) {
-      item.remove(function(err) {
-        if (err) {
-          throw new Error('</3', err);
-        }
-      });
-    });
-  
-    return done();
-  };
-
   if (mongoose.connection.readyState === 0) {
     mongoose.connect(config.db, function(err) {
       if (err) {
         throw err;
       }
-
-      return clearDB();
     });
-  } else {
-    return clearDB();
   }
+
+  return done();
 });
 
 afterEach(function(done) {
