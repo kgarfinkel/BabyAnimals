@@ -71,14 +71,13 @@ var filters = {
     }); 
   },
 
-  vintage: function(req, res) {
+  brighten: function(req, res) {
     var key = uuid.v4().split('-').pop();
 
     gm(process.env.LOCAL_FILE_PATH + '/' + req.key + '.jpg')
     .modulate(150, 70, 100)
     .gamma(1.2)
     .contrast(+2)
-    .border()
     .write(process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', function(err) {
       if (err) {
         throw err;
@@ -86,5 +85,19 @@ var filters = {
 
       helpers.helper.upload(req, res, process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', 'transform', key );
     }); 
+  },
+
+  bw: function(req, res) {
+    var key = uuid.v4().split('-').pop();
+
+    gm(process.env.LOCAL_FILE_PATH + '/' + req.key + '.jpg')
+    .colorspace('Gray')
+    .write(process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', function(err) {
+      if (err) {
+        throw err;
+      }
+
+      helpers.helper.upload(req, res, process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', 'transform', key );
+    });
   }
 };
