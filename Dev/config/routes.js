@@ -19,7 +19,7 @@ module.exports = {
 
           if (data.length === 0) {
             console.error('image has not been uploaded </3');
-            return helpers.write(req, res, 404);
+            return helpers.helper.write(req, res, 404);
           }
 
           req.key = key;
