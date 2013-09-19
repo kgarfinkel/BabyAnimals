@@ -78,6 +78,8 @@ var filters = {
     .modulate(150, 70, 100)
     .gamma(1.2)
     .contrast(+2)
+    .fill(330000)
+    .colorize()
     .write(process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', function(err) {
       if (err) {
         throw err;
@@ -92,6 +94,21 @@ var filters = {
 
     gm(process.env.LOCAL_FILE_PATH + '/' + req.key + '.jpg')
     .colorspace('Gray')
+    .write(process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', function(err) {
+      if (err) {
+        throw err;
+      }
+
+      helpers.helper.upload(req, res, process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', 'transform', key );
+    });
+  },
+
+  sepia: function(req, res) {
+    var key = uuid.v4().split('-').pop();
+
+    gm(process.env.LOCAL_FILE_PATH + '/' + req.key + '.jpg')
+    .modulate(115, 0, 100)
+    .colorize(7, 21, 50)
     .write(process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', function(err) {
       if (err) {
         throw err;
