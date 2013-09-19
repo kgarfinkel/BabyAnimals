@@ -10,12 +10,6 @@ var _ = require('underscore');
 var app = require('../app.js');
 var key;
 
-mongoose.connect(config.db, function(err) {
-  if (err) {
-    throw err;
-  }
-});
-
 describe('#retrieve', function() {
   before(function(done) {
     _.each(mongoose.connection.collections, function(item) {
@@ -40,7 +34,7 @@ describe('#retrieve', function() {
 
       console.log('res', res.text);
       key = JSON.parse(res.text).imgId;
-      done();
+      return done();
     });
   });
 

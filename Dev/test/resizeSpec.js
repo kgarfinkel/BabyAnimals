@@ -11,39 +11,69 @@ var im = require('imagemagick');
 var app = require('../app.js');
 var key;
 
-describe('#resize', function() {
+describe('#retrieve', function() {
+  before(function(done) {
+    _.each(mongoose.connection.collections, function(item) {
+      item.remove(function(err) {
+        if (err) {
+          throw new Error('</3', err);
+        }
+      });
+    });
+  
+    return done();
+  });
+
   before(function(done) {
     request(app)
     .post('/upload?imgUrl=http://maxcdn.thedesigninspiration.com/wp-content/uploads/2009/09/cute-animals/baby01.jpg')
+    .expect(201)
     .end(function(err, res) {
       if (err) {
         return done(err);
       }
 
+      console.log('res', res.text);
       key = JSON.parse(res.text).imgId;
-      done();
+      return done();
     });
   });
 
-  it('should resize image if dimension queries are provided', function(done) {
+  it('should respond with a status of 200 when image is retrieved', function(done) {
     request(app)
-    .get('/' + key + '/' + '?w=100&h=200')
+    .get('/' + key)
     .expect(200)
     .end(function(err, res) {
       if (err) {
         return done(err);
       }
 
-      im.identify(process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', function(err, features) {
+      console.log('res', res);
+      done();
+    });
+  });
+
+  it('should resize image if dimension queries are provided', function(done) {
+    request(app)
+    .get('/' + key + '/size')
+    .expect(200)
+    .end(function(err, res) {
+      if (err) {
+        return done(err);
+      }
+
+      var newKey = JSON.parse(res.text).imgId;
+
+      im.identify(process.env.LOCAL_FILE_PATH + '/' + newKey + '.jpg', function(err, features) {
         if (err) {
-          throw err;
+          return done(err);
         }
 
         features.width.should.equal(100);
         features.height.should.equal(200);
-      });
 
-      done();
+        done();
+      });
     });
   });
 });

@@ -24,6 +24,6 @@ afterEach(function(done) {
       throw new Error('</3', error);
     }
     
-    done();
+    return done();
   });
 });
