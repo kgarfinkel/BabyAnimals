@@ -116,5 +116,67 @@ var filters = {
 
       helpers.helper.upload(req, res, process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', 'transform', key );
     });
-  }
+  },
+
+  lomo: function(req, res) {
+    console.log('red');
+    var key = uuid.v4().split('-').pop();
+
+    gm(process.env.LOCAL_FILE_PATH + '/' + req.key + '.jpg')
+    .fill('#222b6d')
+    .colorize(30)
+    .modulate(70, 80, 100)
+    .compose('Over')
+    .write(process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', function(err) {
+      if (err) {
+        throw err;
+      }
+
+      helpers.helper.upload(req, res, process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', 'transform', key );
+    });
+  },
+
+  fade: function(req, res) {
+      console.log('red');
+      var key = uuid.v4().split('-').pop();
+
+      gm(process.env.LOCAL_FILE_PATH + '/' + req.key + '.jpg')
+      .fill('#222b6d')
+      .colorize(30)
+      .fill('#f7daae')
+      .colorize(30)
+      .modulate(10, 50, 110)
+      .contrast()
+      .contrast()
+      .compose('Over')
+      .write(process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', function(err) {
+        if (err) {
+          throw err;
+        }
+
+        helpers.helper.upload(req, res, process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', 'transform', key );
+      });
+    },
+
+    gotham: function(req, res) {
+      var key = uuid.v4().split('-').pop();
+
+      gm(process.env.LOCAL_FILE_PATH + '/' + req.key + '.jpg')
+      .modulate(120, 10, 100)
+      .fill('#222b6d')
+      .colorize(20)
+      .gamma(0.5)
+      .contrast()
+      .contrast()
+      .compose('Over')
+      .borderColor('black')
+      .border(7,7)
+      .write(process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', function(err) {
+        if (err) {
+          throw err;
+        }
+
+        helpers.helper.upload(req, res, process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', 'transform', key );
+      });
+    }
 };
