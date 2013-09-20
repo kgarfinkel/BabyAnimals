@@ -1,4 +1,3 @@
-var knox = require('knox');
 var fs = require('fs');
 var helpers = require('./helperfunctions');
 var resize = require('./resize');
@@ -28,7 +27,8 @@ module.exports = {
           });
 
           res.on('error', function(err) {
-            console.log(err);
+            console.error('</3');
+            throw err;
           });
 
           //when response from s3 has ended

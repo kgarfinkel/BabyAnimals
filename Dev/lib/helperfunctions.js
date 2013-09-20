@@ -1,7 +1,6 @@
 //dependencies
 var knox = require('knox');
 var fs = require('fs');
-var im = require('imagemagick');
 var uuid = require('node-uuid');
 var imageDataController = require('../app/controllers/ImageData.js');
 
@@ -72,3 +71,4 @@ var response = function(req, res, key) {
   res.writeHead(200, responseHeaders);
   res.end(JSON.stringify(response));
 };
+
