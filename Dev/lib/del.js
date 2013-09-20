@@ -2,28 +2,45 @@
 var helpers = require('./helperfunctions');
 var fs = require('fs');
 var client = helpers.helper.awsClient();
+var Q = require('q');
 
 module.exports = {
   del: function(req, res) {
-    console.log('in delete');
-    var s3del = client.del(req.key);
+    Q.fcall(deleteFromS3(req,res))
+    .then(deleteFromFs(req, res))
+    .then(helpers.helper.write(req, res, 200))
+    .catch(function(err) {
+      throw err;
+    });
+  }
+};
 
-    s3del.on('response', function(res) {
-      console.log('in delete response');
-      console.log('res', res.statusCode);
-      console.log(res.headers);
-      
-      res.on('error', function(err) {
-        console.error('</3');
-        throw err;
-      });
+deleteFromS3 = function(req, res) {
+  var s3del = client.del(req.key);
 
-      res.on('end', function() {
-        console.log('deleted!');
-        next();
-      });
+  s3del.on('response', function(res) {
+    res.on('error', function(err) {
+      console.error('</3');
+      throw err;
     });
 
-    s3del.end();
-  }
+    res.on('end', function() {
+      next();
+    });
+  });
+
+  s3del.end();
+};
+
+deleteFromFs = function(req, res) {
+  fs.exists(process.env.LOCAL_FILE_PATH + '/' + req.key + '.jpg', function(exists) {
+    if (exists) {
+      fs.unlink(process.env.LOCAL_FILE_PATH + '/' + req.key + '.jpg', function(err) {
+        if (err) {
+          console.error('</3');
+          throw err;
+        }
+      });
+    }
+  }); 
 };
