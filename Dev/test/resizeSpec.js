@@ -33,7 +33,6 @@ describe('#retrieve', function() {
         return done(err);
       }
 
-      console.log('res', res.text);
       key = JSON.parse(res.text).imgId;
       return done();
     });
@@ -48,14 +47,13 @@ describe('#retrieve', function() {
         return done(err);
       }
 
-      console.log('res', res);
-      done();
+      return done();
     });
   });
 
   it('should resize image if dimension queries are provided', function(done) {
     request(app)
-    .get('/' + key + '/size')
+    .get('/' + key + '/size?w=100&h=200')
     .expect(200)
     .end(function(err, res) {
       if (err) {
@@ -72,8 +70,69 @@ describe('#retrieve', function() {
         features.width.should.equal(100);
         features.height.should.equal(200);
 
-        done();
+        return done();
       });
+    });
+  });
+
+  it('should resize image if only width query is provided', function(done) {
+    request(app)
+    .get('/' + key + '/size?w=100')
+    .expect(200)
+    .end(function(err, res) {
+      if (err) {
+        return done(err);
+      }
+
+      var newKey = JSON.parse(res.text).imgId;
+
+      im.identify(process.env.LOCAL_FILE_PATH + '/' + newKey + '.jpg', function(err, features) {
+        if (err) {
+          return done(err);
+        }
+
+        features.width.should.equal(100);
+        features.height.should.equal(200);
+
+        return done();
+      });
+    });
+  });
+
+  it('should resize image if only height query is provided', function(done) {
+    request(app)
+    .get('/' + key + '/size?h=100')
+    .expect(200)
+    .end(function(err, res) {
+      if (err) {
+        return done(err);
+      }
+
+      var newKey = JSON.parse(res.text).imgId;
+
+      im.identify(process.env.LOCAL_FILE_PATH + '/' + newKey + '.jpg', function(err, features) {
+        if (err) {
+          return done(err);
+        }
+
+        features.width.should.equal(100);
+        features.height.should.equal(200);
+
+        return done();
+      });
+    });
+  });
+
+  it('should respond 404 if image requested is not uploaded', function(done) {
+    request(app)
+    .get('/1234/size?h=100')
+    .expect(404)
+    .end(function(err, res) {
+      if (err) {
+        return done(err);
+      }
+
+      return done();
     });
   });
 });
