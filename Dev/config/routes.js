@@ -1,6 +1,7 @@
 var upload = require('../lib/upload');
 var retrieve = require('../lib/retrieve'); 
 var resize = require('../lib/resize');
+var del = require('../lib/del');
 var filters = require('../lib/filters');
 var helpers = require('../lib/helperfunctions');
 var db = require('../app/models/imageMetaData');
@@ -50,9 +51,15 @@ module.exports = {
     app.get('/:image/size', retrieve.retrieve, resize.identify, function(req, res, next) {
     });
 
+
+    app.get('/:image/del', del.del, function(req, res, next) {  
+      helpers.helper.write(req, res, 200);   
+    });
+
     //transform image
     app.get('/:image/:filter', retrieve.retrieve, filters.routeFilter, function(req, res, next) {
     });
+
   },
 };
 
