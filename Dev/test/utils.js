@@ -21,7 +21,8 @@ beforeEach(function(done) {
 afterEach(function(done) {
   mongoose.disconnect(function(error) {
     if (error) {
-      throw new Error('</3', error);
+      console.error('</3');
+      throw error;
     }
     
     return done();
