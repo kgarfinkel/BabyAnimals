@@ -1,14 +1,10 @@
 //dependencies
 var helpers = require('./helperfunctions');
-var filterHelpers = require('./filterhelpers.js');
-var upload = require('./upload');
-var resize = require('./resize');
+var filterHelp = require('./filterhelpers.js');
 var fs = require('fs');
 var gm = require('gm');
 var im = require('imagemagick');
 var uuid = require('node-uuid');
-var knox = require('knox');
-var spawn = require('child_process').spawn;
 var Q = require('q');
 
 module.exports = {
@@ -185,8 +181,8 @@ var filters = {
         w = features.width;
         h = features.height;
 
-        Q.fcall(resize(req, res, w, h, key))
-        .then(addBWGrad(res, req, key))
+        Q.fcall(filterHelp.resizeBW(req, res, w, h, key))
+        .then(filterHelp.addBWGrad(res, req, key))
         .then(helpers.helper.upload(req, res, process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', 'transform', key ))
         .catch(function(err) {
           throw err;
@@ -210,64 +206,12 @@ var filters = {
       w = features.width;
       h = features.height;
 
-
-      resize(req, res, w, h, key);
+      Q.fcall(filterHelp.resizeVintage(req, res, w, h, key))
+      .then(filterHelp.addHipsterOverlay(res, req, key))
+      .then(helpers.helper.upload(req, res, process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', 'transform', key ))
+      .catch(function(err) {
+        throw err;
+      });
     });
   }
-};
-
-
-// var resize =  function(req, res, w, h, key) {
-//   im.resize({
-//     srcPath: '/Users/Kristina/Desktop/antiquefilter.jpg',
-//     dstPath: '/Users/Kristina/Desktop/tempantique.jpg',
-//     width: w,
-//     height: h
-//   }, function(err, stdout, stderr) {
-//     if (err) {
-//       console.error('could not process image </3');
-//       throw err;
-//     }
-
-//     if (stderr) {
-//       throw stderr;
-//     }
-//   });
-
-//   addHipsterOverlay(res, req, key);
-
-// };
-
-var resize =  function(req, res, w, h, key) {
-  im.resize({
-    srcPath: '/Users/Kristina/Desktop/bwgrad_1.jpg',
-    dstPath: '/Users/Kristina/Desktop/tempbwgrad.jpg',
-    width: w,
-    height: h
-  }, function(err, stdout, stderr) {
-    if (err) {
-      console.error('could not process image </3');
-      throw err;
-    }
-
-    if (stderr) {
-      throw stderr;
-    }
-  });
-};
-
-var addHipsterOverlay = function(res, req, key) {
-  var args = [process.env.LOCAL_FILE_PATH + '/' + req.key + '.jpg', '/Users/Kristina/Desktop/tempantique.jpg', '-compose', 'Overlay', '-composite', process.env.LOCAL_FILE_PATH + '/' + key + '.jpg'];
-  var convert = spawn('convert', args);
-
-  convert.stdout.pipe(fs.createWriteStream(process.env.LOCAL_FILE_PATH + '/' + key + '.jpg'));
-  helpers.helper.upload(req, res, process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', 'transform', key );
-
-};
-
-var addBWGrad = function(res, req, key) {
-  var args = ['-watermark', '90%', '-gravity', 'center', process.env.LOCAL_FILE_PATH + '/' + req.key + '.jpg' , '/Users/Kristina/Desktop/tempbwgrad.jpg', process.env.LOCAL_FILE_PATH + '/' + key + '.jpg'];
-  var composite = spawn('composite', args);
-    
-  composite.stdout.pipe(fs.createWriteStream(process.env.LOCAL_FILE_PATH + '/' + key + '.jpg'));
 };
