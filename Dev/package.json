@@ -26,6 +26,7 @@
     "imagemagick": "latest",
     "gm": "latest",
     "knox": "latest",
-    "should": "latest"
+    "should": "latest",
+    "cron": "latest" 
   }
 }
