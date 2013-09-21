@@ -1,4 +1,4 @@
-var imageDataController = require('../app/controllers/ImageData.js');
+var imageData = require('../app/controllers/ImageData.js');
 var helpers = require('./helperfunctions');
 var fs = require('fs');
 var request = require('request');
@@ -38,7 +38,7 @@ module.exports = {
 
 //store metadata to db 
 var insertDB = function(req, res, key) {
-  var metaData = imageDataController.storeImageMetaData(key);
+  var metaData = imageData.imageData(key);
 
   response(req, res, metaData.key);
 };
