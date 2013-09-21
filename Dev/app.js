@@ -23,9 +23,10 @@ require('./config/routes').routeHandler(app);
 //database
 require('./config/db')(app, config);
 
+//cronjob
+require('./config/cronjob')(app, config);
+
 //start app
 app.listen(config.port);
 
 module.exports = app;
-var db = require('./config/db');
-module.exports.db = db;
