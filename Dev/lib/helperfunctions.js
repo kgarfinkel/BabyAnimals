@@ -2,14 +2,16 @@
 var knox = require('knox');
 var fs = require('fs');
 var uuid = require('node-uuid');
-var imageDataController = require('../app/controllers/ImageData.js');
+var imageData = require('../app/controllers/ImageData.js');
 
 module.exports.helper = {
+  //send response statusCode and body
   write: function(req, res, statusCode, body) {
     res.writeHead(statusCode, responseHeaders);
     res.end(body);
   },
 
+  //configure AWS client
   awsClient: function() {
     return knox.createClient({
       key: process.env.AWS_ACCESS_KEY,
@@ -18,14 +20,8 @@ module.exports.helper = {
     });  
   },
 
-  //upload request to s3 bucket
+  //upload requested image to to s3 bucket
   upload: function(req, res, path, prefix, key) {
-    var client = knox.createClient({
-      key: process.env.AWS_ACCESS_KEY,
-      secret: process.env.AWS_SECRET_KEY,
-      bucket: process.env.AWS_BUCKET
-    });
-
     var data = '';
     var readStream = fs.createReadStream(path);
 
@@ -41,8 +37,39 @@ module.exports.helper = {
       });
 
       req.end(data);
-      insertDB(req, res, key);
+      addToDb(req, res, key);
     });
+  },
+
+  //delete requested image from s3 bucket
+  //when s3 response has ended
+  deleteFromS3: function(req, res) {
+    var s3del = client.del(req.key);
+
+    s3del.on('response', function(res) {
+      res.on('error', function(err) {
+        console.error('</3');
+        throw err;
+      });
+    });
+
+    s3del.end();
+  },
+
+
+  //delete requested image from local fs
+  //if the file exists
+  deleteFromFs: function(req, res) {
+    fs.exists(process.env.LOCAL_FILE_PATH + '/' + req.key + '.jpg', function(exists) {
+      if (exists) {
+        fs.unlink(process.env.LOCAL_FILE_PATH + '/' + req.key + '.jpg', function(err) {
+          if (err) {
+            console.error('</3');
+            throw err;
+          }
+        });
+      }
+    }); 
   }
 };
 
@@ -55,8 +82,8 @@ var responseHeaders = {
 };
 
 //store s3 key in db 
-var insertDB = function(req, res, key) {
-  var imgKey = imageDataController.storeImageMetaData(key);
+var addToDb = function(req, res, key) {
+  var imgKey = imageData.imageData(key);
 
   response(req, res, imgKey.key);
 };
@@ -71,4 +98,11 @@ var response = function(req, res, key) {
   res.writeHead(200, responseHeaders);
   res.end(JSON.stringify(response));
 };
+
+var client = knox.createClient({
+  key: process.env.AWS_ACCESS_KEY,
+  secret: process.env.AWS_SECRET_KEY,
+  bucket: process.env.AWS_BUCKET
+});
+
 
