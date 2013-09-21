@@ -5,12 +5,12 @@ var im = require('imagemagick');
 var fs = require('fs');
 var helpers = require('./helperfunctions');
 
-
 module.exports = {
+  //resize filter overlay to size of requested image
   resizeVintage: function(req, res, w, h, key) {
     im.resize({
-      srcPath: '/Users/Kristina/Desktop/antiquefilter.jpg',
-      dstPath: '/Users/Kristina/Desktop/tempantique.jpg',
+      srcPath: __dirname + '/../assets/antiquefilter.jpg',
+      dstPath: __dirname + '/../assets/temp_antiquefilter.jpg',
       width: w,
       height: h
     }, function(err, stdout, stderr) {
@@ -25,10 +25,11 @@ module.exports = {
     });
   },
 
+  //resize filter overlay to size of requested image
   resizeBW: function(req, res, w, h, key) {
     im.resize({
-      srcPath: '/Users/Kristina/Desktop/bwgrad_1.jpg',
-      dstPath: '/Users/Kristina/Desktop/tempbwgrad.jpg',
+      srcPath: __dirname + '/../assets/bwgrad_1.jpg',
+      dstPath: __dirname + '/../assets/temp_bwgrad_1.jpg',
       width: w,
       height: h
     }, function(err, stdout, stderr) {
@@ -43,17 +44,19 @@ module.exports = {
     });
   },
 
+  //composite antique overlay with target image 
   addHipsterOverlay: function(res, req, key) {
-    var args = [process.env.LOCAL_FILE_PATH + '/' + req.key + '.jpg', '/Users/Kristina/Desktop/tempantique.jpg', '-compose', 'Overlay', '-composite', process.env.LOCAL_FILE_PATH + '/' + key + '.jpg'];
+    console.log('inside hipster overlay');
+    console.log(__dirname);
+    var args = [process.env.LOCAL_FILE_PATH + '/' + req.key + '.jpg', __dirname + '/../assets/temp_antiquefilter.jpg', '-compose', 'Overlay', '-composite', process.env.LOCAL_FILE_PATH + '/' + key + '.jpg'];
     var convert = spawn('convert', args);
 
     convert.stdout.pipe(fs.createWriteStream(process.env.LOCAL_FILE_PATH + '/' + key + '.jpg'));
-    helpers.helper.upload(req, res, process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', 'transform', key );
-
   },
 
+  //composite black and gray overlay with target image 
   addBWGrad: function(res, req, key) {
-    var args = ['-watermark', '90%', '-gravity', 'center', process.env.LOCAL_FILE_PATH + '/' + req.key + '.jpg' , '/Users/Kristina/Desktop/tempbwgrad.jpg', process.env.LOCAL_FILE_PATH + '/' + key + '.jpg'];
+    var args = ['-watermark', '90%', '-gravity', 'center', process.env.LOCAL_FILE_PATH + '/' + req.key + '.jpg' ,  __dirname + '/../assets/temp_bwgrad_1.jpg', process.env.LOCAL_FILE_PATH + '/' + key + '.jpg'];
     var composite = spawn('composite', args);
       
     composite.stdout.pipe(fs.createWriteStream(process.env.LOCAL_FILE_PATH + '/' + key + '.jpg'));
