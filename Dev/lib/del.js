@@ -8,11 +8,9 @@ var Q = require('q');
 //and fs if file exists
 module.exports = {
   del: function(req, res) {
-    Q.fcall(helpers.helper.deleteFromS3(req,res))
-    .then(helpers.helper.deleteFromFs(req, res))
-    .then(helpers.helper.write(req, res, 200))
-    .catch(function(err) {
-      throw err;
-    });
+    helpers.helper.deleteFromS3(req,res);
+    helpers.helper.deleteFromFs(req, res);
+    helpers.helper.deleteFromDb(req, res);
+    helpers.helper.write(req, res, 200, 'image' + req.key + 'deleted');
   }
 };
