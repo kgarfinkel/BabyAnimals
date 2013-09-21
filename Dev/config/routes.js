@@ -11,21 +11,19 @@ module.exports = {
   routeHandler: function(app) {    
     //middleware for any image retrieval
     app.param('image', function(req, res, next, key) {
-      //if image exists in db, set key as a property of
-      //the request object
       db.find({key: key}, function(error, data) {
-          if (error) {
-            return next(error);
-          }
+        if (error) {
+          return next(error);
+        }
 
-          if (data.length === 0) {
-            console.error('image has not been uploaded </3');
-            return helpers.helper.write(req, res, 404);
-          }
+        if (data.length === 0) {
+          console.error('image has not been uploaded </3');
+          return helpers.helper.write(req, res, 404);
+        }
 
-          req.key = key;
-          next();
-        });
+        req.key = key;
+        next();
+      });
     });
 
     //middlware for filter requests
@@ -51,7 +49,7 @@ module.exports = {
     app.get('/:image/size', retrieve.retrieve, resize.identify, function(req, res, next) {
     });
 
-
+    //delete image route
     app.get('/:image/del', del.del, function(req, res, next) {  
       helpers.helper.write(req, res, 200);   
     });
