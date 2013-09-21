@@ -1,8 +1,8 @@
 //dependencies
 var knox = require('knox');
 var fs = require('fs');
-var uuid = require('node-uuid');
 var imageData = require('../app/controllers/ImageData.js');
+var ImageMetaData = require('../app/models/imageMetaData');
 
 module.exports.helper = {
   //send response statusCode and body
@@ -56,7 +56,6 @@ module.exports.helper = {
     s3del.end();
   },
 
-
   //delete requested image from local fs
   //if the file exists
   deleteFromFs: function(req, res) {
@@ -70,6 +69,15 @@ module.exports.helper = {
         });
       }
     }); 
+  },
+
+  //delete requested image from db
+  deleteFromDb: function(req, res) {
+    ImageMetaData.remove({key: req.key}, function(err) {
+      if (err) {
+        throw err;
+      }
+    });
   }
 };
 

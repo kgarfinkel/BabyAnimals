@@ -4,14 +4,13 @@ var resize = require('../lib/resize');
 var del = require('../lib/del');
 var filters = require('../lib/filters');
 var helpers = require('../lib/helperfunctions');
-var db = require('../app/models/imageMetaData');
-var uuid = require('node-uuid');
+var ImageMetaData = require('../app/models/imageMetaData');
 
 module.exports = {
   routeHandler: function(app) {    
     //middleware for any image retrieval
     app.param('image', function(req, res, next, key) {
-      db.find({key: key}, function(error, data) {
+      ImageMetaData.find({key: key}, function(error, data) {
         if (error) {
           return next(error);
         }
