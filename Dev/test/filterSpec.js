@@ -5,12 +5,13 @@ var mongoose = require('mongoose');
 var should = require('should');
 var request = require('supertest');
 var _ = require('underscore');
+var im = require('imagemagick');
 
 // express server
 var app = require('../app.js');
 var key;
 
-describe('#retrieve', function() {
+describe('#bw', function() {
   before(function(done) {
     _.each(mongoose.connection.collections, function(item) {
       item.remove(function(err) {
@@ -32,46 +33,29 @@ describe('#retrieve', function() {
         return done(err);
       }
 
-      console.log('res', res.text);
       key = JSON.parse(res.text).imgId;
       return done();
     });
   });
 
-  it('should respond with a status of 200 when image is retrieved', function(done) {
+  it('transforms image to have a gray colorspace', function(done) {
     request(app)
-    .get('/' + key)
+    .get('/' + key + '/bw')
     .expect(200)
     .end(function(err, res) {
       if (err) {
         return done(err);
       }
-      done();
-    });
-  });
 
-  it('should respond with a status of 404 when image has not been uploaded', function(done) {
-    request(app)
-    .get('/1234')
-    .expect(404)
-    .end(function(err, res) {
-      if (err) {
-        return done(err);
-      }
+      im.identify(process.env.LOCAL_FILE_PATH + '/' + JSON.parse(res.text).imgId + '.jpg', function(err, features) {
+        if (err) {
+          return done(err);
+        }
 
-      done();
-    });
-  });
+        features.colorspace.should.equal('Gray');
 
-  it('should respond with a status of 404 when image has been deleted', function(done) {
-    //delete
-    request(app)
-    .get('/' + key + '/del')
-    .expect(404)
-    .end(function(err, res) {
-      if (err) {
-        return done(err);
-      }
+        return done();
+      });
     });
   });
 });
