@@ -15,6 +15,7 @@ module.exports = {
 };
 
 var filters = {
+  //blur image filter
   blur : function(req, res) {
     //default values for radius and sigma of blur filter
     var rad = req.query.r || 2;
@@ -35,6 +36,7 @@ var filters = {
     });  
   },
 
+  //charcoal image filter
   charcoal: function(req, res) {
     //default value for charcoal factor
     var factor = req.query.f || 3;
@@ -53,6 +55,7 @@ var filters = {
     }); 
   },
 
+  //channel image
   channel: function(req, res) {
     //default value for color type
     var type = req.query.t || 'red';
@@ -71,6 +74,7 @@ var filters = {
     }); 
   },
 
+  //TODO: take out?
   brighten: function(req, res) {
     var key = uuid.v4().split('-').pop();
 
@@ -89,6 +93,7 @@ var filters = {
     }); 
   },
 
+  //standard black and gray filter
   bw: function(req, res) {
     var key = uuid.v4().split('-').pop();
 
@@ -103,6 +108,7 @@ var filters = {
     });
   },
 
+  //standard sepia filter
   sepia: function(req, res) {
     var key = uuid.v4().split('-').pop();
 
@@ -118,6 +124,7 @@ var filters = {
     });
   },
 
+  //TODO:check filter
   lomo: function(req, res) {
     console.log('red');
     var key = uuid.v4().split('-').pop();
@@ -136,6 +143,7 @@ var filters = {
     });
   },
 
+  //gothic filter with black border
   gotham: function(req, res) {
     var key = uuid.v4().split('-').pop();
 
@@ -158,8 +166,7 @@ var filters = {
     });
   },
 
-  //brighten
-
+  //black and gray gradient filter
   bw_grad: function(req, res)  {
     var w;
     var h;
@@ -192,10 +199,11 @@ var filters = {
     });
   },
 
+  //noisy, vintage filter
   vintage: function(req, res) {
+    var key = uuid.v4().split('-').pop();
     var w;
     var h;
-    var key = uuid.v4().split('-').pop();
 
     im.identify(process.env.LOCAL_FILE_PATH + '/' + req.key + '.jpg', function(err, features) {
       if (err) {

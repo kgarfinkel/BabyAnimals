@@ -9,6 +9,7 @@ var imageDataController = require('../app/controllers/ImageData.js');
 
 
 module.exports = {
+  //set the default width and height
   identify: function(req, res) {
     var w;
     var h;
@@ -19,7 +20,6 @@ module.exports = {
         throw err;
       }
 
-      //TODO: change default to square?
       //set dimensions to queries || dimensions of original image
       w = req.query.w || features.width;
       h = req.query.h || features.height; 
@@ -29,8 +29,10 @@ module.exports = {
   }
 };
 
+//resize image with requested dimensions
 var resize = function(req, res, w, h) {
-  //create new key for rezied image
+
+  //create new key for resized image
   var key = uuid.v4().split('-').pop();
 
   im.resize({

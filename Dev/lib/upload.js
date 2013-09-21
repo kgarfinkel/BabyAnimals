@@ -30,13 +30,14 @@ module.exports = {
         });
 
         req.end(buff);
-        insertDB(req, res, key);
       });
     });
+
+    insertDB(req, res, key);
   }
 };
 
-//store metadata to db 
+//
 var insertDB = function(req, res, key) {
   var metaData = imageData.imageData(key);
 

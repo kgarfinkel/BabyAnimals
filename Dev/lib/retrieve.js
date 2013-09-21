@@ -9,11 +9,12 @@ module.exports = {
   retrieve: function(req, res, next) {
       if (req.params.image) {
         //if file exists locally continue onto next middleware 
-        fs.exists(process.env.LOCAL_FILE_PATH + '/' + req.key + '.jpg', function(exists) {
-          if (exists) {
-            next();
-          }
-        });
+        //TODO: why isn't this working
+        // fs.exists(process.env.LOCAL_FILE_PATH + '/' + req.key + '.jpg', function(exists) {
+        //   if (exists) {
+        //     next();
+        //   }
+        // });
 
         //stream to local fs
         var outstream = fs.createWriteStream(process.env.LOCAL_FILE_PATH + '/' + req.key + '.jpg');
