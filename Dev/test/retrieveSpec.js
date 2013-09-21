@@ -28,11 +28,11 @@ describe('#retrieve', function() {
     .post('/upload?imgUrl=http://maxcdn.thedesigninspiration.com/wp-content/uploads/2009/09/cute-animals/baby01.jpg')
     .expect(201)
     .end(function(err, res) {
+      console.log('in end', res);
       if (err) {
         return done(err);
       }
 
-      console.log('res', res.text);
       key = JSON.parse(res.text).imgId;
       return done();
     });
@@ -50,7 +50,7 @@ describe('#retrieve', function() {
     });
   });
 
-  it('should respond with a status of 404 when image has not been uploaded', function(done) {
+  it('should respond with a status of 404 when image does not exist', function(done) {
     request(app)
     .get('/1234')
     .expect(404)
@@ -60,18 +60,6 @@ describe('#retrieve', function() {
       }
 
       done();
-    });
-  });
-
-  it('should respond with a status of 404 when image has been deleted', function(done) {
-    //delete
-    request(app)
-    .get('/' + key + '/del')
-    .expect(404)
-    .end(function(err, res) {
-      if (err) {
-        return done(err);
-      }
     });
   });
 });
