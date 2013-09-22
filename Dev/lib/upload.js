@@ -5,11 +5,12 @@ var request = require('request');
 var knox = require('knox');
 var uuid = require('node-uuid');
 var gm = require('gm');
-var client = helpers.helper.awsClient();
+var Q = require('q');
+var client = helpers.awsClient();
 
 module.exports = {
   //stream requested image to fs and store in s3 bucket
-  upload: function(req, res, next) {
+  upload: function(req, res) {
     var key = uuid.v4().split('-').pop();
     var outStream = fs.createWriteStream(process.env.LOCAL_FILE_PATH + '/' + key + '.jpg');
 
@@ -23,52 +24,16 @@ module.exports = {
             'x-amz-acl': 'public-read'
           });
 
-        req.on('response', function(res){
-          if (200 == res.statusCode) {
-            console.log('saved to %s', req.url);
+        req.on('response', function(resp){
+          if (resp.statusCode === 200) {
+            helpers.addToDb(req, res, key);
+            helpers.getDimensions(req, res, key, helpers.response);
           }
         });
 
         req.end(buff);
-        insertDB(req, res, key);
       });
     });
 
   }
-};
-
-var getDimensions = function(req, res, key) {
-  var w, h;
-  gm(process.env.LOCAL_FILE_PATH + '/' + key + '.jpg')
-  .size(function (err, size) {
-    if (err) {
-      console.log('</3');
-      throw err;
-    }
-
-    w = size.width;
-    h = size.height; 
-    response(req, res, key, w, h);
-  });
-};
-
-var insertDB = function(req, res, key) {
-  var metaData = imageData.imageData(key);
-
-  getDimensions(req, res, metaData.key);
-
-};
-
-var response = function(req, res, key, w, h, filter) {
-  var response = {};
-
-  response.id = key;
-  response.bucket = process.env.AWS_BUCKET;
-  response.url = 'https://' + process.env.AWS_BUCKET + '.s3.amazonaws.com/' + key;
-  response.createdAt = new Date();
-  response.width = w;
-  response.height = h;
-  response.filter = null;
-
-  helpers.helper.write(req, res, 201, JSON.stringify(response));
 };

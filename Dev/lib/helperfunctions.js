@@ -5,7 +5,7 @@ var imageData = require('../app/controllers/ImageData.js');
 var ImageMetaData = require('../app/models/imageMetaData');
 var gm = require('gm');
 
-module.exports.helper = {
+module.exports = {
   //send response statusCode and body
   write: function(req, res, statusCode, body) {
     res.writeHead(statusCode, responseHeaders);
@@ -38,7 +38,6 @@ module.exports.helper = {
       });
 
       req.end(data);
-      addToDb(req, res, key);
     });
   },
 
@@ -80,10 +79,24 @@ module.exports.helper = {
       }
     });
   },
-  
+
   //store s3 key in db 
   addToDb: function(req, res, key) {
     var imgKey = imageData.imageData(key);
+  },
+
+  getDimensions: function(req, res, key, cb, filter) {
+    var results = {};
+
+    gm(process.env.LOCAL_FILE_PATH + '/' + key + '.jpg')
+    .size(function (err, size) {
+      if (err) {
+        console.log('</3');
+        throw err;
+      }
+
+      cb(req, res, key, size.width, size.height, filter);
+    });
   },
 
   //send response object
@@ -111,5 +124,10 @@ var responseHeaders = {
   "access-control-max-age": 10
 };
 
+var client = knox.createClient({
+  key: process.env.AWS_ACCESS_KEY,
+  secret: process.env.AWS_SECRET_KEY,
+  bucket: process.env.AWS_BUCKET
+});
 
 
