@@ -41,8 +41,10 @@ var filters = {
 
       Q.fcall(helpers.helper.upload(req, res, process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', 'transform', key))
       .then(helpers.helper.addToDb(req, res, key))
-      .then(helpers.helper.getDimensions(req, res, key))
-      .then(helpers.helper.response(req, res, key, w, h, 'blur'));
+      .then(helpers.helper.response(req, res, key, w, h, 'blur'))
+      .catch(function(err) {
+        throw err;
+      });
     });  
   },
 
@@ -70,8 +72,10 @@ var filters = {
 
       Q.fcall(helpers.helper.upload(req, res, process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', 'transform', key))
       .then(helpers.helper.addToDb(req, res, key))
-      .then(helpers.helper.getDimensions(req, res, key))
-      .then(helpers.helper.response(req, res, key, w, h, 'charcoal'));
+      .then(helpers.helper.response(req, res, key, w, h, 'charcoal'))
+      .catch(function(err) {
+        throw err;
+      });
     }); 
   },
 
@@ -99,8 +103,10 @@ var filters = {
 
       Q.fcall(helpers.helper.upload(req, res, process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', 'transform', key))
       .then(helpers.helper.addToDb(req, res, key))
-      .then(helpers.helper.getDimensions(req, res, key))
-      .then(helpers.helper.response(req, res, key, w, h, 'channel'));    
+      .then(helpers.helper.response(req, res, key, w, h, 'channel'))
+      .catch(function(err) {
+        throw err;
+      });    
     }); 
   },
 
@@ -131,8 +137,10 @@ var filters = {
 
       Q.fcall(helpers.helper.upload(req, res, process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', 'transform', key))
       .then(helpers.helper.addToDb(req, res, key))
-      .then(helpers.helper.getDimensions(req, res, key))
-      .then(helpers.helper.response(req, res, key, w, h, 'brighten'));        
+      .then(helpers.helper.response(req, res, key, w, h, 'brighten'))
+      .catch(function(err) {
+        throw err;
+      });        
     }); 
   },
 
@@ -159,8 +167,10 @@ var filters = {
 
       Q.fcall(helpers.helper.upload(req, res, process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', 'transform', key))
       .then(helpers.helper.addToDb(req, res, key))
-      .then(helpers.helper.getDimensions(req, res, key))
-      .then(helpers.helper.response(req, res, key, w, h, 'bw'));        
+      .then(helpers.helper.response(req, res, key, w, h, 'bw'))
+      .catch(function(err) {
+        throw err;
+      });         
     });
   },
 
@@ -188,8 +198,10 @@ var filters = {
 
       Q.fcall(helpers.helper.upload(req, res, process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', 'transform', key))
       .then(helpers.helper.addToDb(req, res, key))
-      .then(helpers.helper.getDimensions(req, res, key))
-      .then(helpers.helper.response(req, res, key, w, h, 'sepia'));            
+      .then(helpers.helper.response(req, res, key, w, h, 'sepia'))
+      .catch(function(err) {
+        throw err;
+      });              
     });
   },
 
@@ -219,8 +231,10 @@ var filters = {
 
       Q.fcall(helpers.helper.upload(req, res, process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', 'transform', key))
       .then(helpers.helper.addToDb(req, res, key))
-      .then(helpers.helper.getDimensions(req, res, key))
-      .then(helpers.helper.response(req, res, key, w, h, 'lomo'));            
+      .then(helpers.helper.response(req, res, key, w, h, 'lomo'))
+      .catch(function(err) {
+        throw err;
+      });             
     });
   },
 
@@ -255,8 +269,10 @@ var filters = {
 
       Q.fcall(helpers.helper.upload(req, res, process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', 'transform', key))
       .then(helpers.helper.addToDb(req, res, key))
-      .then(helpers.helper.getDimensions(req, res, key))
-      .then(helpers.helper.response(req, res, key, w, h, 'gotham'));                
+      .then(helpers.helper.response(req, res, key, w, h, 'gotham'))
+      .catch(function(err) {
+        throw err;
+      });                
     });
   },
 

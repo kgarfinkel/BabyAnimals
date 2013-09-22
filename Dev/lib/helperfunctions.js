@@ -3,6 +3,7 @@ var knox = require('knox');
 var fs = require('fs');
 var imageData = require('../app/controllers/ImageData.js');
 var ImageMetaData = require('../app/models/imageMetaData');
+var gm = require('gm');
 
 module.exports.helper = {
   //send response statusCode and body
@@ -78,6 +79,27 @@ module.exports.helper = {
         throw err;
       }
     });
+  },
+  
+  //store s3 key in db 
+  addToDb: function(req, res, key) {
+    var imgKey = imageData.imageData(key);
+  },
+
+  //send response object
+  response: function(req, res, key, w, h, filter) {
+    var response = {};
+
+    response.id = key;
+    response.bucket = process.env.AWS_BUCKET;
+    response.url = 'https://' + process.env.AWS_BUCKET + '.s3.amazonaws.com/' + key;
+    response.createdAt = new Date();
+    response.width = w;
+    response.height = h;
+    response.filter = filter || null;
+
+    res.writeHead(200, responseHeaders);
+    res.end(JSON.stringify(response));
   }
 };
 
@@ -89,28 +111,5 @@ var responseHeaders = {
   "access-control-max-age": 10
 };
 
-//store s3 key in db 
-var addToDb = function(req, res, key) {
-  var imgKey = imageData.imageData(key);
-
-  response(req, res, imgKey.key);
-};
-
-//send response object
-var response = function(req, res, key) {
-  var response = {};
-
-  response.createdAt = new Date();
-  response.imgId = key;
-
-  res.writeHead(200, responseHeaders);
-  res.end(JSON.stringify(response));
-};
-
-var client = knox.createClient({
-  key: process.env.AWS_ACCESS_KEY,
-  secret: process.env.AWS_SECRET_KEY,
-  bucket: process.env.AWS_BUCKET
-});
 
 
