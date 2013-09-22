@@ -17,41 +17,61 @@ module.exports = {
 var filters = {
   //blur image filter
   blur : function(req, res) {
-    //default values for radius and sigma of blur filter
-    var rad = req.query.r || 2;
-    var sig = req.query.s || 2;
-
-    //create new s3 key
     var key = uuid.v4().split('-').pop();
+    var rad = req.query.r || 0;
+    var sig = req.query.s || 6;
+    var w, h;
 
     //read file at requested path
     gm(process.env.LOCAL_FILE_PATH + '/' + req.key + '.jpg')
     .blur(rad, sig)
+    .size(function (err, size) {
+      if (err) {
+        console.log('</3');
+        throw err;
+      }
+
+      w = size.width;
+      h = size.height; 
+    })
     .write(process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', function(err) {
       if (err) {
         throw err;
       }
 
-      helpers.helper.upload(req, res, process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', 'transform', key );
+      Q.fcall(helpers.helper.upload(req, res, 'blur', key))
+      .then(helpers.helper.addToDb(req, res, key))
+      .then(helpers.helper.getDimensions(req, res, key, 'blur'))
+      .then(helpers.helper.response(req, res, key, w, h, 'blur'));
     });  
   },
 
   //charcoal image filter
   charcoal: function(req, res) {
-    //default value for charcoal factor
-    var factor = req.query.f || 3;
-
-    //create new s3 key
     var key = uuid.v4().split('-').pop();
+    var factor = req.query.f || 3;
+    var w, h;
 
     gm(process.env.LOCAL_FILE_PATH + '/' + req.key + '.jpg')
     .charcoal(factor)
+    .size(function (err, size) {
+      if (err) {
+        console.log('</3');
+        throw err;
+      }
+
+      w = size.width;
+      h = size.height;
+    })
     .write(process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', function(err) {
       if (err) {
         throw err;
       }
 
-      helpers.helper.upload(req, res, process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', 'transform', key );
+      Q.fcall(helpers.helper.upload(req, res, 'charcoal', key))
+      .then(helpers.helper.addToDb(req, res, key))
+      .then(helpers.helper.getDimensions(req, res, key, 'charcoal'))
+      .then(helpers.helper.response(req, res, key, w, h, 'charcoal'));
     }); 
   },
 
@@ -217,6 +237,8 @@ var filters = {
       Q.fcall(filterHelp.resizeVintage(req, res, w, h, key))
       .then(filterHelp.addHipsterOverlay(res, req, key))
       .then(helpers.helper.upload(req, res, process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', 'transform', key ))
+      .then(helpers.helper.addToDb(req, res, key))
+      .then(helpers.helper.response(req, res, key, w, h, 'vintage'))
       .catch(function(err) {
         throw err;
       });

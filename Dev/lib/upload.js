@@ -37,7 +37,7 @@ module.exports = {
   }
 };
 
-var getHeight = function(req, res, key) {
+var getDimensions = function(req, res, key) {
   var w, h;
   gm(process.env.LOCAL_FILE_PATH + '/' + key + '.jpg')
   .size(function (err, size) {
@@ -55,7 +55,7 @@ var getHeight = function(req, res, key) {
 var insertDB = function(req, res, key) {
   var metaData = imageData.imageData(key);
 
-  getHeight(req, res, metaData.key);
+  getDimensions(req, res, metaData.key);
 
 };
 
