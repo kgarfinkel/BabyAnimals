@@ -36,7 +36,7 @@ module.exports = {
     app.get('/', home.index);
 
     //upload route
-    app.post('/upload', upload.upload, function(req, res, next) {
+    app.put('/upload', upload.upload, function(req, res, next) {
     });
 
     //get image route
@@ -50,7 +50,6 @@ module.exports = {
 
     //delete image route
     app.get('/:image/del', del.del, function(req, res, next) {  
-      helpers.helper.write(req, res, 200);   
     });
 
     //transform image
