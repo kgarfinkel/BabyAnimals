@@ -11,7 +11,8 @@ module.exports = function(dirPath) {
     if (files.length > 0) {
       _.each(files, function(file) {
         var filePath = dirPath + file;
-        
+        console.log('filepath', filePath);
+
         fs.stat(filePath, function(err, stats) {
           if (err) {
             console.error('</3');
