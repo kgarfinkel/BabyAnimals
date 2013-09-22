@@ -27,6 +27,8 @@
     "gm": "latest",
     "knox": "latest",
     "should": "latest",
-    "cron": "latest" 
+    "cron": "latest",
+    "q": "latest",
+    "spawn": "latest"
   }
 }
