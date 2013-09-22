@@ -4,7 +4,7 @@ var fs = require('fs');
 var request = require('request');
 var knox = require('knox');
 var uuid = require('node-uuid');
-
+var gm = require('gm');
 var client = helpers.helper.awsClient();
 
 module.exports = {
@@ -30,25 +30,45 @@ module.exports = {
         });
 
         req.end(buff);
+        insertDB(req, res, key);
       });
     });
 
-    insertDB(req, res, key);
   }
 };
 
-//
+var getHeight = function(req, res, key) {
+  var w, h;
+  gm(process.env.LOCAL_FILE_PATH + '/' + key + '.jpg')
+  .size(function (err, size) {
+    if (err) {
+      console.log('</3');
+      throw err;
+    }
+
+    w = size.width;
+    h = size.height; 
+    response(req, res, key, w, h);
+  });
+};
+
 var insertDB = function(req, res, key) {
   var metaData = imageData.imageData(key);
 
-  response(req, res, metaData.key);
+  getHeight(req, res, metaData.key);
+
 };
 
-var response = function(req, res, key) {
+var response = function(req, res, key, w, h, filter) {
   var response = {};
 
+  response.id = key;
+  response.bucket = process.env.AWS_BUCKET;
+  response.url = 'https://' + process.env.AWS_BUCKET + '.s3.amazonaws.com/' + key;
   response.createdAt = new Date();
-  response.imgId = key;
+  response.width = w;
+  response.height = h;
+  response.filter = null;
 
   helpers.helper.write(req, res, 201, JSON.stringify(response));
 };
