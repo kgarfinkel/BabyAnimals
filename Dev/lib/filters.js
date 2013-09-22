@@ -39,9 +39,9 @@ var filters = {
         throw err;
       }
 
-      Q.fcall(helpers.helper.upload(req, res, 'blur', key))
+      Q.fcall(helpers.helper.upload(req, res, process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', 'transform', key))
       .then(helpers.helper.addToDb(req, res, key))
-      .then(helpers.helper.getDimensions(req, res, key, 'blur'))
+      .then(helpers.helper.getDimensions(req, res, key))
       .then(helpers.helper.response(req, res, key, w, h, 'blur'));
     });  
   },
@@ -68,35 +68,46 @@ var filters = {
         throw err;
       }
 
-      Q.fcall(helpers.helper.upload(req, res, 'charcoal', key))
+      Q.fcall(helpers.helper.upload(req, res, process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', 'transform', key))
       .then(helpers.helper.addToDb(req, res, key))
-      .then(helpers.helper.getDimensions(req, res, key, 'charcoal'))
+      .then(helpers.helper.getDimensions(req, res, key))
       .then(helpers.helper.response(req, res, key, w, h, 'charcoal'));
     }); 
   },
 
   //channel image
   channel: function(req, res) {
-    //default value for color type
     var type = req.query.t || 'red';
-
-    //create new s3 key
     var key = uuid.v4().split('-').pop();
+    var w, h;
 
     gm(process.env.LOCAL_FILE_PATH + '/' + req.key + '.jpg')
     .channel(type)
+    .size(function (err, size) {
+      if (err) {
+        console.log('</3');
+        throw err;
+      }
+
+      w = size.width;
+      h = size.height;
+    })
     .write(process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', function(err) {
       if (err) {
         throw err;
       }
 
-      helpers.helper.upload(req, res, process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', 'transform', key );
+      Q.fcall(helpers.helper.upload(req, res, process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', 'transform', key))
+      .then(helpers.helper.addToDb(req, res, key))
+      .then(helpers.helper.getDimensions(req, res, key))
+      .then(helpers.helper.response(req, res, key, w, h, 'channel'));    
     }); 
   },
 
   //TODO: take out?
   brighten: function(req, res) {
     var key = uuid.v4().split('-').pop();
+    var w, h;
 
     gm(process.env.LOCAL_FILE_PATH + '/' + req.key + '.jpg')
     .modulate(150, 80, 80)
@@ -104,68 +115,119 @@ var filters = {
     .fill('#330000')
     .colorize(40)
     .contrast(+1)
+    .size(function (err, size) {
+      if (err) {
+        console.log('</3');
+        throw err;
+      }
+
+      w = size.width;
+      h = size.height;
+    })
     .write(process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', function(err) {
       if (err) {
         throw err;
       }
 
-      helpers.helper.upload(req, res, process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', 'transform', key );
+      Q.fcall(helpers.helper.upload(req, res, process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', 'transform', key))
+      .then(helpers.helper.addToDb(req, res, key))
+      .then(helpers.helper.getDimensions(req, res, key))
+      .then(helpers.helper.response(req, res, key, w, h, 'brighten'));        
     }); 
   },
 
   //standard black and gray filter
   bw: function(req, res) {
     var key = uuid.v4().split('-').pop();
+    var w, h;
 
     gm(process.env.LOCAL_FILE_PATH + '/' + req.key + '.jpg')
     .colorspace('Gray')
+    .size(function (err, size) {
+      if (err) {
+        console.log('</3');
+        throw err;
+      }
+
+      w = size.width;
+      h = size.height;
+    })
     .write(process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', function(err) {
       if (err) {
         throw err;
       }
 
-      helpers.helper.upload(req, res, process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', 'transform', key );
+      Q.fcall(helpers.helper.upload(req, res, process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', 'transform', key))
+      .then(helpers.helper.addToDb(req, res, key))
+      .then(helpers.helper.getDimensions(req, res, key))
+      .then(helpers.helper.response(req, res, key, w, h, 'bw'));        
     });
   },
 
   //standard sepia filter
   sepia: function(req, res) {
     var key = uuid.v4().split('-').pop();
+    var w, h;
 
     gm(process.env.LOCAL_FILE_PATH + '/' + req.key + '.jpg')
     .modulate(115, 0, 100)
     .colorize(7, 21, 50)
+    .size(function (err, size) {
+      if (err) {
+        console.log('</3');
+        throw err;
+      }
+
+      w = size.width;
+      h = size.height;
+    })
     .write(process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', function(err) {
       if (err) {
         throw err;
       }
 
-      helpers.helper.upload(req, res, process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', 'transform', key );
+      Q.fcall(helpers.helper.upload(req, res, process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', 'transform', key))
+      .then(helpers.helper.addToDb(req, res, key))
+      .then(helpers.helper.getDimensions(req, res, key))
+      .then(helpers.helper.response(req, res, key, w, h, 'sepia'));            
     });
   },
 
   //TODO:check filter
   lomo: function(req, res) {
-    console.log('red');
     var key = uuid.v4().split('-').pop();
+    var w, h;
 
     gm(process.env.LOCAL_FILE_PATH + '/' + req.key + '.jpg')
     .fill('#222b6d')
     .colorize(30)
     .modulate(90, 80, 100)
     .compose('Over')
+    .size(function (err, size) {
+      if (err) {
+        console.log('</3');
+        throw err;
+      }
+
+      w = size.width;
+      h = size.height;
+    })
     .write(process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', function(err) {
       if (err) {
         throw err;
       }
 
-      helpers.helper.upload(req, res, process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', 'transform', key );
+      Q.fcall(helpers.helper.upload(req, res, process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', 'transform', key))
+      .then(helpers.helper.addToDb(req, res, key))
+      .then(helpers.helper.getDimensions(req, res, key))
+      .then(helpers.helper.response(req, res, key, w, h, 'lomo'));            
     });
   },
 
   //gothic filter with black border
   gotham: function(req, res) {
     var key = uuid.v4().split('-').pop();
+    var w, h;
 
     gm(process.env.LOCAL_FILE_PATH + '/' + req.key + '.jpg')
     .modulate(120, 10, 100)
@@ -177,12 +239,24 @@ var filters = {
     .compose('Over')
     .borderColor('black')
     .border(7,7)
+    .size(function (err, size) {
+      if (err) {
+        console.log('</3');
+        throw err;
+      }
+
+      w = size.width;
+      h = size.height;
+    })
     .write(process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', function(err) {
       if (err) {
         throw err;
       }
 
-      helpers.helper.upload(req, res, process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', 'transform', key );
+      Q.fcall(helpers.helper.upload(req, res, process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', 'transform', key))
+      .then(helpers.helper.addToDb(req, res, key))
+      .then(helpers.helper.getDimensions(req, res, key))
+      .then(helpers.helper.response(req, res, key, w, h, 'gotham'));                
     });
   },
 
