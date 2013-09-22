@@ -25,15 +25,14 @@ describe('#retrieve', function() {
 
   before(function(done) {
     request(app)
-    .post('/upload?imgUrl=http://maxcdn.thedesigninspiration.com/wp-content/uploads/2009/09/cute-animals/baby01.jpg')
+    .put('/upload?imgUrl=http://maxcdn.thedesigninspiration.com/wp-content/uploads/2009/09/cute-animals/baby01.jpg')
     .expect(201)
     .end(function(err, res) {
-      console.log('in end', res);
       if (err) {
         return done(err);
       }
 
-      key = JSON.parse(res.text).imgId;
+      key = JSON.parse(res.text).id;
       return done();
     });
   });

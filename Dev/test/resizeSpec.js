@@ -26,14 +26,14 @@ describe('#retrieve', function() {
 
   before(function(done) {
     request(app)
-    .post('/upload?imgUrl=http://maxcdn.thedesigninspiration.com/wp-content/uploads/2009/09/cute-animals/baby01.jpg')
-    .expect(201)
+    .put('/upload?imgUrl=http://maxcdn.thedesigninspiration.com/wp-content/uploads/2009/09/cute-animals/baby01.jpg')
+    .expect(200)
     .end(function(err, res) {
       if (err) {
         return done(err);
       }
 
-      key = JSON.parse(res.text).imgId;
+      key = JSON.parse(res.text).id;
       return done();
     });
   });
@@ -63,6 +63,7 @@ describe('#retrieve', function() {
       var newKey = JSON.parse(res.text).imgId;
 
       im.identify(process.env.LOCAL_FILE_PATH + '/' + newKey + '.jpg', function(err, features) {
+        console.log('in identify spec');
         if (err) {
           return done(err);
         }
