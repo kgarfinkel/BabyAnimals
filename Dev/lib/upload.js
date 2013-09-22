@@ -16,6 +16,7 @@ module.exports = {
 
     request(req.query.imgUrl).pipe(outStream);
 
+    //TODO: use graphics magick here?
     outStream.on('close', function() {
       fs.readFile(process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', function(err, buff){
         var req = client.put(key, {
@@ -31,6 +32,7 @@ module.exports = {
           }
         });
 
+        //TODO: response status code if s3 status is not too
         req.end(buff);
       });
     });

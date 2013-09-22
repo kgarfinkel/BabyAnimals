@@ -31,7 +31,6 @@ module.exports = {
 
 //resize image with requested dimensions
 var resize = function(req, res, w, h) {
-
   //create new key for resized image
   var key = uuid.v4().split('-').pop();
 
@@ -51,7 +50,7 @@ var resize = function(req, res, w, h) {
     }
 
     //upload resized image to fs and s3
-    helpers.helper.upload(req, res, process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', 'resize', key);
+    helpers.upload(req, res, process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', 'resize', key);
   });
 };
 
