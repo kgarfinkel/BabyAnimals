@@ -22,7 +22,7 @@ module.exports = {
   },
 
   //upload requested image to to s3 bucket
-  upload: function(req, res, path, prefix, key) {
+  upload: function(req, res, path, key) {
     var data = '';
     var readStream = fs.createReadStream(path);
 
@@ -31,7 +31,7 @@ module.exports = {
     });
 
     readStream.on('close', function() {
-      var req = client.put(prefix + '/' + key, {
+      var req = client.put('/' + key, {
         'Content-Length': data.length,
         'Content-Type': 'image/jpeg',
         'x-amz-acl': 'public-read'
@@ -85,9 +85,7 @@ module.exports = {
     var imgKey = imageData.imageData(key);
   },
 
-  getDimensions: function(req, res, key, cb, filter) {
-    var results = {};
-
+  getDimensions: function(req, res, key, cb) {
     gm(process.env.LOCAL_FILE_PATH + '/' + key + '.jpg')
     .size(function (err, size) {
       if (err) {
@@ -95,12 +93,12 @@ module.exports = {
         throw err;
       }
 
-      cb(req, res, key, size.width, size.height, filter);
+      cb(req, res, key, size.width, size.height, 'none', 201);
     });
   },
 
   //send response object
-  response: function(req, res, key, w, h, filter) {
+  response: function(req, res, key, w, h, filter, statusCode) {
     var response = {};
 
     response.id = key;
@@ -109,9 +107,9 @@ module.exports = {
     response.createdAt = new Date();
     response.width = w;
     response.height = h;
-    response.filter = filter || null;
+    response.filter = filter;
 
-    res.writeHead(200, responseHeaders);
+    res.writeHead(statusCode, responseHeaders);
     res.end(JSON.stringify(response));
   }
 };

@@ -34,18 +34,17 @@ var filters = {
       w = size.width;
       h = size.height; 
     })
-    .write(process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', function(err) {
-      if (err) {
-        throw err;
-      }
+    .stream(function(err, stdout, stderr) {
+      var writeStream = fs.createWriteStream(process.env.LOCAL_FILE_PATH + '/' + key + '.jpg');
+      
+      stdout.pipe(writeStream);
 
-      Q.fcall(helpers.helper.upload(req, res, process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', 'transform', key))
-      .then(helpers.helper.addToDb(req, res, key))
-      .then(helpers.helper.response(req, res, key, w, h, 'blur'))
-      .catch(function(err) {
-        throw err;
+      stdout.on('close', function() {
+        helpers.upload(req, res, process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', key);
+        helpers.addToDb(req, res, key);
+        helpers.response(req, res, key, w, h, 'blur', 200);
       });
-    });  
+    }); 
   },
 
   //charcoal image filter
@@ -65,16 +64,15 @@ var filters = {
       w = size.width;
       h = size.height;
     })
-    .write(process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', function(err) {
-      if (err) {
-        throw err;
-      }
+    .stream(function(err, stdout, stderr) {
+      var writeStream = fs.createWriteStream(process.env.LOCAL_FILE_PATH + '/' + key + '.jpg');
+      
+      stdout.pipe(writeStream);
 
-      Q.fcall(helpers.helper.upload(req, res, process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', 'transform', key))
-      .then(helpers.helper.addToDb(req, res, key))
-      .then(helpers.helper.response(req, res, key, w, h, 'charcoal'))
-      .catch(function(err) {
-        throw err;
+      stdout.on('close', function() {
+        helpers.upload(req, res, process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', key);
+        helpers.addToDb(req, res, key);
+        helpers.response(req, res, key, w, h, 'charcoal', 200);
       });
     }); 
   },
@@ -96,18 +94,17 @@ var filters = {
       w = size.width;
       h = size.height;
     })
-    .write(process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', function(err) {
-      if (err) {
-        throw err;
-      }
+    .stream(function(err, stdout, stderr) {
+      var writeStream = fs.createWriteStream(process.env.LOCAL_FILE_PATH + '/' + key + '.jpg');
+      
+      stdout.pipe(writeStream);
 
-      Q.fcall(helpers.helper.upload(req, res, process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', 'transform', key))
-      .then(helpers.helper.addToDb(req, res, key))
-      .then(helpers.helper.response(req, res, key, w, h, 'channel'))
-      .catch(function(err) {
-        throw err;
-      });    
-    }); 
+      stdout.on('close', function() {
+        helpers.upload(req, res, process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', key);
+        helpers.addToDb(req, res, key);
+        helpers.response(req, res, key, w, h, 'channel', 200);
+      });
+    });  
   },
 
   //TODO: take out?
@@ -130,18 +127,17 @@ var filters = {
       w = size.width;
       h = size.height;
     })
-    .write(process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', function(err) {
-      if (err) {
-        throw err;
-      }
+    .stream(function(err, stdout, stderr) {
+      var writeStream = fs.createWriteStream(process.env.LOCAL_FILE_PATH + '/' + key + '.jpg');
+      
+      stdout.pipe(writeStream);
 
-      Q.fcall(helpers.helper.upload(req, res, process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', 'transform', key))
-      .then(helpers.helper.addToDb(req, res, key))
-      .then(helpers.helper.response(req, res, key, w, h, 'brighten'))
-      .catch(function(err) {
-        throw err;
-      });        
-    }); 
+      stdout.on('close', function() {
+        helpers.upload(req, res, process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', key);
+        helpers.addToDb(req, res, key);
+        helpers.response(req, res, key, w, h, 'brighten', 200);
+      });
+    });  
   },
 
   //standard black and gray filter
@@ -160,18 +156,17 @@ var filters = {
       w = size.width;
       h = size.height;
     })
-    .write(process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', function(err) {
-      if (err) {
-        throw err;
-      }
+    .stream(function(err, stdout, stderr) {
+      var writeStream = fs.createWriteStream(process.env.LOCAL_FILE_PATH + '/' + key + '.jpg');
+      
+      stdout.pipe(writeStream);
 
-      Q.fcall(helpers.helper.upload(req, res, process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', 'transform', key))
-      .then(helpers.helper.addToDb(req, res, key))
-      .then(helpers.helper.response(req, res, key, w, h, 'bw'))
-      .catch(function(err) {
-        throw err;
-      });         
-    });
+      stdout.on('close', function() {
+        helpers.upload(req, res, process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', key);
+        helpers.addToDb(req, res, key);
+        helpers.response(req, res, key, w, h, 'bw', 200);
+      });
+    }); 
   },
 
   //standard sepia filter
@@ -191,18 +186,17 @@ var filters = {
       w = size.width;
       h = size.height;
     })
-    .write(process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', function(err) {
-      if (err) {
-        throw err;
-      }
+    .stream(function(err, stdout, stderr) {
+      var writeStream = fs.createWriteStream(process.env.LOCAL_FILE_PATH + '/' + key + '.jpg');
+      
+      stdout.pipe(writeStream);
 
-      Q.fcall(helpers.helper.upload(req, res, process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', 'transform', key))
-      .then(helpers.helper.addToDb(req, res, key))
-      .then(helpers.helper.response(req, res, key, w, h, 'sepia'))
-      .catch(function(err) {
-        throw err;
-      });              
-    });
+      stdout.on('close', function() {
+        helpers.upload(req, res, process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', key);
+        helpers.addToDb(req, res, key);
+        helpers.response(req, res, key, w, h, 'sepia', 200);
+      });
+    }); 
   },
 
   //TODO:check filter
@@ -224,22 +218,21 @@ var filters = {
       w = size.width;
       h = size.height;
     })
-    .write(process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', function(err) {
-      if (err) {
-        throw err;
-      }
+    .stream(function(err, stdout, stderr) {
+      var writeStream = fs.createWriteStream(process.env.LOCAL_FILE_PATH + '/' + key + '.jpg');
+      
+      stdout.pipe(writeStream);
 
-      Q.fcall(helpers.helper.upload(req, res, process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', 'transform', key))
-      .then(helpers.helper.addToDb(req, res, key))
-      .then(helpers.helper.response(req, res, key, w, h, 'lomo'))
-      .catch(function(err) {
-        throw err;
-      });             
-    });
+      stdout.on('close', function() {
+        helpers.upload(req, res, process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', key);
+        helpers.addToDb(req, res, key);
+        helpers.response(req, res, key, w, h, 'charcoal', 200);
+      });
+    }); 
   },
 
   //gothic filter with black border
-  gotham: function(req, res) {
+  gotham: function(req, re) {
     var key = uuid.v4().split('-').pop();
     var w, h;
 
@@ -262,49 +255,39 @@ var filters = {
       w = size.width;
       h = size.height;
     })
-    .write(process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', function(err) {
-      if (err) {
-        throw err;
-      }
+    .stream(function(err, stdout, stderr) {
+      var writeStream = fs.createWriteStream(process.env.LOCAL_FILE_PATH + '/' + key + '.jpg');
+      
+      stdout.pipe(writeStream);
 
-      Q.fcall(helpers.helper.upload(req, res, process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', 'transform', key))
-      .then(helpers.helper.addToDb(req, res, key))
-      .then(helpers.helper.response(req, res, key, w, h, 'gotham'))
-      .catch(function(err) {
-        throw err;
-      });                
-    });
+      stdout.on('close', function() {
+        helpers.upload(req, res, process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', key);
+        helpers.addToDb(req, res, key);
+        helpers.response(req, res, key, w, h, 'gotham', 200);
+      });
+    }); 
   },
 
   //black and gray gradient filter
   bw_grad: function(req, res)  {
-    var w;
-    var h;
     var key = uuid.v4().split('-').pop();
-    
-    //obtain the dimensions of the requested image
+  
+    //convert requested image to grayscale    
     im.convert([process.env.LOCAL_FILE_PATH + '/' + req.key + '.jpg', '-colorspace', 'gray', process.env.LOCAL_FILE_PATH + '/temp_' + req.key + '.jpg' ], 
     function(err, stdout){
       if (err) {
         throw err;
       }
-    
+      
+      //obtain the dimensions of the requested image
       im.identify(process.env.LOCAL_FILE_PATH + '/temp_' + req.key + '.jpg', function(err, features) {
         if (err) {
           console.error('could not process image </3');
           throw err;
         }
 
-        w = features.width;
-        h = features.height;
-
-        Q.fcall(filterHelp.resizeBW(req, res, w, h, key))
-        .then(filterHelp.addBWGrad(res, req, key))
-        .then(helpers.helper.upload(req, res, process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', 'transform', key ))
-        .catch(function(err) {
-          throw err;
-        });
-
+        filterHelp.resizeBW(req, res, features.width, features.height, key, filterHelp.addBWGrad);
+        helpers.response(req, res, key, features.width, features.height, 'bw_grad', 200);
       });
     });
   },
@@ -312,26 +295,23 @@ var filters = {
   //noisy, vintage filter
   vintage: function(req, res) {
     var key = uuid.v4().split('-').pop();
-    var w;
-    var h;
 
+    //obtain the dimensions of the requested image
     im.identify(process.env.LOCAL_FILE_PATH + '/' + req.key + '.jpg', function(err, features) {
       if (err) {
         console.error('could not process image </3');
         throw err;
       }
 
-      w = features.width;
-      h = features.height;
+      Q.fcall(filterHelp.resizeVintage(req, res, features.width, features.height, key))
+        .then(filterHelp.addHipsterOverlay(res, req, key))
+        .then(helpers.upload(req, res, process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', key ))
+        .then(helpers.addToDb(req, res, key))
+        .then(helpers.response(req, res, key, features.width, features.height, 'vintage', 200))
+        .catch(function(err) {
+          throw err;
+        });
 
-      Q.fcall(filterHelp.resizeVintage(req, res, w, h, key))
-      .then(filterHelp.addHipsterOverlay(res, req, key))
-      .then(helpers.helper.upload(req, res, process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', 'transform', key ))
-      .then(helpers.helper.addToDb(req, res, key))
-      .then(helpers.helper.response(req, res, key, w, h, 'vintage'))
-      .catch(function(err) {
-        throw err;
-      });
     });
   }
 };
