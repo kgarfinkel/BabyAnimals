@@ -4,23 +4,26 @@ var resize = require('../lib/resize');
 var del = require('../lib/del');
 var filters = require('../lib/filters');
 var helpers = require('../lib/helperfunctions');
-var ImageMetaData = require('../app/models/imageMetaData');
+var ImageData = require('../app/models/imageMetaData');
+var mongoose = require('mongoose');
+var model = mongoose.model('ImageMetaData');
 
 module.exports = {
   routeHandler: function(app) {    
     //middleware for any image retrieval
-    app.param('image', function(req, res, next, key) {
-      ImageMetaData.find({key: key}, function(error, data) {
+    app.param('image', function(req, res, next, image) {
+      console.log(image);
+      model.find({key:image}, function(error, data) {
         if (error) {
           return next(error);
         }
 
         if (data.length === 0) {
           console.error('image has not been uploaded </3');
-          return helpers.helper.write(req, res, 404);
+          return helpers.write(req, res, 404, 'image not found');
         }
 
-        req.key = key;
+        req.key = image;
         next();
       });
     });
