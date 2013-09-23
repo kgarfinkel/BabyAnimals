@@ -22,9 +22,9 @@ module.exports = {
   },
 
   //upload requested image to to s3 bucket
-  upload: function(req, res, path, key) {
+  upload: function(req, res, key, w, h, filter, statusCode) {
     var data = '';
-    var readStream = fs.createReadStream(path);
+    var readStream = fs.createReadStream(process.env.LOCAL_FILE_PATH + '/' + key + '.jpg');
 
     readStream.on('data', function(chunk) {
       data += chunk;
@@ -35,6 +35,13 @@ module.exports = {
         'Content-Length': data.length,
         'Content-Type': 'image/jpeg',
         'x-amz-acl': 'public-read'
+      });
+
+      req.on('response', function(resp) {
+        if (resp.statusCode === 200) {
+          addToDb(req, res, key);
+          response(req, res, key, w, h, filter, statusCode);
+        }
       });
 
       req.end(data);
@@ -128,4 +135,36 @@ var client = knox.createClient({
   bucket: process.env.AWS_BUCKET
 });
 
+//store s3 key in db 
+var addToDb = function(req, res, key) {
+  var imgKey = imageData.imageData(key);
+};
+
+var getDimensions = function(req, res, key, cb) {
+  gm(process.env.LOCAL_FILE_PATH + '/' + key + '.jpg')
+  .size(function (err, size) {
+    if (err) {
+      console.log('</3');
+      throw err;
+    }
+
+    cb(req, res, key, size.width, size.height, 'none', 201);
+  });
+};
+
+//send response object
+var response = function(req, res, key, w, h, filter, statusCode) {
+  var response = {};
+
+  response.id = key;
+  response.bucket = process.env.AWS_BUCKET;
+  response.url = 'https://' + process.env.AWS_BUCKET + '.s3.amazonaws.com/' + key;
+  response.createdAt = new Date();
+  response.width = w;
+  response.height = h;
+  response.filter = filter;
+
+  res.writeHead(statusCode, responseHeaders);
+  res.end(JSON.stringify(response));
+};
 
