@@ -7,7 +7,7 @@ var helpers = require('./helperfunctions');
 
 module.exports = {
   //resize filter overlay to size of requested image
-  resizeVintage: function(req, res, w, h, key) {
+  resizeVintage: function(req, res, w, h, key, cb) {
     im.resize({
       srcPath: __dirname + '/../assets/antiquefilter.jpg',
       dstPath: __dirname + '/../assets/temp_antiquefilter.jpg',
@@ -22,6 +22,8 @@ module.exports = {
       if (stderr) {
         throw stderr;
       }
+
+      cb(req, res, key, w, h);
     });
   },
 
@@ -42,24 +44,25 @@ module.exports = {
         throw stderr;
       }
 
-      cb(res, req, key);
+      cb(req, res, key, w, h);
     });
   },
 
   //composite antique overlay with target image 
-  addHipsterOverlay: function(res, req, key) {
-    var args = [process.env.LOCAL_FILE_PATH + '/' + req.key + '.jpg', __dirname + '/../assets/temp_antiquefilter.jpg', '-gravity', '-composite', process.env.LOCAL_FILE_PATH + '/' + key + '.jpg'];
+  addHipsterOverlay: function(req,res, key, w, h) {
+    var args = [process.env.LOCAL_FILE_PATH + '/' + req.key + '.jpg', __dirname + '/../assets/temp_antiquefilter.jpg', '-composite', process.env.LOCAL_FILE_PATH + '/' + key + '.jpg'];
     var convert = spawn('convert', args);
 
     convert.stdout.pipe(fs.createWriteStream(process.env.LOCAL_FILE_PATH + '/' + key + '.jpg'));
+    helpers.upload(req, res, key, w, h, 'vintage', 200);
   },
 
   //composite black and gray overlay with target image 
-  addBWGrad: function(res, req, key) {
+  addBWGrad: function(req, res, key, w, h) {
     var args = ['-watermark', '95%', '-gravity', 'center', process.env.LOCAL_FILE_PATH + '/' + req.key + '.jpg' ,  __dirname + '/../assets/temp_bwgrad_1.jpg', process.env.LOCAL_FILE_PATH + '/' + key + '.jpg'];
     var composite = spawn('composite', args);
       
     composite.stdout.pipe(fs.createWriteStream(process.env.LOCAL_FILE_PATH + '/' + key + '.jpg'));
-    helpers.upload(req, res, process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', key);
+    helpers.upload(req, res, key, w, h, 'bwgrad', 200);
   }
 };

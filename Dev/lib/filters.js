@@ -40,9 +40,7 @@ var filters = {
       stdout.pipe(writeStream);
 
       stdout.on('close', function() {
-        helpers.upload(req, res, process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', key);
-        helpers.addToDb(req, res, key);
-        helpers.response(req, res, key, w, h, 'blur', 200);
+        helpers.upload(req, res, key, w, h, 'blur', 200);
       });
     }); 
   },
@@ -70,9 +68,7 @@ var filters = {
       stdout.pipe(writeStream);
 
       stdout.on('close', function() {
-        helpers.upload(req, res, process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', key);
-        helpers.addToDb(req, res, key);
-        helpers.response(req, res, key, w, h, 'charcoal', 200);
+        helpers.upload(req, res, key, w, h, 'charcoal', 200);
       });
     }); 
   },
@@ -100,9 +96,7 @@ var filters = {
       stdout.pipe(writeStream);
 
       stdout.on('close', function() {
-        helpers.upload(req, res, process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', key);
-        helpers.addToDb(req, res, key);
-        helpers.response(req, res, key, w, h, 'channel', 200);
+        helpers.upload(req, res, key, w, h, 'channel', 200);
       });
     });  
   },
@@ -133,9 +127,7 @@ var filters = {
       stdout.pipe(writeStream);
 
       stdout.on('close', function() {
-        helpers.upload(req, res, process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', key);
-        helpers.addToDb(req, res, key);
-        helpers.response(req, res, key, w, h, 'brighten', 200);
+        helpers.upload(req, res, key, w, h, 200);
       });
     });  
   },
@@ -162,9 +154,7 @@ var filters = {
       stdout.pipe(writeStream);
 
       stdout.on('close', function() {
-        helpers.upload(req, res, process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', key);
-        helpers.addToDb(req, res, key);
-        helpers.response(req, res, key, w, h, 'bw', 200);
+        helpers.upload(req, res, key, w, h, 'bw', 200);
       });
     }); 
   },
@@ -192,9 +182,7 @@ var filters = {
       stdout.pipe(writeStream);
 
       stdout.on('close', function() {
-        helpers.upload(req, res, process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', key);
-        helpers.addToDb(req, res, key);
-        helpers.response(req, res, key, w, h, 'sepia', 200);
+        helpers.upload(req, res, key, w, h, 'sepia', 200);
       });
     }); 
   },
@@ -224,15 +212,13 @@ var filters = {
       stdout.pipe(writeStream);
 
       stdout.on('close', function() {
-        helpers.upload(req, res, process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', key);
-        helpers.addToDb(req, res, key);
-        helpers.response(req, res, key, w, h, 'charcoal', 200);
+        helpers.upload(req, res, key, w, h, 'charcoal', 200);
       });
     }); 
   },
 
   //gothic filter with black border
-  gotham: function(req, re) {
+  gotham: function(req, res) {
     var key = uuid.v4().split('-').pop();
     var w, h;
 
@@ -261,9 +247,7 @@ var filters = {
       stdout.pipe(writeStream);
 
       stdout.on('close', function() {
-        helpers.upload(req, res, process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', key);
-        helpers.addToDb(req, res, key);
-        helpers.response(req, res, key, w, h, 'gotham', 200);
+        helpers.upload(req, res, key, w, h, 'gotham', 200);
       });
     }); 
   },
@@ -287,7 +271,6 @@ var filters = {
         }
 
         filterHelp.resizeBW(req, res, features.width, features.height, key, filterHelp.addBWGrad);
-        helpers.response(req, res, key, features.width, features.height, 'bw_grad', 200);
       });
     });
   },
@@ -303,15 +286,7 @@ var filters = {
         throw err;
       }
 
-      Q.fcall(filterHelp.resizeVintage(req, res, features.width, features.height, key))
-        .then(filterHelp.addHipsterOverlay(res, req, key))
-        .then(helpers.upload(req, res, process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', key ))
-        .then(helpers.addToDb(req, res, key))
-        .then(helpers.response(req, res, key, features.width, features.height, 'vintage', 200))
-        .catch(function(err) {
-          throw err;
-        });
-
+      filterHelp.resizeVintage(req, res, features.width, features.height, key, filterHelp.addHipsterOverlay);
     });
   }
 };
