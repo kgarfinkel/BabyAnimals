@@ -50,11 +50,11 @@ module.exports = {
 
   //composite antique overlay with target image 
   addHipsterOverlay: function(req,res, key, w, h) {
-    var args = [process.env.LOCAL_FILE_PATH + '/' + req.key + '.jpg', __dirname + '/../assets/temp_antiquefilter.jpg', '-composite', process.env.LOCAL_FILE_PATH + '/' + key + '.jpg'];
-    var convert = spawn('convert', args);
-
-    convert.stdout.pipe(fs.createWriteStream(process.env.LOCAL_FILE_PATH + '/' + key + '.jpg'));
-    helpers.upload(req, res, key, w, h, 'vintage', 200);
+    var args = ['-watermark', '95%', '-gravity', 'center', process.env.LOCAL_FILE_PATH + '/' + req.key + '.jpg' ,  __dirname + '/../assets/temp_antiquefilter.jpg', process.env.LOCAL_FILE_PATH + '/' + key + '.jpg'];
+    var composite = spawn('composite', args);
+      
+    composite.stdout.pipe(fs.createWriteStream(process.env.LOCAL_FILE_PATH + '/' + key + '.jpg'));
+    helpers.upload(req, res, key, w, h, 'bwgrad', 200);
   },
 
   //composite black and gray overlay with target image 
