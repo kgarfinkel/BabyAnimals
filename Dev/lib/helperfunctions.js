@@ -8,8 +8,7 @@ var gm = require('gm');
 module.exports = {
   //send response statusCode and body
   write: function(req, res, statusCode, body) {
-    res.writeHead(statusCode, responseHeaders);
-    res.end(body);
+    res.send(body, statusCode, responseHeaders);
   },
 
   //configure AWS client
@@ -116,8 +115,7 @@ module.exports = {
     response.height = h;
     response.filter = filter;
 
-    res.writeHead(statusCode, responseHeaders);
-    res.end(JSON.stringify(response));
+    res.send(JSON.stringify(response), statusCode, responseHeaders);
   }
 };
 
@@ -164,7 +162,6 @@ var response = function(req, res, key, w, h, filter, statusCode) {
   response.height = h;
   response.filter = filter;
 
-  res.writeHead(statusCode, responseHeaders);
-  res.end(JSON.stringify(response));
+  res.send(JSON.stringify(response), statusCode, responseHeaders);
 };
 

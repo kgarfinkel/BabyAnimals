@@ -16,7 +16,6 @@ module.exports = {
 
       //stream to local fs
       var outstream = fs.createWriteStream(process.env.LOCAL_FILE_PATH + '/' + req.key + '.jpg');
-      
       //store in s3
       var s3req = client.get(req.key);
 
