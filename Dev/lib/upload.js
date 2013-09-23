@@ -10,7 +10,7 @@ var client = helpers.awsClient();
 
 module.exports = {
   //stream requested image to fs and store in s3 bucket
-  upload: function(req, res) {
+  upload: function(req, res, next) {
     var key = uuid.v4().split('-').pop();
 
     if (req.query.src.indexOf('http') !== -1) {

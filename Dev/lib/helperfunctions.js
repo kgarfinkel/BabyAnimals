@@ -9,7 +9,13 @@ module.exports = {
   //send response statusCode and body
   write: function(req, res, statusCode, body) {
     res.set('Content-Type', 'image/jpeg');
-    res.send(body, statusCode, responseHeaders);
+    res.set({ "access-control-allow-origin": "*",
+              "access-control-allow-methods": "GET, POST, PUT, DELETE, OPTIONS",
+              "access-control-allow-headers": "content-type, accept",
+              "access-control-max-age": 10});
+    
+    res.status(statusCode);
+    res.send('response sent');
   },
 
   //configure AWS client
@@ -117,16 +123,14 @@ module.exports = {
     response.filter = filter;
 
     res.set('Content-Type', 'image/jpeg');
-    res.send(JSON.stringify(response), statusCode, responseHeaders);
+    res.set({ "access-control-allow-origin": "*",
+              "access-control-allow-methods": "GET, POST, PUT, DELETE, OPTIONS",
+              "access-control-allow-headers": "content-type, accept",
+              "access-control-max-age": 10});
+    
+    res.status(statusCode);
+    res.send(JSON.stringify(response));
   }
-};
-
-//CORS
-var responseHeaders = {
-  "access-control-allow-origin": "*",
-  "access-control-allow-methods": "GET, POST, PUT, DELETE, OPTIONS",
-  "access-control-allow-headers": "content-type, accept",
-  "access-control-max-age": 10
 };
 
 var client = knox.createClient({
@@ -140,17 +144,6 @@ var addToDb = function(req, res, key) {
   var imgKey = imageData.imageData(key);
 };
 
-var getDimensions = function(req, res, key, cb) {
-  gm(process.env.LOCAL_FILE_PATH + '/' + key + '.jpg')
-  .size(function (err, size) {
-    if (err) {
-      console.log('</3');
-      throw err;
-    }
-
-    cb(req, res, key, size.width, size.height, 'none', 201);
-  });
-};
 
 //send response object
 var response = function(req, res, key, w, h, filter, statusCode) {
@@ -165,6 +158,12 @@ var response = function(req, res, key, w, h, filter, statusCode) {
   response.filter = filter;
 
   res.set('Content-Type', 'image/jpeg');
-  res.send(JSON.stringify(response), statusCode, responseHeaders);
+  res.set({ "access-control-allow-origin": "*",
+              "access-control-allow-methods": "GET, POST, PUT, DELETE, OPTIONS",
+              "access-control-allow-headers": "content-type, accept",
+              "access-control-max-age": 10});
+    
+  res.status(statusCode);
+  res.send(JSON.stringify(response));
 };
 

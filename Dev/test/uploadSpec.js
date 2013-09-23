@@ -11,37 +11,37 @@ var app = require('../app.js');
 var key;
 
 describe('#Upload', function() {
-  describe('POST', function(){
+  describe('PUT', function(){
       it('should respond with status 201 and a JSON object', function(done){
         request(app)
-        .post('/upload?imgUrl=http://maxcdn.thedesigninspiration.com/wp-content/uploads/2009/09/cute-animals/baby01.jpg')
-        .expect(201)
+        .put('/upload?src=http://maxcdn.thedesigninspiration.com/wp-content/uploads/2009/09/cute-animals/baby01.jpg')
+        .expect(200)
         .end(function(error, response) {
           if (error) {
             return done(error);
           }
-          
+
           response.body.should.be.a('object');
-          done();
+          return done();
         });
       });
 
       it('should assign a uuid key to an uploaded image', function(done) {
         request(app)
-        .post('/upload?imgUrl=http://maxcdn.thedesigninspiration.com/wp-content/uploads/2009/09/cute-animals/baby01.jpg')
+        .put('/upload?src=http://maxcdn.thedesigninspiration.com/wp-content/uploads/2009/09/cute-animals/baby01.jpg')
         .end(function(error, response) {
           if (error) {
             return done(error);
           }
 
-          JSON.parse(response.text).should.have.property('imgId');
-          done();
+          JSON.parse(response.text).should.have.property('id');
+          return done();
         });
       });
 
       it('should store the uuid into a local db', function(done) {
         request(app)
-        .post('/upload?imgUrl=http://maxcdn.thedesigninspiration.com/wp-content/uploads/2009/09/cute-animals/baby01.jpg')
+        .put('/upload?src=http://maxcdn.thedesigninspiration.com/wp-content/uploads/2009/09/cute-animals/baby01.jpg')
         .end(function(error, response) {
           var hasKey = false;
 
@@ -49,7 +49,7 @@ describe('#Upload', function() {
             return done(error);
           }
 
-          key = JSON.parse(response.text).imgId;
+          key = JSON.parse(response.text).id;
           
           ImageModel.find({}, function(error, models) {
             lastModel = models[-1];
@@ -61,7 +61,7 @@ describe('#Upload', function() {
             });
 
             hasKey.should.be.true;
-            done();
+            return done();
           });
         });
 
