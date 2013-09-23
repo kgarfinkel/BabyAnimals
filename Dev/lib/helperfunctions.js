@@ -8,7 +8,7 @@ var gm = require('gm');
 module.exports = {
   //send response statusCode and body
   write: function(req, res, statusCode, body) {
-    res.set('Content-Type', 'text/html');
+    res.set('Content-Type', 'image/jpeg');
     res.send(body, statusCode, responseHeaders);
   },
 
@@ -116,7 +116,7 @@ module.exports = {
     response.height = h;
     response.filter = filter;
 
-    res.set('Content-Type', 'text/html');
+    res.set('Content-Type', 'image/jpeg');
     res.send(JSON.stringify(response), statusCode, responseHeaders);
   }
 };
@@ -164,7 +164,7 @@ var response = function(req, res, key, w, h, filter, statusCode) {
   response.height = h;
   response.filter = filter;
 
-  res.set('Content-Type', 'text/html');
+  res.set('Content-Type', 'image/jpeg');
   res.send(JSON.stringify(response), statusCode, responseHeaders);
 };
 
