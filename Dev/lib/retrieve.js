@@ -6,14 +6,13 @@ module.exports = {
   //retrieve requested image
   retrieve: function(req, res, next) {
     if (req.params.image) {
+      console.log('retrieve');
       //if file exists locally continue onto next middleware 
       //TODO: why isn't this working
       fs.exists(process.env.LOCAL_FILE_PATH + '/' + req.key + '.jpg', function(exists) {
         if (exists) {
-          console.log('exists');
           next();
         } else {
-          console.log('does not exist');
           //stream to local fs
           var outstream = fs.createWriteStream(process.env.LOCAL_FILE_PATH + '/' + req.key + '.jpg');
           //store in s3

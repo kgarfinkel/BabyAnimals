@@ -46,7 +46,7 @@ module.exports = {
       req.on('response', function(resp) {
         if (resp.statusCode === 200) {
           addToDb(req, res, key);
-          response(req, res, key, w, h, filter, statusCode);
+          response(req, res, key, statusCode);
         }
       });
 
@@ -98,20 +98,21 @@ module.exports = {
     var imgKey = imageData.imageData(key);
   },
 
-  getDimensions: function(req, res, key, cb) {
-    gm(process.env.LOCAL_FILE_PATH + '/' + key + '.jpg')
+  getDimensions: function(req, res) {
+    console.log('in dime');
+    gm(process.env.LOCAL_FILE_PATH + '/' + req.key + '.jpg')
     .size(function (err, size) {
       if (err) {
         console.log('</3');
         throw err;
       }
 
-      cb(req, res, key, size.width, size.height, 'none', 201);
+      responseMetaData(req, res, req.key, size.width, size.height, 201);
     });
   },
 
   //send response object
-  response: function(req, res, key, w, h, filter, statusCode) {
+  response: function(req, res, key, statusCode) {
     fs.readFile(process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', function(err, data) {
       if (err) throw err; // Fail if the file can't be read.
       res.set({'Content-Type': 'image/jpeg'});
@@ -127,6 +128,26 @@ var client = knox.createClient({
   bucket: process.env.AWS_BUCKET
 });
 
+var responseMetaData = function(req, res, key, w, h, statusCode) {
+  var response = {};
+
+  response.id = key;
+  response.bucket = process.env.AWS_BUCKET;
+  response.url = 'https://' + process.env.AWS_BUCKET + '.s3.amazonaws.com/' + key;
+  response.createdAt = new Date();
+  response.width = w;
+  response.height = h;
+
+  res.set('Content-Type', 'image/jpeg');
+  res.set({ "access-control-allow-origin": "*",
+              "access-control-allow-methods": "GET, POST, PUT, DELETE, OPTIONS",
+              "access-control-allow-headers": "content-type, accept",
+              "access-control-max-age": 10});
+    
+  res.status(statusCode);
+  res.send(JSON.stringify(response));
+};
+
 //store s3 key in db 
 var addToDb = function(req, res, key) {
   var imgKey = imageData.imageData(key);
@@ -134,7 +155,7 @@ var addToDb = function(req, res, key) {
 
 
 //send response object
-var response = function(req, res, key, w, h, filter, statusCode) {
+var response = function(req, res, key, statusCode) {
   fs.readFile(process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', function(err, data) {
     if (err) throw err; // Fail if the file can't be read.
     

@@ -29,7 +29,7 @@ module.exports = {
           req.on('response', function(resp){
             if (resp.statusCode === 200) {
               helpers.addToDb(req, res, key);
-              helpers.getDimensions(req, res, key, helpers.response);
+              helpers.getDimensions(req, res, key, helpers.responseMetaData);
             }
           });
 
@@ -52,13 +52,15 @@ module.exports = {
         req.on('response', function(resp){
           if (resp.statusCode === 200) {
             helpers.addToDb(req, res, key);
-            helpers.getDimensions(req, res, key, helpers.response);
+            helpers.getDimensions(req, res, key, helpers.responseMetaData);
           }
         });
 
         //TODO: response status code if s3 status is not too
         req.end(buff);
         
+        console.log('buff', buff);
+
         writeStream.write(buff);
       });
 
