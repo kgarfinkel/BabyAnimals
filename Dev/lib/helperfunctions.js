@@ -15,7 +15,7 @@ module.exports = {
               "access-control-max-age": 10});
     
     res.status(statusCode);
-    res.send('response sent');
+    res.send('image uploaded!');
   },
 
   //configure AWS client
@@ -112,24 +112,12 @@ module.exports = {
 
   //send response object
   response: function(req, res, key, w, h, filter, statusCode) {
-    var response = {};
-
-    response.id = key;
-    response.bucket = process.env.AWS_BUCKET;
-    response.url = 'https://' + process.env.AWS_BUCKET + '.s3.amazonaws.com/' + key;
-    response.createdAt = new Date();
-    response.width = w;
-    response.height = h;
-    response.filter = filter;
-
-    res.set('Content-Type', 'image/jpeg');
-    res.set({ "access-control-allow-origin": "*",
-              "access-control-allow-methods": "GET, POST, PUT, DELETE, OPTIONS",
-              "access-control-allow-headers": "content-type, accept",
-              "access-control-max-age": 10});
-    
-    res.status(statusCode);
-    res.send(JSON.stringify(response));
+    fs.readFile(process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', function(err, data) {
+      if (err) throw err; // Fail if the file can't be read.
+      res.set({'Content-Type': 'image/jpeg'});
+      res.status(200);
+      res.send(data); // Send the file data to the browser.
+    });
   }
 };
 
@@ -147,23 +135,24 @@ var addToDb = function(req, res, key) {
 
 //send response object
 var response = function(req, res, key, w, h, filter, statusCode) {
-  var response = {};
+  fs.readFile(process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', function(err, data) {
+    if (err) throw err; // Fail if the file can't be read.
+    
+    res.set({'Content-Type': 'image/jpeg'});
+    res.status(200);
+    res.send(data); // Send the file data to the browser.
+  });
+};
 
-  response.id = key;
-  response.bucket = process.env.AWS_BUCKET;
-  response.url = 'https://' + process.env.AWS_BUCKET + '.s3.amazonaws.com/' + key;
-  response.createdAt = new Date();
-  response.width = w;
-  response.height = h;
-  response.filter = filter;
-
+var write = function(req, res, statusCode) {
+  //send response statusCode and body
   res.set('Content-Type', 'image/jpeg');
   res.set({ "access-control-allow-origin": "*",
-              "access-control-allow-methods": "GET, POST, PUT, DELETE, OPTIONS",
-              "access-control-allow-headers": "content-type, accept",
-              "access-control-max-age": 10});
-    
+            "access-control-allow-methods": "GET, POST, PUT, DELETE, OPTIONS",
+            "access-control-allow-headers": "content-type, accept",
+            "access-control-max-age": 10});
+  
   res.status(statusCode);
-  res.send(JSON.stringify(response));
+  res.send('image uploaded!');
 };
 

@@ -21,7 +21,6 @@ module.exports = {
 
           s3req.on('response', function(res) {
             res.on('data', function(chunk) {
-              console.log('in response chunk');
               outstream.write(chunk);
             });
 
@@ -33,7 +32,6 @@ module.exports = {
             //when response from s3 has ended
             //route to next middleware (if applicable)
             res.on('end', function() {
-              console.log('retrieve end');
               next();
             });
           });

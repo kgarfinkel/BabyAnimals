@@ -59,8 +59,6 @@ module.exports = {
         //TODO: response status code if s3 status is not too
         req.end(buff);
         
-        console.log('buff', buff);
-
         writeStream.write(buff);
       });
 
