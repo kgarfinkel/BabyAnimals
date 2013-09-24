@@ -5,6 +5,7 @@ var mongoose = require('mongoose');
 var should = require('should');
 var request = require('supertest');
 var _ = require('underscore');
+process.env.NODE_ENV = 'test';
 
 // express server
 var app = require('../app.js');
