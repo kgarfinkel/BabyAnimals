@@ -6,56 +6,80 @@ var should = require('should');
 var request = require('supertest');
 var _ = require('underscore');
 var im = require('imagemagick');
+process.env.NODE_ENV = 'test';
 
 // express server
 var app = require('../app.js');
 var key;
 
-describe('#bw', function() {
-  before(function(done) {
-    _.each(mongoose.connection.collections, function(item) {
-      item.remove(function(err) {
-        if (err) {
-          throw new Error('</3', err);
-        }
-      });
-    });
-  
+before(function(done) {
+  request(app)
+  .put('/upload?src=http://maxcdn.thedesigninspiration.com/wp-content/uploads/2009/09/cute-animals/baby01.jpg')
+  .expect(201)
+  .end(function(err, res) {
+    if (err) {
+      return done(err);
+    }
+
+    key = JSON.parse(res.text).id;
     return done();
   });
+});
 
-  before(function(done) {
-    request(app)
-    .post('/upload?imgUrl=http://maxcdn.thedesigninspiration.com/wp-content/uploads/2009/09/cute-animals/baby01.jpg')
-    .expect(201)
-    .end(function(err, res) {
-      if (err) {
-        return done(err);
-      }
-
-      key = JSON.parse(res.text).imgId;
-      return done();
-    });
-  });
-
-  it('transforms image to have a gray colorspace', function(done) {
-    request(app)
-    .get('/' + key + '/bw')
-    .expect(200)
-    .end(function(err, res) {
-      if (err) {
-        return done(err);
-      }
-
-      im.identify(process.env.LOCAL_FILE_PATH + '/' + JSON.parse(res.text).imgId + '.jpg', function(err, features) {
+describe('#filters', function() {  
+  describe('blur', function() {
+    it('should respond 200 when blur is uploaded', function() {
+      request(app)
+      .get('/' + key + '/blur')
+      .expect(200)
+      .end(function(err, res) {
         if (err) {
           return done(err);
         }
 
-        features.colorspace.should.equal('Gray');
+        var filter = JSON.parse(res.text).id.filter;
+        filter.should.equal('blur');
+      });    
+    });
+  });
 
-        return done();
+  describe('charcoal', function() {
+    it('should respond 200 when blur is uploaded', function() {
+      request(app)
+      .get('/' + key + '/charcoal')
+      .expect(200)
+      .end(function(err, res) {
+        if (err) {
+          return done(err);
+        }
+
+        var filter = JSON.parse(res.text).id.filter;
+        filter.should.equal('charcoal');
+      });    
+    });
+  });
+
+  describe('bw_grad', function() {
+    it('transforms image to have a gray colorspace', function(done) {
+      request(app)
+      .get('/' + key + '/bw_grad')
+      .expect(200) 
+      .end(function(err, res) {
+        if (err) {
+          return done(err);
+        }
+
+        im.identify(process.env.LOCAL_FILE_PATH + '/' + JSON.parse(res.text).id + '.jpg', function(err, features) {
+          if (err) {
+            return done(err);
+          }
+
+          features.colorspace.should.equal('Gray');
+
+          return done();
+        });
       });
     });
   });
 });
+
