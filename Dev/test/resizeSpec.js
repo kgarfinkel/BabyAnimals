@@ -27,19 +27,19 @@ describe('#retrieve', function() {
 
   before(function(done) {
     request(app)
-    .put('/upload?imgUrl=http://maxcdn.thedesigninspiration.com/wp-content/uploads/2009/09/cute-animals/baby01.jpg')
+    .put('/upload?src=http://maxcdn.thedesigninspiration.com/wp-content/uploads/2009/09/cute-animals/baby01.jpg')
     .expect(201)
     .end(function(err, res) {
       if (err) {
         return done(err);
       }
-      console.log(JSON.parse(res));
-      //key = JSON.parse(res.text).id;
+      //console.log(JSON.parse(res));
+      key = JSON.parse(res.text).id;
       return done();
     });
   });
 
-  xit('should respond with a status of 200 when image is retrieved', function(done) {
+  it('should respond with a status of 200 when image is retrieved', function(done) {
     request(app)
     .get('/' + key)
     .expect(200)
@@ -52,34 +52,9 @@ describe('#retrieve', function() {
     });
   });
 
-  xit('should resize image if dimension queries are provided', function(done) {
+  it('should resize image if dimension queries are provided', function(done) {
     request(app)
-    .get('/' + key + '/size?w=100&h=200')
-    .expect(200)
-    .end(function(err, res) {
-      if (err) {
-        return done(err);
-      }
-
-      var newKey = JSON.parse(res.text).id;
-
-      im.identify(process.env.LOCAL_FILE_PATH + '/' + newKey + '.jpg', function(err, features) {
-        console.log('in identify spec');
-        if (err) {
-          return done(err);
-        }
-
-        features.width.should.equal(100);
-        features.height.should.equal(200);
-
-        return done();
-      });
-    });
-  });
-
-  xit('should resize image if only width query is provided', function(done) {
-    request(app)
-    .get('/' + key + '/size?w=100')
+    .get('/' + key + '/size?w=200&h=200')
     .expect(200)
     .end(function(err, res) {
       if (err) {
@@ -93,15 +68,38 @@ describe('#retrieve', function() {
           return done(err);
         }
 
-        features.width.should.equal(100);
-        features.height.should.equal(200);
+        features.width.should.equal(200);
 
         return done();
       });
     });
   });
 
-  xit('should resize image if only height query is provided', function(done) {
+  it('should resize image if only width query is provided', function(done) {
+    request(app)
+    .get('/' + key + '/size?w=200')
+    .expect(200)
+    .end(function(err, res) {
+      if (err) {
+        return done(err);
+      }
+
+      var newKey = JSON.parse(res.text).id;
+
+      im.identify(process.env.LOCAL_FILE_PATH + '/' + newKey + '.jpg', function(err, features) {
+        if (err) {
+          return done(err);
+        }
+
+        features.width.should.equal(200);
+        features.height.should.equal(157);
+
+        return done();
+      });
+    });
+  });
+
+  it('should resize image if only height query is provided', function(done) {
     request(app)
     .get('/' + key + '/size?h=100')
     .expect(200)
@@ -110,22 +108,22 @@ describe('#retrieve', function() {
         return done(err);
       }
 
-      var newKey = JSON.parse(res.text).imgId;
+      var newKey = JSON.parse(res.text).id;
 
       im.identify(process.env.LOCAL_FILE_PATH + '/' + newKey + '.jpg', function(err, features) {
         if (err) {
           return done(err);
         }
 
-        features.width.should.equal(100);
-        features.height.should.equal(200);
+        features.width.should.equal(128);
+        features.height.should.equal(100);
 
         return done();
       });
     });
   });
 
-  xit('should respond 404 if image requested is not uploaded', function(done) {
+  it('should respond 404 if image requested is not uploaded', function(done) {
     request(app)
     .get('/1234/size?h=100')
     .expect(404)
