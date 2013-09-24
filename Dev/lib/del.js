@@ -2,7 +2,6 @@
 var helpers = require('./helperfunctions');
 var fs = require('fs');
 var client = helpers.awsClient();
-var Q = require('q');
 
 //delete requested image from S3 bucket
 //and fs if file exists

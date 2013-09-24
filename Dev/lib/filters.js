@@ -5,7 +5,6 @@ var fs = require('fs');
 var gm = require('gm');
 var im = require('imagemagick');
 var uuid = require('node-uuid');
-var Q = require('q');
 
 module.exports = {
   //route filter based on filter param
@@ -40,6 +39,7 @@ var filters = {
       stdout.pipe(writeStream);
 
       stdout.on('close', function() {
+        writeStream.close();
         helpers.upload(req, res, key, w, h, 'blur', 200);
       });
     }); 
@@ -68,6 +68,7 @@ var filters = {
       stdout.pipe(writeStream);
 
       stdout.on('close', function() {
+        writeStream.close();
         helpers.upload(req, res, key, w, h, 'charcoal', 200);
       });
     }); 
@@ -96,6 +97,7 @@ var filters = {
       stdout.pipe(writeStream);
 
       stdout.on('close', function() {
+        writeStream.close();
         helpers.upload(req, res, key, w, h, 'channel', 200);
       });
     });  
@@ -127,6 +129,7 @@ var filters = {
       stdout.pipe(writeStream);
 
       stdout.on('close', function() {
+        writeStream.close();
         helpers.upload(req, res, key, w, h, 200);
       });
     });  
@@ -154,6 +157,7 @@ var filters = {
       stdout.pipe(writeStream);
 
       stdout.on('close', function() {
+        writeStream.close();
         helpers.upload(req, res, key, w, h, 'bw', 200);
       });
     }); 
@@ -182,6 +186,7 @@ var filters = {
       stdout.pipe(writeStream);
 
       stdout.on('close', function() {
+        writeStream.close();
         helpers.upload(req, res, key, w, h, 'sepia', 200);
       });
     }); 
@@ -212,6 +217,7 @@ var filters = {
       stdout.pipe(writeStream);
 
       stdout.on('close', function() {
+        writeStream.close();
         helpers.upload(req, res, key, w, h, 'charcoal', 200);
       });
     }); 
@@ -247,6 +253,7 @@ var filters = {
       stdout.pipe(writeStream);
 
       stdout.on('close', function() {
+        writeStream.close();
         helpers.upload(req, res, key, w, h, 'gotham', 200);
       });
     }); 
