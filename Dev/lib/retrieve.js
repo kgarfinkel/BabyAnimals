@@ -10,8 +10,10 @@ module.exports = {
       //TODO: why isn't this working
       fs.exists(process.env.LOCAL_FILE_PATH + '/' + req.key + '.jpg', function(exists) {
         if (exists) {
+          console.log('exists');
           next();
         } else {
+          console.log('does not exist');
           //stream to local fs
           var outstream = fs.createWriteStream(process.env.LOCAL_FILE_PATH + '/' + req.key + '.jpg');
           //store in s3
@@ -19,6 +21,7 @@ module.exports = {
 
           s3req.on('response', function(res) {
             res.on('data', function(chunk) {
+              console.log('in response chunk');
               outstream.write(chunk);
             });
 
@@ -30,6 +33,7 @@ module.exports = {
             //when response from s3 has ended
             //route to next middleware (if applicable)
             res.on('end', function() {
+              console.log('retrieve end');
               next();
             });
           });
