@@ -103,6 +103,33 @@ var filters = {
     });  
   },
 
+  nashville: function(req, res) {
+    var key = uuid.v4().split('-').pop();
+    var source = process.env.LOCAL_FILE_PATH + '/' + req.key + '.jpg';
+
+    gm(source)
+    .fill('#f7daae')
+    .colorize(30)
+    .fill('#222b6d')
+    .colorize(20)
+    .contrast(+2)
+    .stream(function(err, stdout, stderr) {
+      var writeStream = fs.createWriteStream(process.env.LOCAL_FILE_PATH + '/' + key + '.jpg');
+      
+      stdout.pipe(writeStream);
+
+      stdout.on('close', function() {
+        writeStream.close();
+        helpers.upload(req, res, key);
+      });
+    });
+
+    // im.convert([source, '-fill', '#f7daae', '-colorize', '30%', '-fill', '#222b6d', '-colorize', '30%', '-contrast', '-contrast', target], 
+    // function(err, stdout) {
+
+    // });
+  },
+
   //TODO: take out?
   brighten: function(req, res) {
     var key = uuid.v4().split('-').pop();
