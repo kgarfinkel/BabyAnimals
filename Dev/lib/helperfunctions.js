@@ -1,18 +1,11 @@
 //dependencies
 var knox = require('knox');
+var response = require('./responseHelpers.');
 var fs = require('fs');
 var gm = require('gm');
 var addToDb = require('./mongoosehelpers').addToDb;
 
 module.exports = {
-  //send response statusCode and body
-  write: function(req, res, statusCode, body) {
-    body = body || 'image uploaded!';
-    res.set('Content-Type', 'image/jpeg');
-    res.status(statusCode);
-    res.send(body);
-  },
-
   //configure AWS client
   awsClient: function() {
     return knox.createClient({
@@ -23,7 +16,7 @@ module.exports = {
   },
 
   //upload requested image to to s3 bucket
-  upload: function(req, res, key, w, h, filter, statusCode) {
+  upload: function(req, res, key) {
     var data = '';
     var readStream = fs.createReadStream(process.env.LOCAL_FILE_PATH + '/' + key + '.jpg');
 
@@ -41,7 +34,10 @@ module.exports = {
       req.on('response', function(resp) {
         if (resp.statusCode === 200) {
           addToDb(req, res, key);
-          response(req, res, key, statusCode);
+          response.postRes(req, res, key, 200);
+        } else {
+          res.status(404);
+          res.send();
         }
       });
 
@@ -58,44 +54,13 @@ module.exports = {
         throw err;
       }
 
-      responseMetaData(req, res, req.key, size.width, size.height, 201);
-    });
-  },
-
-  //send response object
-  response: function(req, res, key, statusCode) {
-    fs.readFile(process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', function(err, data) {
-      if (err) throw err; // Fail if the file can't be read.
-      res.set({'Content-Type': 'image/jpeg'});
-      res.status(200);
-      res.send(data); // Send the file data to the browser.
+      response.metaData(req, res, req.key, size.width, size.height, 200);
     });
   }
 };
 
-var responseMetaData = function(req, res, key, w, h, statusCode) {
-  var response = {};
-
-  response.id = key;
-  response.bucket = process.env.AWS_BUCKET;
-  response.url = '/' + key;
-  response.createdAt = new Date();
-  response.width = w;
-  response.height = h;
-  res.set('Content-Type', 'image/jpeg');
-
-  res.status(statusCode);
-  res.send(JSON.stringify(response));
-};
-
-//send response object
-var response = function(req, res, key, statusCode) {
-  fs.readFile(process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', function(err, data) {
-    if (err) throw err; // Fail if the file can't be read.
-    
-    res.set({'Content-Type': 'image/jpeg'});
-    res.status(200);
-    res.send(data); // Send the file data to the browser.
-  });
-};
-
+var client = knox.createClient({
+  key: process.env.AWS_ACCESS_KEY,
+  secret: process.env.AWS_SECRET_KEY,
+  bucket: process.env.AWS_BUCKET
+});
