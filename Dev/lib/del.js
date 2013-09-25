@@ -1,7 +1,7 @@
 //dependencies
-var helpers = require('./helperfunctions');
+var helpers = require('./deletehelpers');
+var write = require('./helperfunctions').write;
 var fs = require('fs');
-var client = helpers.awsClient();
 
 //delete requested image from S3 bucket
 //and fs if file exists
@@ -10,6 +10,6 @@ module.exports = {
     helpers.deleteFromS3(req,res);
     helpers.deleteFromFs(req, res);
     helpers.deleteFromDb(req, res);
-    helpers.write(req, res, 200, 'image' + req.key + 'deleted');
+    write(req, res, 200, 'image' + req.key + 'deleted');
   }
 };

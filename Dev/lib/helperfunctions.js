@@ -1,21 +1,16 @@
 //dependencies
 var knox = require('knox');
 var fs = require('fs');
-var imageData = require('../app/controllers/ImageData.js');
-var ImageMetaData = require('../app/models/imageMetaData');
 var gm = require('gm');
+var addToDb = require('./mongoosehelpers').addToDb;
 
 module.exports = {
   //send response statusCode and body
   write: function(req, res, statusCode, body) {
+    body = body || 'image uploaded!';
     res.set('Content-Type', 'image/jpeg');
-    res.set({ "access-control-allow-origin": "*",
-              "access-control-allow-methods": "GET, POST, PUT, DELETE, OPTIONS",
-              "access-control-allow-headers": "content-type, accept",
-              "access-control-max-age": 10});
-    
     res.status(statusCode);
-    res.send('image uploaded!');
+    res.send(body);
   },
 
   //configure AWS client
@@ -54,50 +49,6 @@ module.exports = {
     });
   },
 
-  //delete requested image from s3 bucket
-  //when s3 response has ended
-  deleteFromS3: function(req, res) {
-    var s3del = client.del(req.key);
-
-    s3del.on('response', function(res) {
-      res.on('error', function(err) {
-        console.error('</3');
-        throw err;
-      });
-    });
-
-    s3del.end();
-  },
-
-  //delete requested image from local fs
-  //if the file exists
-  deleteFromFs: function(req, res) {
-    fs.exists(process.env.LOCAL_FILE_PATH + '/' + req.key + '.jpg', function(exists) {
-      if (exists) {
-        fs.unlink(process.env.LOCAL_FILE_PATH + '/' + req.key + '.jpg', function(err) {
-          if (err) {
-            console.error('</3');
-            throw err;
-          }
-        });
-      }
-    }); 
-  },
-
-  //delete requested image from db
-  deleteFromDb: function(req, res) {
-    ImageMetaData.remove({key: req.key}, function(err) {
-      if (err) {
-        throw err;
-      }
-    });
-  },
-
-  //store s3 key in db 
-  addToDb: function(req, res, key) {
-    var imgKey = imageData.imageData(key);
-  },
-
   getDimensions: function(req, res) {
     console.log('in dime');
     gm(process.env.LOCAL_FILE_PATH + '/' + req.key + '.jpg')
@@ -122,37 +73,20 @@ module.exports = {
   }
 };
 
-var client = knox.createClient({
-  key: process.env.AWS_ACCESS_KEY,
-  secret: process.env.AWS_SECRET_KEY,
-  bucket: process.env.AWS_BUCKET
-});
-
 var responseMetaData = function(req, res, key, w, h, statusCode) {
   var response = {};
 
   response.id = key;
   response.bucket = process.env.AWS_BUCKET;
-  response.url = 'https://' + process.env.AWS_BUCKET + '.s3.amazonaws.com/' + key;
+  response.url = '/' + key;
   response.createdAt = new Date();
   response.width = w;
   response.height = h;
-
   res.set('Content-Type', 'image/jpeg');
-  res.set({ "access-control-allow-origin": "*",
-              "access-control-allow-methods": "GET, POST, PUT, DELETE, OPTIONS",
-              "access-control-allow-headers": "content-type, accept",
-              "access-control-max-age": 10});
-    
+
   res.status(statusCode);
   res.send(JSON.stringify(response));
 };
-
-//store s3 key in db 
-var addToDb = function(req, res, key) {
-  var imgKey = imageData.imageData(key);
-};
-
 
 //send response object
 var response = function(req, res, key, statusCode) {
@@ -163,17 +97,5 @@ var response = function(req, res, key, statusCode) {
     res.status(200);
     res.send(data); // Send the file data to the browser.
   });
-};
-
-var write = function(req, res, statusCode) {
-  //send response statusCode and body
-  res.set('Content-Type', 'image/jpeg');
-  res.set({ "access-control-allow-origin": "*",
-            "access-control-allow-methods": "GET, POST, PUT, DELETE, OPTIONS",
-            "access-control-allow-headers": "content-type, accept",
-            "access-control-max-age": 10});
-  
-  res.status(statusCode);
-  res.send('image uploaded!');
 };
 

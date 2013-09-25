@@ -1,11 +1,8 @@
-var imageData = require('../app/controllers/ImageData.js');
 var helpers = require('./helperfunctions');
+var addToDb = require('./mongoosehelpers').addToDb;
 var fs = require('fs');
 var request = require('request');
-var knox = require('knox');
 var uuid = require('node-uuid');
-var gm = require('gm');
-var Q = require('q');
 var client = helpers.awsClient();
 
 module.exports = {
@@ -27,9 +24,10 @@ module.exports = {
             });
 
           req.on('response', function(resp){
+            console.log('key', key);
             if (resp.statusCode === 200) {
-              helpers.addToDb(req, res, key);
-              helpers.getDimensions(req, res, key, helpers.responseMetaData);
+              addToDb(req, res, key);
+              helpers.write(req, res, 200, key);
             }
           });
 
@@ -51,16 +49,13 @@ module.exports = {
 
         req.on('response', function(resp){
           if (resp.statusCode === 200) {
-            helpers.addToDb(req, res, key);
-            helpers.getDimensions(req, res, key, helpers.responseMetaData);
+            addToDb(req, res, key);
+            helpers.write(req, res, 200, key);
           }
         });
 
         //TODO: response status code if s3 status is not too
         req.end(buff);
-        
-        console.log('buff', buff);
-
         writeStream.write(buff);
       });
 
