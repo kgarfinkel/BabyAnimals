@@ -36,6 +36,7 @@ module.exports = {
         });
       });
     } else {
+      console.log('upload', req.query.src);
       var readStream = fs.createReadStream(req.query.src);
       var writeStream = fs.createWriteStream(process.env.LOCAL_FILE_PATH + '/' + key + '.jpg');
 
