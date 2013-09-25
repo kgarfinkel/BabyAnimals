@@ -1,13 +1,19 @@
 module.exports = {
   //send response statusCode and body
-  getRes: function(req, res, statusCode, key) {
+  postRes: function(req, res, key) {
     res.set('Content-Type', 'image/jpeg');
-    res.status(statusCode);
+    res.status(201);
     res.send(JSON.stringify({id:key}));
   },
 
+  //
+  errRes: function(req, res) {
+    res.status(404);
+    res.send('image not found');
+  },
+
   //send response object
-  postRes: function(req, res, key, statusCode) {
+  getRes: function(req, res, key) {
     res.set({'Content-Type': 'image/jpeg'});
     res.status(200);
     res.sendfile(process.env.LOCAL_FILE_PATH + '/' + key + '.jpg');

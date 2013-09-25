@@ -1,6 +1,6 @@
 //dependencies
 var helpers = require('./helperfunctions');
-var filterHelp = require('./filterhelpers.js');
+var filterHelp = require('./filterHelpers.js');
 var fs = require('fs');
 var gm = require('gm');
 var im = require('imagemagick');
@@ -40,7 +40,7 @@ var filters = {
 
       stdout.on('close', function() {
         writeStream.close();
-        helpers.upload(req, res, key, w, h, 'blur', 200);
+        helpers.upload(req, res, key);
       });
     }); 
   },
@@ -69,7 +69,7 @@ var filters = {
 
       stdout.on('close', function() {
         writeStream.close();
-        helpers.upload(req, res, key, w, h, 'charcoal', 200);
+        helpers.upload(req, res, key);
       });
     }); 
   },
@@ -98,7 +98,7 @@ var filters = {
 
       stdout.on('close', function() {
         writeStream.close();
-        helpers.upload(req, res, key, w, h, 'channel', 200);
+        helpers.upload(req, res, key);
       });
     });  
   },
@@ -130,7 +130,7 @@ var filters = {
 
       stdout.on('close', function() {
         writeStream.close();
-        helpers.upload(req, res, key, w, h, 200);
+        helpers.upload(req, res, key);
       });
     });  
   },
@@ -158,7 +158,7 @@ var filters = {
 
       stdout.on('close', function() {
         writeStream.close();
-        helpers.upload(req, res, key, w, h, 'bw', 200);
+        helpers.upload(req, res, key);
       });
     }); 
   },
@@ -187,7 +187,7 @@ var filters = {
 
       stdout.on('close', function() {
         writeStream.close();
-        helpers.upload(req, res, key, w, h, 'sepia', 200);
+        helpers.upload(req, res, key);
       });
     }); 
   },
@@ -218,7 +218,7 @@ var filters = {
 
       stdout.on('close', function() {
         writeStream.close();
-        helpers.upload(req, res, key, w, h, 'charcoal', 200);
+        helpers.upload(req, res, key);
       });
     }); 
   },
@@ -254,7 +254,7 @@ var filters = {
 
       stdout.on('close', function() {
         writeStream.close();
-        helpers.upload(req, res, key, w, h, 'gotham', 200);
+        helpers.upload(req, res, key);
       });
     }); 
   },

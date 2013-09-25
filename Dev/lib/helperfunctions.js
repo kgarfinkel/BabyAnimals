@@ -1,6 +1,6 @@
 //dependencies
 var knox = require('knox');
-var response = require('./responseHelpers.');
+var response = require('./responseHelpers');
 var fs = require('fs');
 var gm = require('gm');
 var addToDb = require('./mongoosehelpers').addToDb;

@@ -50,7 +50,7 @@ var resize = function(req, res, w, h) {
     }
 
     //upload resized image to fs and s3
-    helpers.upload(req, res, key, process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', 'resize', key);
+    helpers.upload(req, res, key);
   });
 };
 

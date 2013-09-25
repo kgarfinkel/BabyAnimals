@@ -1,6 +1,6 @@
 //dependencies
 var helpers = require('./deletehelpers');
-var write = require('./helperfunctions').write;
+var response = require('./responseHelpers').delRes;
 var fs = require('fs');
 
 //delete requested image from S3 bucket
@@ -10,6 +10,6 @@ module.exports = {
     helpers.deleteFromS3(req,res);
     helpers.deleteFromFs(req, res);
     helpers.deleteFromDb(req, res);
-    write(req, res, 200, 'image' + req.key + 'deleted');
+    write(req, res, 200, req.key);
   }
 };
