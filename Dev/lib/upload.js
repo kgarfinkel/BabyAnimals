@@ -28,9 +28,9 @@ module.exports = {
           req.on('response', function(resp){
             if (resp.statusCode === 200) {
               addToDb(req, res, key);
-              response.postRes(req, res, key);
+              return response.postRes(req, res, key);
             } else {
-              errRes(req, res, 500);
+              return errRes(req, res, 500);
             }
           });
 
@@ -52,9 +52,9 @@ module.exports = {
         req.on('response', function(resp){
           if (resp.statusCode === 200) {
             addToDb(req, res, key);
-            response.postRes(req, res, key);
+            return response.postRes(req, res, key);
           } else {
-            errRes(req, res, 500);
+            return errRes(req, res, 500);
           }
         });
 
