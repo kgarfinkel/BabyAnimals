@@ -7,12 +7,12 @@ var helpers = require('../lib/helperfunctions');
 var ImageData = require('../app/models/imageMetaData');
 var mongoose = require('mongoose');
 var model = mongoose.model('ImageMetaData');
+var fs = require('fs');
 
 module.exports = {
   routeHandler: function(app) {    
     //middleware for any image retrieval
     app.param('image', function(req, res, next, image) {
-      console.log(image);
       model.find({key:image}, function(error, data) {
         if (error) {
           return next(error);
@@ -39,12 +39,13 @@ module.exports = {
     app.get('/', home.index);
 
     //upload route
-    app.put('/upload', upload.upload, function(req, res, next) {
+    app.post('/upload', upload.upload, function(req, res, next) {
     });
 
     //get image route
     app.get('/:image', retrieve.retrieve, function(req, res, next) {
-      helpers.write(req, res, 200);
+      helpers.response(req, res, req.key, 200);
+      //res.redirect(process.env.LOCAL_FILE_PATH + '/' + req.key + '.jpg', 302);
     });
 
     //resize image route
@@ -55,9 +56,17 @@ module.exports = {
     app.get('/:image/del', del.del, function(req, res, next) {  
     });
 
+    //get image info route
+    app.get('/:image/info', retrieve.retrieve, helpers.getDimensions, function(req, res, next) {
+    });
+
     //transform image
     app.get('/:image/:filter', retrieve.retrieve, filters.routeFilter, function(req, res, next) {
     });
+
+    // app.get(process.env.LOCAL_FILE_PATH + '/' + request + '.jpg', function(req, res, next) {
+    //   helpers.response(req, res, request, 200);
+    // });
 
   },
 };
