@@ -4,6 +4,7 @@ var resize = require('../lib/resize');
 var del = require('../lib/del');
 var filters = require('../lib/filters');
 var helpers = require('../lib/helperfunctions');
+var response = require('../lib/responseHelpers');
 var ImageData = require('../app/models/imageMetaData');
 var mongoose = require('mongoose');
 var model = mongoose.model('ImageMetaData');
@@ -20,7 +21,7 @@ module.exports = {
 
         if (data.length === 0) {
           console.error('image has not been uploaded </3');
-          return helpers.write(req, res, 404, 'image not found');
+          return response.errRes(req, res);
         }
 
         req.key = image;
@@ -44,7 +45,7 @@ module.exports = {
 
     //get image route
     app.get('/:image', retrieve.retrieve, function(req, res, next) {
-      helpers.response(req, res, req.key, 200);
+      response.getRes(req, res, req.key);
       //res.redirect(process.env.LOCAL_FILE_PATH + '/' + req.key + '.jpg', 302);
     });
 
