@@ -7,8 +7,9 @@ module.exports = {
   },
 
   //
-  errRes: function(req, res) {
-    res.status(404);
+  errRes: function(req, res, statusCode) {
+    statusCode = statusCode || 404;
+    res.status(statusCode);
     res.send('image not found');
   },
 

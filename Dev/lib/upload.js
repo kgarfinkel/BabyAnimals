@@ -1,5 +1,5 @@
 var addToDb = require('./mongoosehelpers').addToDb;
-var response = require('./responseHelpers').postRes;
+var response = require('./responseHelpers');
 var helpers = require('./helperfunctions');
 var fs = require('fs');
 var request = require('request');
@@ -13,7 +13,6 @@ module.exports = {
 
     //if request is a url, fetch the requested url
     if (req.query.src.indexOf('http') !== -1) {
-      console.log('http');
       var outStream = fs.createWriteStream(process.env.LOCAL_FILE_PATH + '/' + key + '.jpg');
       
       request(req.query.src).pipe(outStream);
@@ -29,7 +28,9 @@ module.exports = {
           req.on('response', function(resp){
             if (resp.statusCode === 200) {
               addToDb(req, res, key);
-              response(req, res, key);
+              response.postRes(req, res, key);
+            } else {
+              errRes(req, res, 500);
             }
           });
 
@@ -37,7 +38,6 @@ module.exports = {
         });
       });
     } else {
-      console.log('not in http');
       var readStream = fs.createReadStream(req.query.src);
       var writeStream = fs.createWriteStream(process.env.LOCAL_FILE_PATH + '/' + key + '.jpg');
 
@@ -52,7 +52,9 @@ module.exports = {
         req.on('response', function(resp){
           if (resp.statusCode === 200) {
             addToDb(req, res, key);
-            response(req, res, key);
+            response.postRes(req, res, key);
+          } else {
+            errRes(req, res, 500);
           }
         });
 

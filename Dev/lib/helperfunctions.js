@@ -34,10 +34,10 @@ module.exports = {
       req.on('response', function(resp) {
         if (resp.statusCode === 200) {
           addToDb(req, res, key);
-          response.postRes(req, res, key, 200);
+          response.getRes(req, res, key);
         } else {
-          res.status(404);
-          res.send();
+          console.log('err');
+          errRes(req, res, 500);
         }
       });
 
