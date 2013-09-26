@@ -14,10 +14,11 @@ module.exports = {
     //if request is a url, fetch the requested url
     if (req.query.src.indexOf('http') !== -1) {
       var outStream = fs.createWriteStream(process.env.LOCAL_FILE_PATH + '/' + key + '.jpg');
-      
+      var data = '';
       request(req.query.src).pipe(outStream);
 
       outStream.on('close', function() {
+        //TODO: why doesn't readstream file work
         fs.readFile(process.env.LOCAL_FILE_PATH + '/' + key + '.jpg', function(err, buff) {
           var req = client.put(key, {
               'Content-Length': buff.length,
@@ -39,10 +40,8 @@ module.exports = {
       });
     } else {
       var readStream = fs.createReadStream(req.query.src);
-      var writeStream = fs.createWriteStream(process.env.LOCAL_FILE_PATH + '/' + key + '.jpg');
 
       readStream.on('data', function(buff) {
-
         var req = client.put(key, {
             'Content-Length': buff.length,
             'Content-Type': 'image/jpeg',
@@ -58,17 +57,10 @@ module.exports = {
           }
         });
 
-        //TODO: response status code if s3 status is not too
         req.end(buff);
-        writeStream.write(buff);
       });
 
       readStream.on('end', function() {
-        writeStream.end();
-      });
-
-      writeStream.on('close', function() {
-        console.log('close');
       });
     }
   }

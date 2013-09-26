@@ -9,6 +9,7 @@ module.exports = {
       //if file exists locally continue onto next middleware 
       fs.exists(process.env.LOCAL_FILE_PATH + '/' + req.key + '.jpg', function(exists) {
         if (exists) {
+          console.log('exists');
           next();
         } else {
           //stream to local fs

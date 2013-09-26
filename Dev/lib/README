@@ -1,19 +1,42 @@
 babyanimals is an image service you can fork and deploy.
 
 what's an image service?
-----
+An image service is a process that runs in the background, and provides the ability to upload, transform, and obtain information about images. BabyAnimals service can resize, blur, and hipster-fy images. BabyAnimals is designed as a REST API, built over ImageMagick and express.js for image processing, and Amazon S3 as the image storage platform. 
 
- REQUEST       RESPONSE
 
-POST an image  an id
+Features:
+---------
+- image transformation
+- s3 uploading
+- enivornment configuration
+
+Installation
+------------
+- fork this repo
+- clone this repo into a server folder
+- run npm install to install dependencies
+
+Resource URL Patterns
+---------------------
+
+REQUEST       RESPONSE
+
+POST/upload an image  an id
 GET /id        {{pic}}
-GET /id?size=...    {{pic}}
-GET /id?hipster=true {{pic}}
+GET /id/size?w=100&h=100   {{pic}}
+GET /id/:filter {{pic}}
+GET /id/info    {data}
 
 how to deploy
 -------------
 1. fork
-2. set up on heroku and define these env vars
+
+2. set up on heroku and define these env vars:
+  - AWS access key
+  - AWS secret key
+  - MONGO db
+  - rootdomain?
+
 3. use!
 
 built using
