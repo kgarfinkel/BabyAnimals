@@ -45,7 +45,7 @@ module.exports = function (grunt) {
         reporter: 'spec',
         require: ['should'],
         ignoreLeaks: false,
-        files: 'test/retrieveSpec.js'
+        files: 'test/filterSpec.js'
       },
 
       htmlcov: {
