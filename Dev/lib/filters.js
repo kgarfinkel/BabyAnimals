@@ -98,7 +98,6 @@ var filters = {
 
   //TODO: take out?
   brighten: function(req, res) {
-    debugger;
     var key = uuid.v4().split('-').pop();
 
     gm(process.env.LOCAL_FILE_PATH + '/' + req.key + '.jpg')
@@ -108,7 +107,6 @@ var filters = {
     .colorize(40)
     .contrast(+1)
     .stream(function(err, stdout, stderr) {
-      debugger;
       var writeStream = fs.createWriteStream(process.env.LOCAL_FILE_PATH + '/' + key + '.jpg');
       
       stdout.pipe(writeStream);

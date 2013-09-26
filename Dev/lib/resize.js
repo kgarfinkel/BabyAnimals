@@ -1,12 +1,7 @@
 //dependencies
 var helpers = require('./helperfunctions');
-var upload = require('./upload');
-var fs = require('fs');
 var im = require('imagemagick');
 var uuid = require('node-uuid');
-var knox = require('knox');
-var imageDataController = require('../app/controllers/ImageData.js');
-
 
 module.exports = {
   //set the default width and height

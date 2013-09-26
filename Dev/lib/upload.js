@@ -1,10 +1,9 @@
 var addToDb = require('./mongoosehelpers').addToDb;
 var response = require('./responseHelpers');
-var helpers = require('./helperfunctions');
 var fs = require('fs');
 var request = require('request');
 var uuid = require('node-uuid');
-var client = helpers.awsClient();
+var client = require('./knoxHelpers').awsClient();
 
 module.exports = {
   //stream requested image to fs and store in s3 bucket
@@ -40,7 +39,7 @@ module.exports = {
       });
     } else {
       var readStream = fs.createReadStream(req.query.src);
-
+      
       readStream.on('data', function(buff) {
         var req = client.put(key, {
             'Content-Length': buff.length,
@@ -58,9 +57,6 @@ module.exports = {
         });
 
         req.end(buff);
-      });
-
-      readStream.on('end', function() {
       });
     }
   }

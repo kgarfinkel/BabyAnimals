@@ -1,11 +1,10 @@
-
-var client = require('./helperfunctions').awsClient();
+//dependencies
+var client = require('./knoxHelpers').awsClient();
 var fs = require('fs');
 var knox = require('knox');
 var ImageMetaData = require('../app/models/imageMetaData');
 
 //delete requested image from s3 bucket
-//when s3 response has ended
 module.exports = {
   deleteFromS3: function(req, res) {
     var s3del = client.del(req.key);
@@ -20,8 +19,7 @@ module.exports = {
     s3del.end();
   },
 
-  //delete requested image from local fs
-  //if the file exists
+  //delete requested image from disc
   deleteFromFs: function(req, res) {
     fs.exists(process.env.LOCAL_FILE_PATH + '/' + req.key + '.jpg', function(exists) {
       if (exists) {
