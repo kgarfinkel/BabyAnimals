@@ -5,6 +5,7 @@ var fs = require('fs');
 var gm = require('gm');
 var im = require('imagemagick');
 var uuid = require('node-uuid');
+var spawn = require('child_process').spawn;
 
 module.exports = {
   //route filter based on filter param
@@ -19,20 +20,10 @@ var filters = {
     var key = uuid.v4().split('-').pop();
     var rad = req.query.r || 0;
     var sig = req.query.s || 6;
-    var w, h;
 
     //read file at requested path
     gm(process.env.LOCAL_FILE_PATH + '/' + req.key + '.jpg')
     .blur(rad, sig)
-    .size(function (err, size) {
-      if (err) {
-        console.log('</3');
-        throw err;
-      }
-
-      w = size.width;
-      h = size.height; 
-    })
     .stream(function(err, stdout, stderr) {
       var writeStream = fs.createWriteStream(process.env.LOCAL_FILE_PATH + '/' + key + '.jpg');
       
@@ -49,19 +40,9 @@ var filters = {
   charcoal: function(req, res) {
     var key = uuid.v4().split('-').pop();
     var factor = req.query.f || 3;
-    var w, h;
 
     gm(process.env.LOCAL_FILE_PATH + '/' + req.key + '.jpg')
     .charcoal(factor)
-    .size(function (err, size) {
-      if (err) {
-        console.log('</3');
-        throw err;
-      }
-
-      w = size.width;
-      h = size.height;
-    })
     .stream(function(err, stdout, stderr) {
       var writeStream = fs.createWriteStream(process.env.LOCAL_FILE_PATH + '/' + key + '.jpg');
       
@@ -78,19 +59,9 @@ var filters = {
   channel: function(req, res) {
     var type = req.query.t || 'red';
     var key = uuid.v4().split('-').pop();
-    var w, h;
 
     gm(process.env.LOCAL_FILE_PATH + '/' + req.key + '.jpg')
     .channel(type)
-    .size(function (err, size) {
-      if (err) {
-        console.log('</3');
-        throw err;
-      }
-
-      w = size.width;
-      h = size.height;
-    })
     .stream(function(err, stdout, stderr) {
       var writeStream = fs.createWriteStream(process.env.LOCAL_FILE_PATH + '/' + key + '.jpg');
       
@@ -123,17 +94,12 @@ var filters = {
         helpers.upload(req, res, key);
       });
     });
-
-    // im.convert([source, '-fill', '#f7daae', '-colorize', '30%', '-fill', '#222b6d', '-colorize', '30%', '-contrast', '-contrast', target], 
-    // function(err, stdout) {
-
-    // });
   },
 
   //TODO: take out?
   brighten: function(req, res) {
+    debugger;
     var key = uuid.v4().split('-').pop();
-    var w, h;
 
     gm(process.env.LOCAL_FILE_PATH + '/' + req.key + '.jpg')
     .modulate(150, 80, 80)
@@ -141,16 +107,8 @@ var filters = {
     .fill('#330000')
     .colorize(40)
     .contrast(+1)
-    .size(function (err, size) {
-      if (err) {
-        console.log('</3');
-        throw err;
-      }
-
-      w = size.width;
-      h = size.height;
-    })
     .stream(function(err, stdout, stderr) {
+      debugger;
       var writeStream = fs.createWriteStream(process.env.LOCAL_FILE_PATH + '/' + key + '.jpg');
       
       stdout.pipe(writeStream);
@@ -162,22 +120,23 @@ var filters = {
     });  
   },
 
+  enhance: function(req, res) {
+    var key = uuid.v4().split('-').pop();
+    var source = process.env.LOCAL_FILE_PATH + '/' + req.key + '.jpg';
+    var target = process.env.LOCAL_FILE_PATH + '/' + key + '.jpg';
+    var args = [source, '-channel', 'R', '-level', '33%', '-channel', 'G', '-level', '33%', target];
+    var convert = spawn('convert', args);
+
+    convert.stdout.pipe(fs.createWriteStream(process.env.LOCAL_FILE_PATH + '/' + key + '.jpg'));
+    helpers.upload(req, res, key);
+  },
+
   //standard black and gray filter
   bw: function(req, res) {
     var key = uuid.v4().split('-').pop();
-    var w, h;
 
     gm(process.env.LOCAL_FILE_PATH + '/' + req.key + '.jpg')
     .colorspace('Gray')
-    .size(function (err, size) {
-      if (err) {
-        console.log('</3');
-        throw err;
-      }
-
-      w = size.width;
-      h = size.height;
-    })
     .stream(function(err, stdout, stderr) {
       var writeStream = fs.createWriteStream(process.env.LOCAL_FILE_PATH + '/' + key + '.jpg');
       
@@ -193,20 +152,10 @@ var filters = {
   //standard sepia filter
   sepia: function(req, res) {
     var key = uuid.v4().split('-').pop();
-    var w, h;
 
     gm(process.env.LOCAL_FILE_PATH + '/' + req.key + '.jpg')
     .modulate(115, 0, 100)
     .colorize(7, 21, 50)
-    .size(function (err, size) {
-      if (err) {
-        console.log('</3');
-        throw err;
-      }
-
-      w = size.width;
-      h = size.height;
-    })
     .stream(function(err, stdout, stderr) {
       var writeStream = fs.createWriteStream(process.env.LOCAL_FILE_PATH + '/' + key + '.jpg');
       
@@ -222,22 +171,12 @@ var filters = {
   //TODO:check filter
   lomo: function(req, res) {
     var key = uuid.v4().split('-').pop();
-    var w, h;
 
     gm(process.env.LOCAL_FILE_PATH + '/' + req.key + '.jpg')
     .fill('#222b6d')
     .colorize(30)
     .modulate(90, 80, 100)
     .compose('Over')
-    .size(function (err, size) {
-      if (err) {
-        console.log('</3');
-        throw err;
-      }
-
-      w = size.width;
-      h = size.height;
-    })
     .stream(function(err, stdout, stderr) {
       var writeStream = fs.createWriteStream(process.env.LOCAL_FILE_PATH + '/' + key + '.jpg');
       
@@ -253,7 +192,6 @@ var filters = {
   //gothic filter with black border
   gotham: function(req, res) {
     var key = uuid.v4().split('-').pop();
-    var w, h;
 
     gm(process.env.LOCAL_FILE_PATH + '/' + req.key + '.jpg')
     .modulate(120, 10, 100)
@@ -265,15 +203,6 @@ var filters = {
     .compose('Over')
     .borderColor('black')
     .border(7,7)
-    .size(function (err, size) {
-      if (err) {
-        console.log('</3');
-        throw err;
-      }
-
-      w = size.width;
-      h = size.height;
-    })
     .stream(function(err, stdout, stderr) {
       var writeStream = fs.createWriteStream(process.env.LOCAL_FILE_PATH + '/' + key + '.jpg');
       
