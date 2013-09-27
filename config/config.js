@@ -1,19 +1,20 @@
-//dependencies
-var path = require('path');
-var AWS = require('aws-sdk');
-var rootPath = path.normalize(__dirname + '/..');
-var env = process.env.NODE_ENV || 'development';
+// Dependencies
+var path = require('path'),
+  AWS = require('aws-sdk'),
+  rootPath = path.normalize(path.join(__dirname, '..')),
+  env = process.env.NODE_ENV || 'development',
 
-//change in credentials.json?
-var accessKeyId = process.env.AWS_ACCESS_KEY;
-var secretAccessKey = process.env.AWS_SECRET_KEY;
-var bucket = process.env.AWS_BUCKET;
-var path = process.env.LOCAL_FILE_PATH;
+  //TODO: move to credentials.json
+  accessKeyId = process.env.AWS_ACCESS_KEY,
+  secretAccessKey = process.env.AWS_SECRET_KEY,
+  bucket = process.env.AWS_BUCKET || 'babyanimals',
+  path = process.env.LOCAL_FILE_PATH,
+  config;
 
-//TODO: update amazon credential
+//TODO: move to credentials.json
 AWS.config.update({accessKeyId: accessKeyId, secretAccessKey: secretAccessKey, region: 'us-west-1'});
 
-var config = {
+config = {
   development: {
     root: rootPath,
     app: {

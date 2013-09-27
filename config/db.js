@@ -1,3 +1,4 @@
+// Connect to mongodb
 var mongoose = require( 'mongoose' );
 
 module.exports = function(app, config) {
