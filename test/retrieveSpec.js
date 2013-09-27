@@ -1,10 +1,12 @@
 //dependencies
+var path = require('path');
 var utils = require('./utils');
 var config = require('../config/config');
 var mongoose = require('mongoose');
 var should = require('should');
 var request = require('request');
 var _ = require('underscore');
+var imagePath = path.join(__dirname, './../data/images/');
 
 // express server
 var app = require('../app.js');

@@ -1,10 +1,11 @@
 //dependencies
-//var utils = require('./utils');
+var path = require('path');
 var request = require('supertest');
 var ImageModel = require('../app/models/imageMetaData');
 var should = require('should');
 var mongoose = require('mongoose');
 var _ = require('underscore');
+var imagePath = path.join(__dirname, './../data/images/');
 
 
 // express server
@@ -62,7 +63,7 @@ describe('#Upload', function() {
     });
   });
 
-  xdescribe('id assingment', function() {
+  describe('id assingment', function() {
     it('should assign a uuid key to an uploaded image', function(done) {
       request(app)
       .post('/upload?src=http://maxcdn.thedesigninspiration.com/wp-content/uploads/2009/09/cute-animals/baby01.jpg')

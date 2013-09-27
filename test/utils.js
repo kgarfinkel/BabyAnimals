@@ -1,10 +1,9 @@
-//set NODE_ENV
-process.env.NODE_ENV = 'test';
-
 //dependencies
+var path = require('path');
 var config = require('../config/config');
 var mongoose = require('mongoose');
 var _ = require('underscore');
+var imagePath = path.join(__dirname, './../data/images/');
 
 beforeEach(function(done) {
   if (mongoose.connection.readyState === 0) {
