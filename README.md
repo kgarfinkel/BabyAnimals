@@ -7,6 +7,7 @@ BabyAnimals service can resize, blur, and filter images. The service is built ov
 
 Features:
 ---------
+* Image Upload
 * Image Transformation:
   * resize
   * blur
@@ -40,7 +41,7 @@ define these environment vars:
 Resource URL Patterns
 ---------------------
 
-Uploading an Image
+Image Upload
 -------------------
 
 POST /babyanimals/upload?src={{image}}
