@@ -122,17 +122,28 @@ curl -X GET http://localhost:3000/b21f37508f1c/info
 **Example Response:**
 ```js
 {
- "id":"39f2d22e6967",
- "bucket":"babyanimals",
- "url":"/babyanimals/39f2d22e6967",
- "width":500,
- "height":335,
+ "id": "39f2d22e6967",
+ "bucket": "babyanimals",
+ "url": "/babyanimals/39f2d22e6967",
+ "width": 500,
+ "height": 335,
  "filesize": 3.97266kb,
  "format: "PNG" 
 }
 ```
 
+## Image Filtering
+
+Apply the filter that is specified by the URL query to the requested image.
+
+**Syntax**
+```js
 GET /id/:filter {{pic}}
+```
+**Example Request:**
+```js
+curl -X GET http://localhost:3000/b21f37508f1c/vintage
+```
 
 ## HTTP status code summary
 
