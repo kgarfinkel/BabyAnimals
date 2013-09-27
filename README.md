@@ -70,17 +70,17 @@ curl -X POST http://localhost:3000/babyanimals/upload?src=http://cutebabyanimal.
 
 ### Fetch an Image
 
-Syntax:
+**Syntax:**
 
 ```js
 GET /babyanimals/{{id}}
 ```
 
-Defintion:
+**Defintion:**
 
 Fetches the requested image from s3.
 
-Example Request:
+**Example Request:**
 
 ```js
 curl -X GET http://localhost:3000/babyanimals/b21f37508f1c
@@ -88,20 +88,27 @@ curl -X GET http://localhost:3000/babyanimals/b21f37508f1c
 
 ### Image Resize
 
-Syntax:
+**Syntax:**
 ```js
 GET /babyanimals/{{id}}/size?w={{w}}&h={{h}}
 ```
-Definition:
+**Definition:**
 
 Resizes the image to the dimensions that are specified by the URL query. The accepted dimensions are pixels (not percent). The dimensions default to the original images width and height, so if only one query is provided the default value will be utilized when maintaining the aspect ratio. At least one of width and height are required.
 
-Example Request:
+**Example Request:**
 
 ```js
 curl -X GET http://localhost:3000/babyanimals/b21f37508f1c/size?w=150&h=200
 ```
 
+**Original Image**
+
+baby animal pic
+
+**Transformed Image**
+
+baby animal pic
 
 GET /id/:filter {{pic}}
 GET /id/info    {data}
@@ -109,7 +116,6 @@ GET /id/info    {data}
 ## HTTP status code summary
 
 ## how to deploy
-
 
 define these environment vars:
   - AWS_ACCESS_KEY
