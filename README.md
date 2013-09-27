@@ -8,8 +8,8 @@ BabyAnimals service can resize, blur, and filter images. The service is built ov
 Features:
 ---------
 * Image Upload
-* Image Transformation:
-  * resize
+* Image Resize
+* Image Filters:
   * blur
   * bw
   * sepia
@@ -26,18 +26,20 @@ Features:
 
 Installation
 -----------
-* Fork and clone
-* Run npm install to install dependencies
+* Fork and clone this repository
 
-how to deploy
--------------
+* Install dependencies:
 
-define these environment vars:
-  - AWS_ACCESS_KEY
-  - AWS_SECRET_KEY
-  - AWS_BUCKET
-  - mongoose
+```
+npm install
 
+```
+* Requires Imagemagick CLI tools to be installed. If you're on OSX, you can use Homebrew:
+
+```
+brew install imagemagick
+
+```
 Resource URL Patterns
 ---------------------
 
@@ -70,6 +72,16 @@ GET /id        {{pic}}
 GET /id/size?w=100&h=100   {{pic}}
 GET /id/:filter {{pic}}
 GET /id/info    {data}
+
+how to deploy
+-------------
+
+define these environment vars:
+  - AWS_ACCESS_KEY
+  - AWS_SECRET_KEY
+  - AWS_BUCKET
+  - mongoose
+
 
 built using
 ------
