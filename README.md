@@ -28,12 +28,12 @@ BabyAnimals service can resize, blur, and filter images. The service is built ov
 ## Installation
 
 * Fork and clone this repository
-
 * Install dependencies:
 
 ```js
 npm install
 ```
+
 * Install Imagemagick CLI tools. If you're on OSX, you can use Homebrew:
 
 ```js
