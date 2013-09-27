@@ -1,12 +1,14 @@
-//dependencies
-var mongoose = require('mongoose');
-var cronJob = require('cron').CronJob;
-var removefileforce = require('../lib/removefileforce');
+/* dependencies */
+var mongoose = require('mongoose'),
+  path = require('path'),
+  cronJob = require('cron').CronJob,
+  removefileforce = require(path.join(__dirname, '..', 'lib', 'removefileforce'));
 
+//crontab for during development to clear out the fs
+//currently not being used
 module.exports = function(app, config) {
   var job = new cronJob('0 * * * *', function() {
-    //remove all files from image folder
-    var rootPath = __dirname + '/../data/images/';
+    var rootPath = path.join(__dirname, '..', 'data', 'images/');
     removefileforce(rootPath);
   }, function() {
     console.log('cron job stopped');
