@@ -90,7 +90,7 @@ curl -X GET http://localhost:3000/babyanimals/b21f37508f1c
 
 **Syntax:**
 ```js
-GET /babyanimals/{{id}}/size?w={{w}}&h={{h}}
+GET /babyanimals/{{id}}/size?w={{width}}&h={{height}}
 ```
 **Definition:**
 
@@ -102,11 +102,11 @@ Resizes the image to the dimensions that are specified by the URL query. The acc
 curl -X GET http://localhost:3000/babyanimals/b21f37508f1c/size?w=150&h=200
 ```
 
-**Original Image**
+**Original Image:**
 
 baby animal pic
 
-**Transformed Image**
+**Resized Image:**
 
 baby animal pic
 
