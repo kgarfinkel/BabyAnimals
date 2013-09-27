@@ -6,27 +6,27 @@ BabyAnimals is a simple image service for your app. Upload, process, and fetch i
 BabyAnimals service can resize, blur, and filter images. The service is built over ImageMagick and express.js for image processing, and Amazon S3 as the image storage platform.
 
 Features:
-=========
-- image transformation:
-  - resize
-  - blur
-  - bw
-  - sepia
-  - channel
-  - nashville
-  - auroral 
-  - enhance
-  - lomo
-  - gotham
-  - bw_gradient
-  - vintage
-- s3, for reliable image uploading
-- enivornment configuration
+---------
+* Image Transformation:
+  * resize
+  * blur
+  * bw
+  * sepia
+  * channel
+  * nashville
+  * auroral 
+  * enhance
+  * lomo
+  * gotham
+  * bw_gradient
+  * vintage
+* S3, for reliable image uploading
+* Enivornment Configuration
 
 Installation
-------------
-- fork and clone
-- run npm install
+-----------
+* Fork and clone
+* Run npm install to install dependencies
 
 how to deploy
 -------------
@@ -40,9 +40,31 @@ define these environment vars:
 Resource URL Patterns
 ---------------------
 
-REQUEST       RESPONSE
+Uploading an Image
+-------------------
 
-POST/upload an image  an id
+POST /babyanimals/upload?src={{image}}
+
+Definition:
+
+Uploads requested image to configured s3 bucket. The response is a JSON with a unique id that can be used to GET and transform the image, as well as access the image in s3 (the id is the s3 key).
+
+Example Request:
+
+```
+curl -X POST http://localhost:3000/babyanimals/upload?src=some/baby/animal.png
+
+or 
+
+curl -X POST http://localhost:3000/babyanimals/upload?src=some/baby/animal.png
+
+```
+Example Response: 
+
+````
+{"id":"b21f37508f1c"}
+
+````
 GET /id        {{pic}}
 GET /id/size?w=100&h=100   {{pic}}
 GET /id/:filter {{pic}}
