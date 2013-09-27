@@ -10,6 +10,7 @@ BabyAnimals service can resize, blur, and filter images. The service is built ov
 * Image Deletion
 * Image Fetching
 * Image Resizing
+* Obtaining image information
 * Image Transforming:
   * blur
   * bw
@@ -104,8 +105,34 @@ baby animal pic
 
 baby animal pic
 
+### Obtaining Infomation About an Uploaded Image
+
+Returns the S3 URL pointing to the image, as well as metadata about the image itself. This request only works for images that have already been uploaded to S3.
+
+**Syntax**
+```js
+GET /babyanimals/{{id}}/info
+```
+
+**Example Request:**
+```js
+curl -X GET http://localhost:3000/b21f37508f1c/info
+```
+
+**Example Response:**
+```js
+{
+ "id":"39f2d22e6967",
+ "bucket":"babyanimals",
+ "url":"/babyanimals/39f2d22e6967",
+ "width":500,
+ "height":335,
+ "filesize": 3.97266kb,
+ "format: "PNG" 
+}
+```
+
 GET /id/:filter {{pic}}
-GET /id/info    {data}
 
 ## HTTP status code summary
 
