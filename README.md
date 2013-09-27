@@ -132,7 +132,7 @@ curl -X GET http://localhost:3000/b21f37508f1c/info
 }
 ```
 
-## Image Filtering
+### Image Filtering
 
 Apply the filter that is specified by the URL query to the requested image.
 
