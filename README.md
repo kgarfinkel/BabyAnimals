@@ -44,15 +44,13 @@ brew install imagemagick
 
 ### Image Uploading
 
+Uploads the requested image to the configured s3 bucket. The request may be a path or a URL. The response is a JSON with a unique id that can be used to GET and transform the image, as well as access the image in s3 (the id is the s3 key).
+
 **Syntax:**
 
 ```js
 POST /babyanimals/upload?src={{image}}
 ```
-
-**Definition:**
-
-Uploads the requested image to the configured s3 bucket. The request may be a path or a URL. The response is a JSON with a unique id that can be used to GET and transform the image, as well as access the image in s3 (the id is the s3 key).
 
 **Example Request:**
 ```js
@@ -70,15 +68,13 @@ curl -X POST http://localhost:3000/babyanimals/upload?src=http://cutebabyanimal.
 
 ### Image Fetching
 
+Fetches the requested image from s3.
+
 **Syntax:**
 
 ```js
 GET /babyanimals/{{id}}
 ```
-
-**Defintion:**
-
-Fetches the requested image from s3.
 
 **Example Request:**
 
@@ -88,14 +84,12 @@ curl -X GET http://localhost:3000/babyanimals/b21f37508f1c
 
 ### Image Resizing
 
+Resizes the image to the dimensions that are specified by the URL query. The accepted dimensions are pixels (not percent). The dimensions default to the original images width and height, so if only one query is provided the default value will be utilized when maintaining the aspect ratio. At least one of width and height are required.
+
 **Syntax:**
 ```js
 GET /babyanimals/{{id}}/size?w={{width}}&h={{height}}
 ```
-**Definition:**
-
-Resizes the image to the dimensions that are specified by the URL query. The accepted dimensions are pixels (not percent). The dimensions default to the original images width and height, so if only one query is provided the default value will be utilized when maintaining the aspect ratio. At least one of width and height are required.
-
 **Example Request:**
 
 ```js
