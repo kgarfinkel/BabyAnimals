@@ -6,10 +6,11 @@ BabyAnimals service can resize, blur, and filter images. The service is built ov
 
 ## Features:
 
-* Image Upload
-* Fetch an Image
-* Image Resize
-* Image Transformation:
+* Image Uploading
+* Image Deletion
+* Image Fetching
+* Image Resizing
+* Image Transforming:
   * blur
   * bw
   * sepia
@@ -21,7 +22,6 @@ BabyAnimals service can resize, blur, and filter images. The service is built ov
   * gotham
   * bw_gradient
   * vintage
-* Delete an Image
 * S3, for reliable image uploading
 * Enivornment Configuration
 
@@ -42,7 +42,7 @@ brew install imagemagick
 ## Resource URL Patterns
 
 
-### Image Upload
+### Image Uploading
 
 **Syntax:**
 
@@ -68,7 +68,7 @@ curl -X POST http://localhost:3000/babyanimals/upload?src=http://cutebabyanimal.
 {"id":"b21f37508f1c"}
 ````
 
-### Fetch an Image
+### Image Fetching
 
 **Syntax:**
 
@@ -86,7 +86,7 @@ Fetches the requested image from s3.
 curl -X GET http://localhost:3000/babyanimals/b21f37508f1c
 ```
 
-### Image Resize
+### Image Resizing
 
 **Syntax:**
 ```js
