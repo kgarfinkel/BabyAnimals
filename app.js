@@ -1,13 +1,14 @@
 //dependencies 
-var express = require('express');
-var mongoose = require('mongoose');
-var fs = require('fs');
-var config = require('./config/config');
-
-var app = express();
+var express = require('express'),
+  path = require('path'),
+  mongoose = require('mongoose'),
+  fs = require('fs'),
+  config = require('./config/config'),
+  app = express(),
 
 //models
-var modelsPath = __dirname + '/app/models';
+modelsPath = path.join(__dirname, 'app', 'models');
+
 fs.readdirSync(modelsPath).forEach(function (file) {
   if (file.indexOf('.js') >= 0) {
     require(modelsPath + '/' + file);
@@ -22,9 +23,6 @@ require('./config/routes').routeHandler(app);
 
 //database
 require('./config/db')(app, config);
-
-//cronjob
-require('./config/cronjob')(app, config);
 
 //start app
 app.listen(config.port);
