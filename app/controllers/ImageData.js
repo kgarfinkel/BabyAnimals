@@ -1,13 +1,12 @@
-var mongoose = require('mongoose');
-var ImageMetaData = mongoose.model('ImageMetaData');
+var mongoose = require('mongoose'),
+  ImageData = mongoose.model('ImageMetaData');
 
 module.exports.imageData = function(key) {
-  var imageMetaData = new ImageMetaData({
+  var imageData = new ImageData({
     key: key
   });
 
-  imageMetaData.save();
-  return imageMetaData;
-};
+  imageData.save();
 
-  
+  return imageData;
+};

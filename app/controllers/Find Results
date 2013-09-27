@@ -1,0 +1,487 @@
+Searching 8145 files for "mongoose.model"
+
+/Users/Kristina/projammin/hackreactor/personalproject/app/controllers/home.js:
+    1  var mongoose = require('mongoose'),
+    2:   Article = mongoose.model('Article');
+    3  
+    4  exports.index = function(req, res){
+
+/Users/Kristina/projammin/hackreactor/personalproject/app/controllers/ImageData.js:
+    1  var mongoose = require('mongoose'),
+    2:   ImageMetaData = mongoose.model('ImageMetaData');
+    3  
+    4  module.exports.imageData = function(key) {
+
+/Users/Kristina/projammin/hackreactor/personalproject/app/models/article.js:
+   15    });
+   16  
+   17: mongoose.model('Article', ArticleSchema);
+   18  
+
+/Users/Kristina/projammin/hackreactor/personalproject/app/models/imageMetaData.js:
+    6  });
+    7  
+    8: module.exports = mongoose.model('ImageData', imageSchema);
+    9  
+
+/Users/Kristina/projammin/hackreactor/personalproject/config/routes.js:
+    1  var fs = require('fs'),
+    2    mongoose = require('mongoose'),
+    3:   model = mongoose.model('ImageMetaData'),
+    4    upload = require('../lib/upload'),
+    5    retrieve = require('../lib/retrieve'), 
+
+/Users/Kristina/projammin/hackreactor/personalproject/lib/helperfunctions.js:
+    9  var uuid = require('node-uuid');
+   10  var mongoose = require('mongoose');
+   11: var model = mongoose.model('ImageMetaData');
+   12  
+   13  module.exports = {
+
+/Users/Kristina/projammin/hackreactor/personalproject/node_modules/mongoose/History.md:
+ 1444    * fixed; setting nested properties works when sibling prop is named "type"
+ 1445    * fixed; isModified is now much finer grained when .set() is used (GH-323)
+ 1446:   * fixed; mongoose.model() and connection.model() now return the Model (GH-308, GH-305)
+ 1447    * fixed; can now use $gt, $lt, $gte, $lte with String schema types (GH-317)
+ 1448    * fixed; .lowercase() -> .toLowerCase() in pluralize()
+
+/Users/Kristina/projammin/hackreactor/personalproject/node_modules/mongoose/package.json:
+   61    },
+   62    "homepage": "http://mongoosejs.com",
+   63:   "readme": "## What's Mongoose?\n\nMongoose is a [MongoDB](http://www.mongodb.org/) object modeling tool designed to work in an asynchronous environment.\n\n## Documentation\n\n[mongoosejs.com](http://mongoosejs.com/)\n\n## Try it live\n<a href=\"https://runnable.com/#learnboost/mongoose/code.js/launch\" target=\"_blank\"><img src=\"https://runnable.com/external/styles/assets/runnablebtn.png\" style=\"width:67px;height:25px;\"></a>\n\n## Support\n\n  - [Stack Overflow](http://stackoverflow.com/questions/tagged/mongoose)\n  - [bug reports](https://github.com/learnboost/mongoose/issues/)\n  - [help forum](http://groups.google.com/group/mongoose-orm)\n  - [MongoDB support](http://www.mongodb.org/display/DOCS/Technical+Support)\n  - (irc) #mongoosejs on freenode\n\n## Installation\n\nFirst install [node.js](http://nodejs.org/) and [mongodb](http://www.mongodb.org/downloads).\n\n    $ npm install mongoose\n\n## Plugins\n\nCheck out the [plugins search site](http://plugins.mongoosejs.com/) to see hundreds of related modules from the community.\n\n## Contributors\n\nView all 90+ [contributors](https://github.com/learnboost/mongoose/graphs/contributors).\n\n## Get Involved\n\nStand up and be counted as a [contributor](https://github.com/LearnBoost/mongoose/blob/master/CONTRIBUTING.md) too!\n\n## Overview\n\n### Connecting to MongoDB\n\nFirst, we need to define a connection. If your app uses only one database, you should use `mongose.connect`. If you need to create additional connections, use `mongoose.createConnection`.\n\nBoth `connect` and `createConnection` take a `mongodb://` URI, or the parameters `host, database, port, options`.\n\n    var mongoose = require('mongoose');\n\n    mongoose.connect('mongodb://localhost/my_database');\n\nOnce connected, the `open` event is fired on the `Connection` instance. If you're using `mongoose.connect`, the `Connection` is `mongoose.connection`. Otherwise, `mongoose.createConnection` return value is a `Connection`.\n\n**Important!** Mongoose buffers all the commands until it's connected to the database. This means that you don't have to wait until it connects to MongoDB in order to define models, run queries, etc.\n\n### Defining a Model\n\nModels are defined through the `Schema` interface. \n\n    var Schema = mongoose.Schema\n      , ObjectId = Schema.ObjectId;\n\n    var BlogPost = new Schema({\n        author    : ObjectId\n      , title     : String\n      , body      : String\n      , date      : Date\n    });\n\nAside from defining the structure of your documents and the types of data you're storing, a Schema handles the definition of:\n\n* [Validators](http://mongoosejs.com/docs/validation.html) (async and sync)\n* [Defaults](http://mongoosejs.com/docs/api.html#schematype_SchemaType-default)\n* [Getters](http://mongoosejs.com/docs/api.html#schematype_SchemaType-get)\n* [Setters](http://mongoosejs.com/docs/api.html#schematype_SchemaType-set)\n* [Indexes](http://mongoosejs.com/docs/guide.html#indexes)\n* [Middleware](http://mongoosejs.com/docs/middleware.html)\n* [Methods](http://mongoosejs.com/docs/guide.html#methods) definition\n* [Statics](http://mongoosejs.com/docs/guide.html#statics) definition\n* [Plugins](http://mongoosejs.com/docs/plugins.html)\n* [pseudo-JOINs](http://mongoosejs.com/docs/populate.html)\n\nThe following example shows some of these features:\n\n    var Comment = new Schema({\n        name  :  { type: String, default: 'hahaha' }\n      , age   :  { type: Number, min: 18, index: true }\n      , bio   :  { type: String, match: /[a-z]/ }\n      , date  :  { type: Date, default: Date.now }\n      , buff  :  Buffer\n    });\n\n    // a setter\n    Comment.path('name').set(function (v) {\n      return capitalize(v);\n    });\n\n    // middleware\n    Comment.pre('save', function (next) {\n      notify(this.get('email'));\n      next();\n    });\n\nTake a look at the example in `examples/schema.js` for an end-to-end example of a typical setup.\n\n### Accessing a Model\n\nOnce we define a model through `mongoose.model('ModelName', mySchema)`, we can access it through the same function\n\n    var myModel = mongoose.model('ModelName');\n\nOr just do it all at once\n\n    var MyModel = mongoose.model('ModelName', mySchema);\n\nWe can then instantiate it, and save it:\n\n    var instance = new MyModel();\n    instance.my.key = 'hello';\n    instance.save(function (err) {\n      //\n    });\n\nOr we can find documents from the same collection\n\n    MyModel.find({}, function (err, docs) {\n      // docs.forEach\n    });\n\nYou can also `findOne`, `findById`, `update`, etc. For more details check out [the docs](http://mongoosejs.com/docs/queries.html).\n\n**Important!** If you opened a separate connection using `mongoose.createConnection()` but attempt to access the model through `mongoose.model('ModelName')` it will not work as expected since it is not hooked up to an active db connection. In this case access your model through the connection you created:\n\n    var conn = mongoose.createConnection('your connection string');\n    var MyModel = conn.model('ModelName', schema);\n    var m = new MyModel;\n    m.save() // works\n\n    vs\n\n    var conn = mongoose.createConnection('your connection string');\n    var MyModel = mongoose.model('ModelName', schema);\n    var m = new MyModel;\n    m.save() // does not work b/c the default connection object was never connected\n\n### Embedded Documents\n\nIn the first example snippet, we defined a key in the Schema that looks like:\n\n    comments: [Comments]\n\nWhere `Comments` is a `Schema` we created. This means that creating embedded documents is as simple as:\n\n    // retrieve my model\n    var BlogPost = mongoose.model('BlogPost');\n\n    // create a blog post\n    var post = new BlogPost();\n\n    // create a comment\n    post.comments.push({ title: 'My comment' });\n\n    post.save(function (err) {\n      if (!err) console.log('Success!');\n    });\n\nThe same goes for removing them:\n\n    BlogPost.findById(myId, function (err, post) {\n      if (!err) {\n        post.comments[0].remove();\n        post.save(function (err) {\n          // do something\n        });\n      }\n    });\n\nEmbedded documents enjoy all the same features as your models. Defaults, validators, middleware. Whenever an error occurs, it's bubbled to the `save()` error callback, so error handling is a snap!\n\nMongoose interacts with your embedded documents in arrays _atomically_, out of the box.\n\n### Middleware\n\nSee the [docs](http://mongoosejs.com/docs/middleware.html) page.\n\n#### Intercepting and mutating method arguments\n\nYou can intercept method arguments via middleware.\n\nFor example, this would allow you to broadcast changes about your Documents every time someone `set`s a path in your Document to a new value:\n\n    schema.pre('set', function (next, path, val, typel) {\n      // `this` is the current Document\n      this.emit('set', path, val);\n\n      // Pass control to the next pre\n      next();\n    });\n\nMoreover, you can mutate the incoming `method` arguments so that subsequent middleware see different values for those arguments. To do so, just pass the new values to `next`:\n\n    .pre(method, function firstPre (next, methodArg1, methodArg2) {\n      // Mutate methodArg1\n      next(\"altered-\" + methodArg1.toString(), methodArg2);\n    })\n\n    // pre declaration is chainable\n    .pre(method, function secondPre (next, methodArg1, methodArg2) {\n      console.log(methodArg1);\n      // => 'altered-originalValOfMethodArg1' \n      \n      console.log(methodArg2);\n      // => 'originalValOfMethodArg2' \n      \n      // Passing no arguments to `next` automatically passes along the current argument values\n      // i.e., the following `next()` is equivalent to `next(methodArg1, methodArg2)`\n      // and also equivalent to, with the example method arg \n      // values, `next('altered-originalValOfMethodArg1', 'originalValOfMethodArg2')`\n      next();\n    })\n\n#### Schema gotcha\n\n`type`, when used in a schema has special meaning within Mongoose. If your schema requires using `type` as a nested property you must use object notation:\n\n    new Schema({\n        broken: { type: Boolean }\n      , asset : {\n            name: String\n          , type: String // uh oh, it broke. asset will be interpreted as String\n        }\n    });\n\n    new Schema({\n        works: { type: Boolean }\n      , asset : {\n            name: String\n          , type: { type: String } // works. asset is an object with a type property\n        }\n    });\n\n### Driver access\n\nThe driver being used defaults to [node-mongodb-native](https://github.com/mongodb/node-mongodb-native) and is directly accessible through `YourModel.collection`. **Note**: using the driver directly bypasses all Mongoose power-tools like validation, getters, setters, hooks, etc.\n\n## API Docs\n\nFind the API docs [here](http://mongoosejs.com/docs/api.html), generated by [dox](http://github.com/visionmedia/dox).\n\n## License\n\nCopyright (c) 2010 LearnBoost &lt;dev@learnboost.com&gt;\n\nPermission is hereby granted, free of charge, to any person obtaining\na copy of this software and associated documentation files (the\n'Software'), to deal in the Software without restriction, including\nwithout limitation the rights to use, copy, modify, merge, publish,\ndistribute, sublicense, and/or sell copies of the Software, and to\npermit persons to whom the Software is furnished to do so, subject to\nthe following conditions:\n\nThe above copyright notice and this permission notice shall be\nincluded in all copies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND,\nEXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF\nMERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.\nIN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY\nCLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,\nTORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE\nSOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.\n",
+   64    "readmeFilename": "README.md",
+   65    "_id": "mongoose@3.6.19",
+
+/Users/Kristina/projammin/hackreactor/personalproject/node_modules/mongoose/README.md:
+  104  ### Accessing a Model
+  105  
+  106: Once we define a model through `mongoose.model('ModelName', mySchema)`, we can access it through the same function
+  107  
+  108:     var myModel = mongoose.model('ModelName');
+  109  
+  110  Or just do it all at once
+  111  
+  112:     var MyModel = mongoose.model('ModelName', mySchema);
+  113  
+  114  We can then instantiate it, and save it:
+  ...
+  128  You can also `findOne`, `findById`, `update`, etc. For more details check out [the docs](http://mongoosejs.com/docs/queries.html).
+  129  
+  130: **Important!** If you opened a separate connection using `mongoose.createConnection()` but attempt to access the model through `mongoose.model('ModelName')` it will not work as expected since it is not hooked up to an active db connection. In this case access your model through the connection you created:
+  131  
+  132      var conn = mongoose.createConnection('your connection string');
+  ...
+  138  
+  139      var conn = mongoose.createConnection('your connection string');
+  140:     var MyModel = mongoose.model('ModelName', schema);
+  141      var m = new MyModel;
+  142      m.save() // does not work b/c the default connection object was never connected
+  ...
+  151  
+  152      // retrieve my model
+  153:     var BlogPost = mongoose.model('BlogPost');
+  154  
+  155      // create a blog post
+
+/Users/Kristina/projammin/hackreactor/personalproject/node_modules/mongoose/examples/doc-methods.js:
+   26   */
+   27  
+   28: var Character = mongoose.model('Character', CharacterSchema);
+   29  
+   30  /**
+
+/Users/Kristina/projammin/hackreactor/personalproject/node_modules/mongoose/examples/population-across-three-collections.js:
+   26    }]
+   27  });
+   28: var User = mongoose.model('User', user);
+   29  
+   30  var blogpost = Schema({
+   ..
+   36    }
+   37  })
+   38: var BlogPost = mongoose.model('BlogPost', blogpost);
+   39  
+   40  /**
+
+/Users/Kristina/projammin/hackreactor/personalproject/node_modules/mongoose/examples/population-basic.js:
+   14    , released: Date
+   15  })
+   16: var Console = mongoose.model('Console', consoleSchema);
+   17  
+   18  /**
+   ..
+   26    , consoles: [{ type: Schema.Types.ObjectId, ref: 'Console' }]
+   27  })
+   28: var Game = mongoose.model('Game', gameSchema);
+   29  
+   30  /**
+
+/Users/Kristina/projammin/hackreactor/personalproject/node_modules/mongoose/examples/population-of-existing-doc.js:
+   14    , released: Date
+   15  })
+   16: var Console = mongoose.model('Console', consoleSchema);
+   17  
+   18  /**
+   ..
+   26    , consoles: [{ type: Schema.Types.ObjectId, ref: 'Console' }]
+   27  })
+   28: var Game = mongoose.model('Game', gameSchema);
+   29  
+   30  /**
+
+/Users/Kristina/projammin/hackreactor/personalproject/node_modules/mongoose/examples/population-of-multiple-existing-docs.js:
+   14    , released: Date
+   15  })
+   16: var Console = mongoose.model('Console', consoleSchema);
+   17  
+   18  /**
+   ..
+   26    , consoles: [{ type: Schema.Types.ObjectId, ref: 'Console' }]
+   27  })
+   28: var Game = mongoose.model('Game', gameSchema);
+   29  
+   30  /**
+
+/Users/Kristina/projammin/hackreactor/personalproject/node_modules/mongoose/examples/population-options.js:
+   14    , released: Date
+   15  })
+   16: var Console = mongoose.model('Console', consoleSchema);
+   17  
+   18  /**
+   ..
+   26    , consoles: [{ type: Schema.Types.ObjectId, ref: 'Console' }]
+   27  })
+   28: var Game = mongoose.model('Game', gameSchema);
+   29  
+   30  /**
+
+/Users/Kristina/projammin/hackreactor/personalproject/node_modules/mongoose/examples/population-plain-objects.js:
+   14    , released: Date
+   15  })
+   16: var Console = mongoose.model('Console', consoleSchema);
+   17  
+   18  /**
+   ..
+   26    , consoles: [{ type: Schema.Types.ObjectId, ref: 'Console' }]
+   27  })
+   28: var Game = mongoose.model('Game', gameSchema);
+   29  
+   30  /**
+
+/Users/Kristina/projammin/hackreactor/personalproject/node_modules/mongoose/examples/schema.js:
+   99   */
+  100  
+  101: mongoose.model('BlogPost', BlogPost);
+  102: mongoose.model('Person', Person);
+  103  
+
+/Users/Kristina/projammin/hackreactor/personalproject/node_modules/mongoose/lib/index.js:
+  242   *
+  243   *     // define an Actor model with this mongoose instance
+  244:  *     mongoose.model('Actor', new Schema({ name: String }));
+  245   *
+  246   *     // create a new connection
+  ...
+  263   *
+  264   *     var collectionName = 'actor'
+  265:  *     var M = mongoose.model('Actor', schema, collectionName)
+  266   *
+  267   * @param {String} name model name
+  ...
+  415   *     mongoose.connection.on('error', cb);
+  416   *
+  417:  * This is the connection used by default for every model created using [mongoose.model](#index_Mongoose-model).
+  418   *
+  419   * @property connection
+
+/Users/Kristina/projammin/hackreactor/personalproject/node_modules/mongoose/lib/model.js:
+  628   *
+  629   *     var eventSchema = new Schema({ thing: { type: 'string', unique: true }})
+  630:  *     var Event = mongoose.model('Event', eventSchema);
+  631   *
+  632   *     Event.on('index', function (err) {
+
+/Users/Kristina/projammin/hackreactor/personalproject/node_modules/mongoose/lib/schema.js:
+   17   *     var child = new Schema({ name: String });
+   18   *     var schema = new Schema({ name: String, age: Number, children: [child] });
+   19:  *     var Tree = mongoose.model('Tree', schema);
+   20   *
+   21   *     // setting schema options
+   ..
+  516   *     });
+  517   *
+  518:  *     var Model = mongoose.model('Model', schema);
+  519   *
+  520   *     var m = new Model(..);
+  ...
+  558   *     })
+  559   *
+  560:  *     var Kitty = mongoose.model('Kitty', schema);
+  561   *
+  562   *     var fizz = new Kitty;
+  ...
+  598   *     });
+  599   *
+  600:  *     var Drink = mongoose.model('Drink', schema);
+  601   *     Drink.findByName('sanpellegrino', function (err, drinks) {
+  602   *       //
+
+/Users/Kristina/projammin/hackreactor/personalproject/node_modules/mongoose/lib/errors/missingSchema.js:
+   14  function MissingSchemaError (name) {
+   15    var msg = 'Schema hasn\'t been registered for model "' + name + '".\n'
+   16:           + 'Use mongoose.model(name, schema)';
+   17    MongooseError.call(this, msg);
+   18    Error.captureStackTrace(this, arguments.callee);
+
+/Users/Kristina/projammin/hackreactor/personalproject/node_modules/mongoose/lib/types/array.js:
+  599   *
+  600   *     // given documents based on the following
+  601:  *     var Doc = mongoose.model('Doc', new Schema({ array: [Number] }));
+  602   *
+  603   *     var doc = new Doc({ array: [2,3,4] })
+
+44 matches across 22 files
+
+
+Searching 8145 files for "mongoose.model"
+
+/Users/Kristina/projammin/hackreactor/personalproject/app/controllers/home.js:
+    1  var mongoose = require('mongoose'),
+    2:   Article = mongoose.model('Article');
+    3  
+    4  exports.index = function(req, res){
+
+/Users/Kristina/projammin/hackreactor/personalproject/app/controllers/ImageData.js:
+    1  var mongoose = require('mongoose'),
+    2:   ImageData = mongoose.model('ImageData');
+    3  
+    4  module.exports.imageData = function(key) {
+
+/Users/Kristina/projammin/hackreactor/personalproject/app/models/article.js:
+   15    });
+   16  
+   17: mongoose.model('Article', ArticleSchema);
+   18  
+
+/Users/Kristina/projammin/hackreactor/personalproject/app/models/imageMetaData.js:
+    6  });
+    7  
+    8: module.exports = mongoose.model('ImageData', imageSchema);
+    9  
+
+/Users/Kristina/projammin/hackreactor/personalproject/config/routes.js:
+    1  var fs = require('fs'),
+    2    mongoose = require('mongoose'),
+    3:   model = mongoose.model('ImageData'),
+    4    upload = require('../lib/upload'),
+    5    retrieve = require('../lib/retrieve'), 
+
+/Users/Kristina/projammin/hackreactor/personalproject/lib/helperfunctions.js:
+    9  var uuid = require('node-uuid');
+   10  var mongoose = require('mongoose');
+   11: var model = mongoose.model('ImageData');
+   12  
+   13  module.exports = {
+
+/Users/Kristina/projammin/hackreactor/personalproject/node_modules/mongoose/History.md:
+ 1444    * fixed; setting nested properties works when sibling prop is named "type"
+ 1445    * fixed; isModified is now much finer grained when .set() is used (GH-323)
+ 1446:   * fixed; mongoose.model() and connection.model() now return the Model (GH-308, GH-305)
+ 1447    * fixed; can now use $gt, $lt, $gte, $lte with String schema types (GH-317)
+ 1448    * fixed; .lowercase() -> .toLowerCase() in pluralize()
+
+/Users/Kristina/projammin/hackreactor/personalproject/node_modules/mongoose/package.json:
+   61    },
+   62    "homepage": "http://mongoosejs.com",
+   63:   "readme": "## What's Mongoose?\n\nMongoose is a [MongoDB](http://www.mongodb.org/) object modeling tool designed to work in an asynchronous environment.\n\n## Documentation\n\n[mongoosejs.com](http://mongoosejs.com/)\n\n## Try it live\n<a href=\"https://runnable.com/#learnboost/mongoose/code.js/launch\" target=\"_blank\"><img src=\"https://runnable.com/external/styles/assets/runnablebtn.png\" style=\"width:67px;height:25px;\"></a>\n\n## Support\n\n  - [Stack Overflow](http://stackoverflow.com/questions/tagged/mongoose)\n  - [bug reports](https://github.com/learnboost/mongoose/issues/)\n  - [help forum](http://groups.google.com/group/mongoose-orm)\n  - [MongoDB support](http://www.mongodb.org/display/DOCS/Technical+Support)\n  - (irc) #mongoosejs on freenode\n\n## Installation\n\nFirst install [node.js](http://nodejs.org/) and [mongodb](http://www.mongodb.org/downloads).\n\n    $ npm install mongoose\n\n## Plugins\n\nCheck out the [plugins search site](http://plugins.mongoosejs.com/) to see hundreds of related modules from the community.\n\n## Contributors\n\nView all 90+ [contributors](https://github.com/learnboost/mongoose/graphs/contributors).\n\n## Get Involved\n\nStand up and be counted as a [contributor](https://github.com/LearnBoost/mongoose/blob/master/CONTRIBUTING.md) too!\n\n## Overview\n\n### Connecting to MongoDB\n\nFirst, we need to define a connection. If your app uses only one database, you should use `mongose.connect`. If you need to create additional connections, use `mongoose.createConnection`.\n\nBoth `connect` and `createConnection` take a `mongodb://` URI, or the parameters `host, database, port, options`.\n\n    var mongoose = require('mongoose');\n\n    mongoose.connect('mongodb://localhost/my_database');\n\nOnce connected, the `open` event is fired on the `Connection` instance. If you're using `mongoose.connect`, the `Connection` is `mongoose.connection`. Otherwise, `mongoose.createConnection` return value is a `Connection`.\n\n**Important!** Mongoose buffers all the commands until it's connected to the database. This means that you don't have to wait until it connects to MongoDB in order to define models, run queries, etc.\n\n### Defining a Model\n\nModels are defined through the `Schema` interface. \n\n    var Schema = mongoose.Schema\n      , ObjectId = Schema.ObjectId;\n\n    var BlogPost = new Schema({\n        author    : ObjectId\n      , title     : String\n      , body      : String\n      , date      : Date\n    });\n\nAside from defining the structure of your documents and the types of data you're storing, a Schema handles the definition of:\n\n* [Validators](http://mongoosejs.com/docs/validation.html) (async and sync)\n* [Defaults](http://mongoosejs.com/docs/api.html#schematype_SchemaType-default)\n* [Getters](http://mongoosejs.com/docs/api.html#schematype_SchemaType-get)\n* [Setters](http://mongoosejs.com/docs/api.html#schematype_SchemaType-set)\n* [Indexes](http://mongoosejs.com/docs/guide.html#indexes)\n* [Middleware](http://mongoosejs.com/docs/middleware.html)\n* [Methods](http://mongoosejs.com/docs/guide.html#methods) definition\n* [Statics](http://mongoosejs.com/docs/guide.html#statics) definition\n* [Plugins](http://mongoosejs.com/docs/plugins.html)\n* [pseudo-JOINs](http://mongoosejs.com/docs/populate.html)\n\nThe following example shows some of these features:\n\n    var Comment = new Schema({\n        name  :  { type: String, default: 'hahaha' }\n      , age   :  { type: Number, min: 18, index: true }\n      , bio   :  { type: String, match: /[a-z]/ }\n      , date  :  { type: Date, default: Date.now }\n      , buff  :  Buffer\n    });\n\n    // a setter\n    Comment.path('name').set(function (v) {\n      return capitalize(v);\n    });\n\n    // middleware\n    Comment.pre('save', function (next) {\n      notify(this.get('email'));\n      next();\n    });\n\nTake a look at the example in `examples/schema.js` for an end-to-end example of a typical setup.\n\n### Accessing a Model\n\nOnce we define a model through `mongoose.model('ModelName', mySchema)`, we can access it through the same function\n\n    var myModel = mongoose.model('ModelName');\n\nOr just do it all at once\n\n    var MyModel = mongoose.model('ModelName', mySchema);\n\nWe can then instantiate it, and save it:\n\n    var instance = new MyModel();\n    instance.my.key = 'hello';\n    instance.save(function (err) {\n      //\n    });\n\nOr we can find documents from the same collection\n\n    MyModel.find({}, function (err, docs) {\n      // docs.forEach\n    });\n\nYou can also `findOne`, `findById`, `update`, etc. For more details check out [the docs](http://mongoosejs.com/docs/queries.html).\n\n**Important!** If you opened a separate connection using `mongoose.createConnection()` but attempt to access the model through `mongoose.model('ModelName')` it will not work as expected since it is not hooked up to an active db connection. In this case access your model through the connection you created:\n\n    var conn = mongoose.createConnection('your connection string');\n    var MyModel = conn.model('ModelName', schema);\n    var m = new MyModel;\n    m.save() // works\n\n    vs\n\n    var conn = mongoose.createConnection('your connection string');\n    var MyModel = mongoose.model('ModelName', schema);\n    var m = new MyModel;\n    m.save() // does not work b/c the default connection object was never connected\n\n### Embedded Documents\n\nIn the first example snippet, we defined a key in the Schema that looks like:\n\n    comments: [Comments]\n\nWhere `Comments` is a `Schema` we created. This means that creating embedded documents is as simple as:\n\n    // retrieve my model\n    var BlogPost = mongoose.model('BlogPost');\n\n    // create a blog post\n    var post = new BlogPost();\n\n    // create a comment\n    post.comments.push({ title: 'My comment' });\n\n    post.save(function (err) {\n      if (!err) console.log('Success!');\n    });\n\nThe same goes for removing them:\n\n    BlogPost.findById(myId, function (err, post) {\n      if (!err) {\n        post.comments[0].remove();\n        post.save(function (err) {\n          // do something\n        });\n      }\n    });\n\nEmbedded documents enjoy all the same features as your models. Defaults, validators, middleware. Whenever an error occurs, it's bubbled to the `save()` error callback, so error handling is a snap!\n\nMongoose interacts with your embedded documents in arrays _atomically_, out of the box.\n\n### Middleware\n\nSee the [docs](http://mongoosejs.com/docs/middleware.html) page.\n\n#### Intercepting and mutating method arguments\n\nYou can intercept method arguments via middleware.\n\nFor example, this would allow you to broadcast changes about your Documents every time someone `set`s a path in your Document to a new value:\n\n    schema.pre('set', function (next, path, val, typel) {\n      // `this` is the current Document\n      this.emit('set', path, val);\n\n      // Pass control to the next pre\n      next();\n    });\n\nMoreover, you can mutate the incoming `method` arguments so that subsequent middleware see different values for those arguments. To do so, just pass the new values to `next`:\n\n    .pre(method, function firstPre (next, methodArg1, methodArg2) {\n      // Mutate methodArg1\n      next(\"altered-\" + methodArg1.toString(), methodArg2);\n    })\n\n    // pre declaration is chainable\n    .pre(method, function secondPre (next, methodArg1, methodArg2) {\n      console.log(methodArg1);\n      // => 'altered-originalValOfMethodArg1' \n      \n      console.log(methodArg2);\n      // => 'originalValOfMethodArg2' \n      \n      // Passing no arguments to `next` automatically passes along the current argument values\n      // i.e., the following `next()` is equivalent to `next(methodArg1, methodArg2)`\n      // and also equivalent to, with the example method arg \n      // values, `next('altered-originalValOfMethodArg1', 'originalValOfMethodArg2')`\n      next();\n    })\n\n#### Schema gotcha\n\n`type`, when used in a schema has special meaning within Mongoose. If your schema requires using `type` as a nested property you must use object notation:\n\n    new Schema({\n        broken: { type: Boolean }\n      , asset : {\n            name: String\n          , type: String // uh oh, it broke. asset will be interpreted as String\n        }\n    });\n\n    new Schema({\n        works: { type: Boolean }\n      , asset : {\n            name: String\n          , type: { type: String } // works. asset is an object with a type property\n        }\n    });\n\n### Driver access\n\nThe driver being used defaults to [node-mongodb-native](https://github.com/mongodb/node-mongodb-native) and is directly accessible through `YourModel.collection`. **Note**: using the driver directly bypasses all Mongoose power-tools like validation, getters, setters, hooks, etc.\n\n## API Docs\n\nFind the API docs [here](http://mongoosejs.com/docs/api.html), generated by [dox](http://github.com/visionmedia/dox).\n\n## License\n\nCopyright (c) 2010 LearnBoost &lt;dev@learnboost.com&gt;\n\nPermission is hereby granted, free of charge, to any person obtaining\na copy of this software and associated documentation files (the\n'Software'), to deal in the Software without restriction, including\nwithout limitation the rights to use, copy, modify, merge, publish,\ndistribute, sublicense, and/or sell copies of the Software, and to\npermit persons to whom the Software is furnished to do so, subject to\nthe following conditions:\n\nThe above copyright notice and this permission notice shall be\nincluded in all copies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND,\nEXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF\nMERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.\nIN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY\nCLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,\nTORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE\nSOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.\n",
+   64    "readmeFilename": "README.md",
+   65    "_id": "mongoose@3.6.19",
+
+/Users/Kristina/projammin/hackreactor/personalproject/node_modules/mongoose/README.md:
+  104  ### Accessing a Model
+  105  
+  106: Once we define a model through `mongoose.model('ModelName', mySchema)`, we can access it through the same function
+  107  
+  108:     var myModel = mongoose.model('ModelName');
+  109  
+  110  Or just do it all at once
+  111  
+  112:     var MyModel = mongoose.model('ModelName', mySchema);
+  113  
+  114  We can then instantiate it, and save it:
+  ...
+  128  You can also `findOne`, `findById`, `update`, etc. For more details check out [the docs](http://mongoosejs.com/docs/queries.html).
+  129  
+  130: **Important!** If you opened a separate connection using `mongoose.createConnection()` but attempt to access the model through `mongoose.model('ModelName')` it will not work as expected since it is not hooked up to an active db connection. In this case access your model through the connection you created:
+  131  
+  132      var conn = mongoose.createConnection('your connection string');
+  ...
+  138  
+  139      var conn = mongoose.createConnection('your connection string');
+  140:     var MyModel = mongoose.model('ModelName', schema);
+  141      var m = new MyModel;
+  142      m.save() // does not work b/c the default connection object was never connected
+  ...
+  151  
+  152      // retrieve my model
+  153:     var BlogPost = mongoose.model('BlogPost');
+  154  
+  155      // create a blog post
+
+/Users/Kristina/projammin/hackreactor/personalproject/node_modules/mongoose/examples/doc-methods.js:
+   26   */
+   27  
+   28: var Character = mongoose.model('Character', CharacterSchema);
+   29  
+   30  /**
+
+/Users/Kristina/projammin/hackreactor/personalproject/node_modules/mongoose/examples/population-across-three-collections.js:
+   26    }]
+   27  });
+   28: var User = mongoose.model('User', user);
+   29  
+   30  var blogpost = Schema({
+   ..
+   36    }
+   37  })
+   38: var BlogPost = mongoose.model('BlogPost', blogpost);
+   39  
+   40  /**
+
+/Users/Kristina/projammin/hackreactor/personalproject/node_modules/mongoose/examples/population-basic.js:
+   14    , released: Date
+   15  })
+   16: var Console = mongoose.model('Console', consoleSchema);
+   17  
+   18  /**
+   ..
+   26    , consoles: [{ type: Schema.Types.ObjectId, ref: 'Console' }]
+   27  })
+   28: var Game = mongoose.model('Game', gameSchema);
+   29  
+   30  /**
+
+/Users/Kristina/projammin/hackreactor/personalproject/node_modules/mongoose/examples/population-of-existing-doc.js:
+   14    , released: Date
+   15  })
+   16: var Console = mongoose.model('Console', consoleSchema);
+   17  
+   18  /**
+   ..
+   26    , consoles: [{ type: Schema.Types.ObjectId, ref: 'Console' }]
+   27  })
+   28: var Game = mongoose.model('Game', gameSchema);
+   29  
+   30  /**
+
+/Users/Kristina/projammin/hackreactor/personalproject/node_modules/mongoose/examples/population-of-multiple-existing-docs.js:
+   14    , released: Date
+   15  })
+   16: var Console = mongoose.model('Console', consoleSchema);
+   17  
+   18  /**
+   ..
+   26    , consoles: [{ type: Schema.Types.ObjectId, ref: 'Console' }]
+   27  })
+   28: var Game = mongoose.model('Game', gameSchema);
+   29  
+   30  /**
+
+/Users/Kristina/projammin/hackreactor/personalproject/node_modules/mongoose/examples/population-options.js:
+   14    , released: Date
+   15  })
+   16: var Console = mongoose.model('Console', consoleSchema);
+   17  
+   18  /**
+   ..
+   26    , consoles: [{ type: Schema.Types.ObjectId, ref: 'Console' }]
+   27  })
+   28: var Game = mongoose.model('Game', gameSchema);
+   29  
+   30  /**
+
+/Users/Kristina/projammin/hackreactor/personalproject/node_modules/mongoose/examples/population-plain-objects.js:
+   14    , released: Date
+   15  })
+   16: var Console = mongoose.model('Console', consoleSchema);
+   17  
+   18  /**
+   ..
+   26    , consoles: [{ type: Schema.Types.ObjectId, ref: 'Console' }]
+   27  })
+   28: var Game = mongoose.model('Game', gameSchema);
+   29  
+   30  /**
+
+/Users/Kristina/projammin/hackreactor/personalproject/node_modules/mongoose/examples/schema.js:
+   99   */
+  100  
+  101: mongoose.model('BlogPost', BlogPost);
+  102: mongoose.model('Person', Person);
+  103  
+
+/Users/Kristina/projammin/hackreactor/personalproject/node_modules/mongoose/lib/index.js:
+  242   *
+  243   *     // define an Actor model with this mongoose instance
+  244:  *     mongoose.model('Actor', new Schema({ name: String }));
+  245   *
+  246   *     // create a new connection
+  ...
+  263   *
+  264   *     var collectionName = 'actor'
+  265:  *     var M = mongoose.model('Actor', schema, collectionName)
+  266   *
+  267   * @param {String} name model name
+  ...
+  415   *     mongoose.connection.on('error', cb);
+  416   *
+  417:  * This is the connection used by default for every model created using [mongoose.model](#index_Mongoose-model).
+  418   *
+  419   * @property connection
+
+/Users/Kristina/projammin/hackreactor/personalproject/node_modules/mongoose/lib/model.js:
+  628   *
+  629   *     var eventSchema = new Schema({ thing: { type: 'string', unique: true }})
+  630:  *     var Event = mongoose.model('Event', eventSchema);
+  631   *
+  632   *     Event.on('index', function (err) {
+
+/Users/Kristina/projammin/hackreactor/personalproject/node_modules/mongoose/lib/schema.js:
+   17   *     var child = new Schema({ name: String });
+   18   *     var schema = new Schema({ name: String, age: Number, children: [child] });
+   19:  *     var Tree = mongoose.model('Tree', schema);
+   20   *
+   21   *     // setting schema options
+   ..
+  516   *     });
+  517   *
+  518:  *     var Model = mongoose.model('Model', schema);
+  519   *
+  520   *     var m = new Model(..);
+  ...
+  558   *     })
+  559   *
+  560:  *     var Kitty = mongoose.model('Kitty', schema);
+  561   *
+  562   *     var fizz = new Kitty;
+  ...
+  598   *     });
+  599   *
+  600:  *     var Drink = mongoose.model('Drink', schema);
+  601   *     Drink.findByName('sanpellegrino', function (err, drinks) {
+  602   *       //
+
+/Users/Kristina/projammin/hackreactor/personalproject/node_modules/mongoose/lib/errors/missingSchema.js:
+   14  function MissingSchemaError (name) {
+   15    var msg = 'Schema hasn\'t been registered for model "' + name + '".\n'
+   16:           + 'Use mongoose.model(name, schema)';
+   17    MongooseError.call(this, msg);
+   18    Error.captureStackTrace(this, arguments.callee);
+
+/Users/Kristina/projammin/hackreactor/personalproject/node_modules/mongoose/lib/types/array.js:
+  599   *
+  600   *     // given documents based on the following
+  601:  *     var Doc = mongoose.model('Doc', new Schema({ array: [Number] }));
+  602   *
+  603   *     var doc = new Doc({ array: [2,3,4] })
+
