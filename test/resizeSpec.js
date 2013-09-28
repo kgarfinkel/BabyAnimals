@@ -8,7 +8,7 @@ var should = require('should');
 var request = require('supertest');
 var _ = require('underscore');
 var im = require('imagemagick');
-var imagePath = '/temp/uploads';
+var imagePath = '/tmp/';
 
 // express server
 var app = require('../app.js');
