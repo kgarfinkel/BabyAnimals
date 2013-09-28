@@ -11,15 +11,29 @@
     }
   },
 
-  "engine": "node 0.10.12",
+  "engines": {
+    "node": "0.10.x",
+    "npm": "1.2.x"
+  },
+
   "dependencies": {
     "express": "~3.3.4",
     "jade": "~0.34.0",
     "mongoose": "~3.6.14",
-    "supertest": "latest",
-    "coveralls": "~2.3.0",
-    "mocha-lcov-reporter": "0.0.1"
-  },
+    "mocha-lcov-reporter": "0.0.1",
+    "request": "~2.22.0",
+    "node-uuid": "latest",
+    "imagemagick": "latest",
+    "gm": "latest",
+    "knox": "latest",
+    "spawn": "latest",
+    "path": "latest",
+    "aws-sdk": "latest",
+    "gm": "latest",
+    "imagemagick": "latest",
+    "node-uuid": "latest"
+  },  
+
   "devDependencies": {
     "grunt": "~0.4.1",
     "grunt-develop": "~0.1.1",
@@ -27,18 +41,13 @@
     "grunt-contrib-compass": "~0.2.0",
     "grunt-mocha-test": "latest",
     "grunt-concurrent": "latest",
-    "request": "~2.22.0",
-    "node-uuid": "latest",
-    "imagemagick": "latest",
-    "gm": "latest",
-    "knox": "latest",
     "should": "latest",
     "cron": "latest",
-    "q": "latest",
-    "spawn": "latest",
     "coveralls": "~2.3.0",
     "jscoverage": "~0.3.8",
     "nodeunit": "~0.8.1",
-    "grunt-mocha-cov": "0.0.7"
+    "grunt-mocha-cov": "0.0.7",
+    "supertest": "latest",
+    "coveralls": "~2.3.0"
   }
 }

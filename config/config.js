@@ -2,17 +2,19 @@
 var path = require('path'),
   AWS = require('aws-sdk'),
   rootPath = path.normalize(path.join(__dirname, '..')),
-  env = process.env.NODE_ENV || 'development',
-
-  //TODO: move to credentials.json
+  
+  //Environment variables
+  env = process.env.NODE_ENV || 'production',
   accessKeyId = process.env.AWS_ACCESS_KEY,
   secretAccessKey = process.env.AWS_SECRET_KEY,
+  region = process.env.AWS_REGION,
   bucket = process.env.AWS_BUCKET || 'babyanimals',
-  path = process.env.LOCAL_FILE_PATH,
+  db = process.env.DB || 'mongodb://localhost/dev-production',
+  uristring = process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || 'mongodb://localhost/dev-production',
   config;
 
-//TODO: move to credentials.json
-AWS.config.update({accessKeyId: accessKeyId, secretAccessKey: secretAccessKey, region: 'us-west-1'});
+// Configuration
+AWS.config.update({accessKeyId: accessKeyId, secretAccessKey: secretAccessKey, region: region});
 
 config = {
   development: {
@@ -20,8 +22,8 @@ config = {
     app: {
       name: 'dev'
     },
-    port: 3000,
-    db: 'mongodb://localhost/dev-development'
+    port: process.env.PORT || 3000,
+    db: uristring
   },
 
   test: {
@@ -29,8 +31,17 @@ config = {
     app: {
       name: 'test'
     },
-    port: 3000,
-    db: 'mongodb://localhost/dev-test'
+    port: process.env.PORT || 3000,
+    db: uristring
+  },
+
+  production: {
+    root: rootPath,
+    app: {
+      name: 'production'
+    },
+    port: process.env.PORT || 3000,
+    db: uristring
   }
 };
 
