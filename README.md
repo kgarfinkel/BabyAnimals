@@ -15,7 +15,6 @@ BabyAnimals service can resize, blur, and filter images. The service is built ov
   * blur
   * bw
   * sepia
-  * channel
   * nashville
   * auroral 
   * enhance
@@ -105,7 +104,7 @@ curl -X GET http://localhost:3000/babyanimals/b21f37508f1c/size?w=150&h=200
 
 **Resized Image:**
 
-![baby penguin](http://babyanimals.herokuapp.com/babyanimals/cb428c822347/size?w=200)
+![baby penguin](http://babyanimals.herokuapp.com/babyanimals/cb428c822347/size?w=150&h=200)
 
 ### Obtaining Infomation About an Uploaded Image
 
@@ -136,7 +135,7 @@ curl -X GET http://localhost:3000/b21f37508f1c/info
 
 ### Image Filtering
 
-Apply the filter that is specified by the URL query to the requested image.
+Apply the filter that is specified by the URL query to the requested image. Because I like large land animals a lot
 
 **Syntax**
 ```js
@@ -147,7 +146,49 @@ GET /id/:filter {{pic}}
 curl -X GET http://localhost:3000/b21f37508f1c/vintage
 ```
 
+## Original Image
+
+![baby elephant](http://babyanimals.herokuapp.com/babyanimals/f1a80b583b7c)
+
+## Sepia
+
+![baby elephant](http://babyanimals.herokuapp.com/babyanimals/f1a80b583b7c/sepia)
+
+## Nashville
+
+![baby elephant](http://babyanimals.herokuapp.com/babyanimals/f1a80b583b7c/nashville)
+
+## auroral
+
+![baby elephant](http://babyanimals.herokuapp.com/babyanimals/f1a80b583b7c/auroral)
+
+## enhance
+
+![baby elephant](http://babyanimals.herokuapp.com/babyanimals/f1a80b583b7c/enhance)
+
+## lomo
+
+<!-- ![baby elephant](http://babyanimals.herokuapp.com/babyanimals/f1a80b583b7c/lomo) -->
+
+## gotham
+
+<!-- ![baby elephant](http://babyanimals.herokuapp.com/babyanimals/f1a80b583b7c/gotham)
+ -->
+## bw_gradient
+
+<!-- ![baby elephant](http://babyanimals.herokuapp.com/babyanimals/f1a80b583b7c/bw_gradient)
+ -->
+## vintage
+
+<!-- ![baby elephant](http://babyanimals.herokuapp.com/babyanimals/f1a80b583b7c/vintage)
+ -->
 ## HTTP status code summary
+
+**200 OK** GET Request went smoothly :)
+**201 Created** POST Request went smoothly :) 
+**204 No Content** Request went smoothly, and the server does not respond with a body 
+**400 Bad Request** Missing required query parameter
+**404 Not Found** The the requested image does not exist 
 
 ## how to deploy
 
