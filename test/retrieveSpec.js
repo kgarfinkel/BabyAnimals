@@ -6,7 +6,8 @@ var mongoose = require('mongoose');
 var should = require('should');
 var request = require('request');
 var _ = require('underscore');
-var imagePath = path.join(__dirname, './../data/images/');
+var imagePath = '/temp/uploads';
+
 
 // express server
 var app = require('../app.js');

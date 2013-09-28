@@ -3,7 +3,7 @@ var path = require('path');
 var config = require('../config/config');
 var mongoose = require('mongoose');
 var _ = require('underscore');
-var imagePath = path.join(__dirname, './../data/images/');
+var imagePath = '/temp/uploads';
 
 beforeEach(function(done) {
   if (mongoose.connection.readyState === 0) {

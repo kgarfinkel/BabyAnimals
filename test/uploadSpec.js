@@ -5,7 +5,7 @@ var ImageModel = require('../app/models/imageMetaData');
 var should = require('should');
 var mongoose = require('mongoose');
 var _ = require('underscore');
-var imagePath = path.join(__dirname, './../data/images/');
+var imagePath = '/temp/uploads';
 
 
 // express server
