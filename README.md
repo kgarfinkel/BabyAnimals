@@ -4,10 +4,6 @@ BabyAnimals is a simple image service for your app. Upload, process, and fetch i
 
 BabyAnimals service can resize, blur, and filter images. The service is built over ImageMagick and express.js for image processing, and Amazon S3 as the image storage platform.
 
-I built BabyAnimals in under two weeks at Hack Reactor -- a wonderful programming bootcamp aimed towards teaching beginner programmers to become fullstack software engineers. 
-
-I encourage your contribution; please, make a pull request and teach me something new :) 
-
 ## Features:
 
 * Image Uploading
@@ -130,36 +126,36 @@ curl -X GET http://localhost:3000/b21f37508f1c/vintage
 
 **Sepia**
 
-<!-- ![baby elephant](http://babyanimals.herokuapp.com/babyanimals/f1a80b583b7c/sepia)
- -->
+![baby elephant](http://babyanimals.herokuapp.com/babyanimals/f1a80b583b7c/sepia)
+
 **Nashville**
 
-<!-- ![baby elephant](http://babyanimals.herokuapp.com/babyanimals/f1a80b583b7c/nashville)
- -->
+![baby elephant](http://babyanimals.herokuapp.com/babyanimals/f1a80b583b7c/nashville)
+
 **Auroral**
 
-<!-- ![baby elephant](http://babyanimals.herokuapp.com/babyanimals/f1a80b583b7c/auroral)
- -->
+![baby elephant](http://babyanimals.herokuapp.com/babyanimals/f1a80b583b7c/auroral)
+
 **Enhance**
 
-<!-- ![baby elephant](http://babyanimals.herokuapp.com/babyanimals/f1a80b583b7c/enhance)
- -->
+![baby elephant](http://babyanimals.herokuapp.com/babyanimals/f1a80b583b7c/enhance)
+
 **Lomo**
 
-<!-- ![baby elephant](http://babyanimals.herokuapp.com/babyanimals/f1a80b583b7c/lomo) -->
+![baby elephant](http://babyanimals.herokuapp.com/babyanimals/f1a80b583b7c/lomo)
 
 **Gotham**
 
-<!-- ![baby elephant](http://babyanimals.herokuapp.com/babyanimals/f1a80b583b7c/gotham)
- -->
+![baby elephant](http://babyanimals.herokuapp.com/babyanimals/f1a80b583b7c/gotham)
+
 **Bw_gradient**
 
-<!-- ![baby elephant](http://babyanimals.herokuapp.com/babyanimals/f1a80b583b7c/bw_gradient)
- -->
+![baby elephant](http://babyanimals.herokuapp.com/babyanimals/f1a80b583b7c/bw_gradient)
+
 **Vintage**
 
-<!-- ![baby elephant](http://babyanimals.herokuapp.com/babyanimals/f1a80b583b7c/vintage)
- -->
+![baby elephant](http://babyanimals.herokuapp.com/babyanimals/f1a80b583b7c/vintage)
+
 
  ## Fetching Image Metadata
 
@@ -214,5 +210,10 @@ Adding MongoHQ will configure a MONGOHQ_URL environment variable, which BabyAnim
 
 ## Tech Stack
 
-BabyAnimals was built using express.js, and Imagemagick for all server-side image processing. All image and metadata storage is hosted by s3 and MongoDB. 
+BabyAnimals was built using express.js, and Imagemagick for all server-side image processing. All image and metadata storage is hosted by s3 and MongoDB.
+
+I built BabyAnimals in under two weeks at Hack Reactor -- a wonderful programming bootcamp aimed towards teaching beginner programmers to become fullstack software engineers. 
+
+I encourage your contribution; please, make a pull request and teach me something new :) 
+ 
  
