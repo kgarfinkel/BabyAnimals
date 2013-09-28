@@ -82,7 +82,7 @@ GET /babyanimals/{{id}}
 curl -X GET http://localhost:3000/babyanimals/b21f37508f1c
 ```
 
-![baby rhino](http://babyanimals.herokuapp.com/babyanimals/a6e5a7983949/)
+![baby rhino](http://babyanimals.herokuapp.com/babyanimals/fda7f33a4814/)
 
 ### Image Resizing
 
@@ -100,7 +100,7 @@ curl -X GET http://localhost:3000/babyanimals/b21f37508f1c/size?w=150&h=200
 
 **Original Image:**
 
-![baby penguin](http://babyanimals.herokuapp.com/babyanimals/cb428c822347/size?w=400)
+![baby penguin](http://babyanimals.herokuapp.com/babyanimals/cb428c822347/size?w=400&h=200)
 
 **Resized Image:**
 
@@ -152,20 +152,20 @@ curl -X GET http://localhost:3000/b21f37508f1c/vintage
 
 **Sepia**
 
-![baby elephant](http://babyanimals.herokuapp.com/babyanimals/f1a80b583b7c/sepia)
-
+<!-- ![baby elephant](http://babyanimals.herokuapp.com/babyanimals/f1a80b583b7c/sepia)
+ -->
 **Nashville**
 
-![baby elephant](http://babyanimals.herokuapp.com/babyanimals/f1a80b583b7c/nashville)
-
+<!-- ![baby elephant](http://babyanimals.herokuapp.com/babyanimals/f1a80b583b7c/nashville)
+ -->
 **auroral**
 
-![baby elephant](http://babyanimals.herokuapp.com/babyanimals/f1a80b583b7c/auroral)
-
+<!-- ![baby elephant](http://babyanimals.herokuapp.com/babyanimals/f1a80b583b7c/auroral)
+ -->
 **enhance**
 
-![baby elephant](http://babyanimals.herokuapp.com/babyanimals/f1a80b583b7c/enhance)
-
+<!-- ![baby elephant](http://babyanimals.herokuapp.com/babyanimals/f1a80b583b7c/enhance)
+ -->
 **lomo**
 
 <!-- ![baby elephant](http://babyanimals.herokuapp.com/babyanimals/f1a80b583b7c/lomo) -->
@@ -190,7 +190,9 @@ curl -X GET http://localhost:3000/b21f37508f1c/vintage
 * **400 Bad Request** Missing required query parameter
 * **404 Not Found** The the requested image does not exist 
 
-## how to deploy
+## Deployment
+
+BabyAnimals is designed to be deployed with your application. To deploy, you will need to define a few environment variables. 
 
 define these environment vars:
   - AWS_ACCESS_KEY
