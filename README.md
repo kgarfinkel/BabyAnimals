@@ -146,49 +146,49 @@ GET /id/:filter {{pic}}
 curl -X GET http://localhost:3000/b21f37508f1c/vintage
 ```
 
-## Original Image
+**Original Image**
 
 ![baby elephant](http://babyanimals.herokuapp.com/babyanimals/f1a80b583b7c)
 
-## Sepia
+**Sepia**
 
 ![baby elephant](http://babyanimals.herokuapp.com/babyanimals/f1a80b583b7c/sepia)
 
-## Nashville
+**Nashville**
 
 ![baby elephant](http://babyanimals.herokuapp.com/babyanimals/f1a80b583b7c/nashville)
 
-## auroral
+**auroral**
 
 ![baby elephant](http://babyanimals.herokuapp.com/babyanimals/f1a80b583b7c/auroral)
 
-## enhance
+**enhance**
 
 ![baby elephant](http://babyanimals.herokuapp.com/babyanimals/f1a80b583b7c/enhance)
 
-## lomo
+**lomo**
 
 <!-- ![baby elephant](http://babyanimals.herokuapp.com/babyanimals/f1a80b583b7c/lomo) -->
 
-## gotham
+**gotham**
 
 <!-- ![baby elephant](http://babyanimals.herokuapp.com/babyanimals/f1a80b583b7c/gotham)
  -->
-## bw_gradient
+**bw_gradient**
 
 <!-- ![baby elephant](http://babyanimals.herokuapp.com/babyanimals/f1a80b583b7c/bw_gradient)
  -->
-## vintage
+**vintage**
 
 <!-- ![baby elephant](http://babyanimals.herokuapp.com/babyanimals/f1a80b583b7c/vintage)
  -->
 ## HTTP status code summary
 
-**200 OK** GET Request went smoothly :)
-**201 Created** POST Request went smoothly :) 
-**204 No Content** Request went smoothly, and the server does not respond with a body 
-**400 Bad Request** Missing required query parameter
-**404 Not Found** The the requested image does not exist 
+* **200 OK** GET Request went smoothly :)
+* **201 Created** POST Request went smoothly :) 
+* **204 No Content** Request went smoothly, and the server does not respond with a body 
+* **400 Bad Request** Missing required query parameter
+* **404 Not Found** The the requested image does not exist 
 
 ## how to deploy
 
