@@ -10,7 +10,6 @@ BabyAnimals service can resize, blur, and filter images. The service is built ov
 * Image Deletion
 * Image Fetching
 * Image Resizing
-* Obtaining image information
 * Image Transforming:
   * blur
   * bw
@@ -22,6 +21,7 @@ BabyAnimals service can resize, blur, and filter images. The service is built ov
   * gotham
   * bw_gradient
   * vintage
+* Image Metadata
 * S3, for reliable image uploading
 * Enivornment Configuration
 
@@ -106,32 +106,6 @@ curl -X GET http://localhost:3000/babyanimals/b21f37508f1c/size?w=150&h=200
 
 <!-- ![baby penguin](http://babyanimals.herokuapp.com/babyanimals/cb428c822347/size?w=150&h=200)
  -->
-### Obtaining Infomation About an Uploaded Image
-
-Returns the S3 URL pointing to the image, as well as metadata about the image itself. This request only works for images that have already been uploaded to S3.
-
-**Syntax**
-```js
-GET /babyanimals/{{id}}/info
-```
-
-**Example Request:**
-```js
-curl -X GET http://localhost:3000/b21f37508f1c/info
-```
-
-**Example Response:**
-```js
-{
- "id": "39f2d22e6967",
- "bucket": "babyanimals",
- "url": "/babyanimals/39f2d22e6967",
- "width": 500,
- "height": 335,
- "filesize": 3.97266kb,
- "format: "PNG" 
-}
-```
 
 ### Image Filtering
 
@@ -182,26 +156,57 @@ curl -X GET http://localhost:3000/b21f37508f1c/vintage
 
 <!-- ![baby elephant](http://babyanimals.herokuapp.com/babyanimals/f1a80b583b7c/vintage)
  -->
-## HTTP status code summary
 
-* **200 OK** GET Request went smoothly :)
-* **201 Created** POST Request went smoothly :) 
-* **204 No Content** Request went smoothly, and the server does not respond with a body 
+ ### Fetching Image Metadata
+
+ Returns the S3 URL pointing to the image, as well as metadata about the image itself. This request only works for images that have already been uploaded to S3.
+
+ **Syntax**
+ ```js
+ GET /babyanimals/{{id}}/info
+ ```
+
+ **Example Request:**
+ ```js
+ curl -X GET http://localhost:3000/b21f37508f1c/info
+ ```
+
+ **Example Response:**
+ ```js
+ {
+  "id": "39f2d22e6967",
+  "bucket": "babyanimals",
+  "url": "/babyanimals/39f2d22e6967",
+  "width": 500,
+  "height": 335,
+  "filesize": 3.97266kb,
+  "format: "PNG" 
+ }
+ ```
+
+## HTTP Status Code Summary
+
+* **200 OK** GET request succeeded
+* **201 Created** POST request succeeded 
+* **204 No Content** DELETE request succeeded
 * **400 Bad Request** Missing required query parameter
 * **404 Not Found** The the requested image does not exist 
 
 ## Deployment
 
-BabyAnimals is designed to be deployed with your application. Before deployment, a few environment variables will have to be defined.
+BabyAnimals is designed to be deployed with your application. Before deployment, a few environment variables need to be defined.
 
-To define your environment variables with Heroku, set up   
+To define environment variables with Heroku, set up an .env file and assign the following variables to point to your AWS access key, secret key, bucket, and region:
 
-define these environment vars:
-  - AWS_ACCESS_KEY
-  - AWS_SECRET_KEY
-  - AWS_BUCKET
-  - mongoose
+[AWS screen shot!](app/assets.screenshots/s3_screenshot.png)
 
+You will also need to configure your application to a use MongoDB database. If you're deploying with Heroku add a MongoHQ database to your application.
+
+[AWS screen shot!](app/assets.screenshots/s3_screenshot.png)
+
+Adding MongoHQ will configure a MONGOHQ_URL environment variable, which BabyAnimals can now use.
+
+[AWS screen shot!](app/assets.screenshots/s3_screenshot.png)
 
 built using
 ------
