@@ -83,6 +83,8 @@ GET /babyanimals/{{id}}
 curl -X GET http://localhost:3000/babyanimals/b21f37508f1c
 ```
 
+![baby rhino](http://babyanimals.herokuapp.com/babyanimals/a6e5a7983949/)
+
 ### Image Resizing
 
 Resizes the image to the dimensions that are specified by the URL query. The accepted dimensions are pixels (not percent). The dimensions default to the original images width and height, so if only one query is provided the default value will be utilized when maintaining the aspect ratio. At least one of width and height are required.
@@ -99,11 +101,11 @@ curl -X GET http://localhost:3000/babyanimals/b21f37508f1c/size?w=150&h=200
 
 **Original Image:**
 
-baby animal pic
+![baby penguin](http://babyanimals.herokuapp.com/babyanimals/cb428c822347/size?w=400)
 
 **Resized Image:**
 
-baby animal pic
+![baby penguin](http://babyanimals.herokuapp.com/babyanimals/cb428c822347/size?w=200)
 
 ### Obtaining Infomation About an Uploaded Image
 
