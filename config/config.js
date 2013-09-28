@@ -5,16 +5,15 @@ var path = require('path'),
   
   //Environment variables
   env = process.env.NODE_ENV || 'production',
-  accessKeyId = process.env.AWS_ACCESS_KEY,
-  secretAccessKey = process.env.AWS_SECRET_KEY,
-  region = process.env.AWS_REGION,
-  bucket = process.env.AWS_BUCKET || 'babyanimals',
-  db = process.env.DB || 'mongodb://localhost/dev-production',
   uristring = process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || 'mongodb://localhost/dev-production',
   config;
 
 // Configuration
-AWS.config.update({accessKeyId: accessKeyId, secretAccessKey: secretAccessKey, region: region});
+AWS.config.update({
+  accessKeyId: process.env.AWS_ACCESS_KEY, 
+  secretAccessKey: process.env.AWS_SECRET_KEY, 
+  region: process.env.AWS_REGION
+});
 
 config = {
   development: {
