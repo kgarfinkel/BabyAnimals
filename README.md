@@ -208,5 +208,8 @@ Adding MongoHQ will configure a MONGOHQ_URL environment variable, which BabyAnim
 
 [AWS screen shot!](app/assets.screenshots/s3_screenshot.png)
 
-built using
-------
+## Tech Stack
+
+BabyAnimals was built using express.js, and Imagemagick for all server-side image processing. All image and metadata storage is hosted by s3 and MongoDB. 
+
+This is an open source project that I built in under two weeks at Hack Reactor -- a wonderful programming bootcamp aimed towards teaching beginner programmers to become fullstack software engineers. I encourage your contribution, so please, make a pull request and teach me something new :)  
