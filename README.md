@@ -4,6 +4,10 @@ BabyAnimals is a simple image service for your app. Upload, process, and fetch i
 
 BabyAnimals service can resize, blur, and filter images. The service is built over ImageMagick and express.js for image processing, and Amazon S3 as the image storage platform.
 
+I built BabyAnimals in under two weeks at Hack Reactor -- a wonderful programming bootcamp aimed towards teaching beginner programmers to become fullstack software engineers. 
+
+I encourage your contribution; please, make a pull request and teach me something new :) 
+
 ## Features:
 
 * Image Uploading
@@ -132,32 +136,32 @@ curl -X GET http://localhost:3000/b21f37508f1c/vintage
 
 <!-- ![baby elephant](http://babyanimals.herokuapp.com/babyanimals/f1a80b583b7c/nashville)
  -->
-**auroral**
+**Auroral**
 
 <!-- ![baby elephant](http://babyanimals.herokuapp.com/babyanimals/f1a80b583b7c/auroral)
  -->
-**enhance**
+**Enhance**
 
 <!-- ![baby elephant](http://babyanimals.herokuapp.com/babyanimals/f1a80b583b7c/enhance)
  -->
-**lomo**
+**Lomo**
 
 <!-- ![baby elephant](http://babyanimals.herokuapp.com/babyanimals/f1a80b583b7c/lomo) -->
 
-**gotham**
+**Gotham**
 
 <!-- ![baby elephant](http://babyanimals.herokuapp.com/babyanimals/f1a80b583b7c/gotham)
  -->
-**bw_gradient**
+**Bw_gradient**
 
 <!-- ![baby elephant](http://babyanimals.herokuapp.com/babyanimals/f1a80b583b7c/bw_gradient)
  -->
-**vintage**
+**Vintage**
 
 <!-- ![baby elephant](http://babyanimals.herokuapp.com/babyanimals/f1a80b583b7c/vintage)
  -->
 
- ### Fetching Image Metadata
+ ## Fetching Image Metadata
 
  Returns the S3 URL pointing to the image, as well as metadata about the image itself. This request only works for images that have already been uploaded to S3.
 
@@ -198,7 +202,7 @@ BabyAnimals is designed to be deployed with your application. Before deployment,
 
 To define environment variables with Heroku, set up an .env file and assign the following variables to point to your AWS access key, secret key, bucket, and region:
 
-[AWS screen shot!](app/assets.screenshots/s3_screenshot.png)
+[AWS screen shot!](/app/assets.screenshots/s3_screenshot.png)
 
 You will also need to configure your application to a use MongoDB database. If you're deploying with Heroku add a MongoHQ database to your application.
 
@@ -211,5 +215,4 @@ Adding MongoHQ will configure a MONGOHQ_URL environment variable, which BabyAnim
 ## Tech Stack
 
 BabyAnimals was built using express.js, and Imagemagick for all server-side image processing. All image and metadata storage is hosted by s3 and MongoDB. 
-
-This is an open source project that I built in under two weeks at Hack Reactor -- a wonderful programming bootcamp aimed towards teaching beginner programmers to become fullstack software engineers. I encourage your contribution, so please, make a pull request and teach me something new :)  
+ 
