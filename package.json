@@ -26,13 +26,9 @@
     "imagemagick": "latest",
     "gm": "latest",
     "knox": "latest",
-    "spawn": "latest",
     "path": "latest",
-    "aws-sdk": "latest",
-    "gm": "latest",
-    "imagemagick": "latest",
-    "node-uuid": "latest"
-  },  
+    "aws-sdk": "latest"
+ },  
 
   "devDependencies": {
     "grunt": "~0.4.1",
