@@ -100,12 +100,12 @@ curl -X GET http://localhost:3000/babyanimals/b21f37508f1c/size?w=150&h=200
 
 **Original Image:**
 
-![baby penguin](http://babyanimals.herokuapp.com/babyanimals/cb428c822347/size?w=400&h=200)
-
+<!-- ![baby penguin](http://babyanimals.herokuapp.com/babyanimals/cb428c822347/size?w=400&h=200)
+ -->
 **Resized Image:**
 
-![baby penguin](http://babyanimals.herokuapp.com/babyanimals/cb428c822347/size?w=150&h=200)
-
+<!-- ![baby penguin](http://babyanimals.herokuapp.com/babyanimals/cb428c822347/size?w=150&h=200)
+ -->
 ### Obtaining Infomation About an Uploaded Image
 
 Returns the S3 URL pointing to the image, as well as metadata about the image itself. This request only works for images that have already been uploaded to S3.
@@ -192,7 +192,9 @@ curl -X GET http://localhost:3000/b21f37508f1c/vintage
 
 ## Deployment
 
-BabyAnimals is designed to be deployed with your application. To deploy, you will need to define a few environment variables. 
+BabyAnimals is designed to be deployed with your application. Before deployment, a few environment variables will have to be defined.
+
+To define your environment variables with Heroku, set up   
 
 define these environment vars:
   - AWS_ACCESS_KEY
