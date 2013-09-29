@@ -82,7 +82,7 @@ GET /babyanimals/{{id}}
 curl -X GET http://localhost:3000/babyanimals/b21f37508f1c
 ```
 
-![baby rhino](http://babyanimals.herokuapp.com/babyanimals/fda7f33a4814/)
+![baby rhino](http://babyanimals.herokuapp.com/babyanimals/fda7f33a4814)
 
 ### Image Resizing
 
@@ -122,15 +122,15 @@ curl -X GET http://localhost:3000/b21f37508f1c/vintage
 
 **Original Image**
 
-<!-- ![baby elephant](http://babyanimals.herokuapp.com/babyanimals/f1a80b583b7c) -->
+![baby elephant](http://babyanimals.herokuapp.com/babyanimals/b3bc4fc695c3)
 
 **Sepia**
 
-<!-- ![baby elephant](http://babyanimals.herokuapp.com/babyanimals/f1a80b583b7c/sepia) -->
+![baby elephant](http://babyanimals.herokuapp.com/babyanimals/b3bc4fc695c3/sepia)
 
 **Nashville**
 
-<!-- ![baby elephant](http://babyanimals.herokuapp.com/babyanimals/f1a80b583b7c/nashville) -->
+![baby elephant](http://babyanimals.herokuapp.com/babyanimals/b3bc4fc695c3/nashville)
 
 **Auroral**
 
