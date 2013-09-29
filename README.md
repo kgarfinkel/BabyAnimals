@@ -55,9 +55,9 @@ POST /babyanimals/upload?src={{image}}
 **Example Request:**
 ```js
 curl -X POST http://localhost:3000/babyanimals/upload?src=cute/baby/animal.png
-
+```
 or 
-
+```js
 curl -X POST http://localhost:3000/babyanimals/upload?src=http://cutebabyanimal.png
 ```
 
@@ -100,11 +100,11 @@ curl -X GET http://localhost:3000/babyanimals/b21f37508f1c/size?w=150&h=200
 
 **Original Image:**
 
-<!-- ![baby penguin](http://babyanimals.herokuapp.com/babyanimals/cb428c822347/size?w=400&h=200) -->
+![baby penguin](http://babyanimals.herokuapp.com/babyanimals/cb428c822347/size?w=400&h=200)
 
 **Resized Image:**
 
-<!-- ![baby penguin](http://babyanimals.herokuapp.com/babyanimals/cb428c822347/size?w=150&h=200) -->
+![baby penguin](http://babyanimals.herokuapp.com/babyanimals/cb428c822347/size?w=150&h=200)
 
 
 ### Image Filtering
@@ -213,7 +213,5 @@ Adding MongoHQ will configure a MONGOHQ_URL environment variable, which BabyAnim
 BabyAnimals was built using express.js, and Imagemagick for all server-side image processing. All image and metadata storage is hosted by s3 and MongoDB.
 
 I built BabyAnimals in under two weeks at Hack Reactor -- a wonderful programming bootcamp aimed towards teaching beginner programmers to become fullstack software engineers. 
-
-I encourage your contribution; please, make a pull request and teach me something new :) 
  
  
