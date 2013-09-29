@@ -16,7 +16,7 @@ fs.readdirSync(modelsPath).forEach(function (file) {
 });
 
 //express
-require('./config/express')(app, config);
+require('./config/middleware')(app, config);
 
 //routes
 require('./config/routes').routeHandler(app);
