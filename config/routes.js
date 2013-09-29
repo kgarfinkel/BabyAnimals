@@ -30,7 +30,7 @@ module.exports = {
       });
     });
 
-    // Middlware for filter requests
+    // Middleware for filter requests
     app.param('filter', function(req, res, next, filter) {
       req.filter = filter;
       next();
