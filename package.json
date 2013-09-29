@@ -40,7 +40,6 @@
     "should": "latest",
     "cron": "latest",
     "coveralls": "~2.3.0",
-    "jscoverage": "~0.3.8",
     "nodeunit": "~0.8.1",
     "grunt-mocha-cov": "0.0.7",
     "supertest": "latest",
