@@ -126,7 +126,7 @@ curl -X GET http://localhost:3000/b21f37508f1c/vintage
 
 **Sepia**
 
-<!-- ![baby elephant](http://babyanimals.herokuapp.com/babyanimals/f1a80b583b7c/sepia) -->
+![baby elephant](http://babyanimals.herokuapp.com/babyanimals/b3bc4fc695c3/sepia)
 
 **Nashville**
 
