@@ -122,7 +122,7 @@ curl -X GET http://localhost:3000/b21f37508f1c/vintage
 
 **Original Image**
 
-![baby elephant](http://babyanimals.herokuapp.com/babyanimals/f1a80b583b7c)
+![baby elephant](http://babyanimals.herokuapp.com/babyanimals/b3bc4fc695c3)
 
 **Sepia**
 
