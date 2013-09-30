@@ -134,7 +134,7 @@ curl -X GET http://localhost:3000/b21f37508f1c/vintage
 
 **Auroral**
 
-<!-- ![baby elephant](http://babyanimals.herokuapp.com/babyanimals/f1a80b583b7c/auroral) -->
+![baby elephant](http://babyanimals.herokuapp.com/babyanimals/f1a80b583b7c/auroral)
 
 **Enhance**
 
