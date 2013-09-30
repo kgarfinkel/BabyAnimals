@@ -2,7 +2,7 @@
 
 BabyAnimals is a simple image service for your app. Upload, process, and fetch images easily using a RESTful API. 
 
-BabyAnimals service can resize, blur, and filter images. The service is built over ImageMagick and express.js for image processing, and Amazon S3 as the image storage platform.
+BabyAnimals service can resize, blur, and filter images. The service is built over ImageMagick and express.js for image processing, and Amazon s3 as the image storage platform.
 
 ## Features:
 
@@ -200,11 +200,9 @@ To define environment variables with Heroku, set up an .env file and assign the 
 
 [AWS screen shot!](/app/assets.screenshots/s3_screenshot.png)
 
-You will also need to configure your application to a use MongoDB database. If you're deploying with Heroku add a MongoHQ database to your application.
+You will need to configure your application to use MongoDB. If you're deploying with Heroku, add a MongoHQ database to your application.
 
-[AWS screen shot!](app/assets.screenshots/s3_screenshot.png)
-
-Adding MongoHQ will configure a MONGOHQ_URL environment variable, which BabyAnimals can now use.
+Adding MongoHQ will configure a MONGOHQ_URL environment variable.
 
 [AWS screen shot!](app/assets.screenshots/s3_screenshot.png)
 
