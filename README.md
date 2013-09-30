@@ -104,7 +104,7 @@ curl -X GET http://localhost:3000/babyanimals/b21f37508f1c/size?w=150&h=200
 
 **Resized Image:**
 
-> ![baby penguin](http://babyanimals.herokuapp.com/babyanimals/4dbd80a06682/size?w=150&h=200)
+![baby penguin](http://babyanimals.herokuapp.com/babyanimals/4dbd80a06682/size?w=150&h=200)
 
 
 ### Image Filtering
