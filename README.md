@@ -82,7 +82,7 @@ GET /babyanimals/{{id}}
 curl -X GET http://localhost:3000/babyanimals/b21f37508f1c
 ```
 
-![baby rhino](http://babyanimals.herokuapp.com/babyanimals/fda7f33a4814)
+![baby rhino](http://babyanimals.herokuapp.com/babyanimals/cb428c822347/size?w=400&h=200)
 
 ### Image Resizing
 
