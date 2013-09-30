@@ -122,39 +122,39 @@ curl -X GET http://localhost:3000/b21f37508f1c/vintage
 
 **Original Image**
 
-![baby elephant](http://babyanimals.herokuapp.com/babyanimals/b3bc4fc695c3)
+![baby elephant](http://babyanimals.herokuapp.com/babyanimals25fa3b881803)
 
 **Sepia**
 
-![baby elephant](http://babyanimals.herokuapp.com/babyanimals/b3bc4fc695c3/sepia)
+![baby elephant](http://babyanimals.herokuapp.com/babyanimals/25fa3b881803/sepia)
 
 **Nashville**
 
-![baby elephant](http://babyanimals.herokuapp.com/babyanimals/b3bc4fc695c3/nashville)
+![baby elephant](http://babyanimals.herokuapp.com/babyanimals/25fa3b881803/nashville)
 
 **Auroral**
 
-![baby elephant](http://babyanimals.herokuapp.com/babyanimals/f1a80b583b7c/auroral)
+![baby elephant](http://babyanimals.herokuapp.com/babyanimals/25fa3b881803/auroral)
 
 **Enhance**
 
-<!-- ![baby elephant](http://babyanimals.herokuapp.com/babyanimals/f1a80b583b7c/enhance) -->
+![baby elephant](http://babyanimals.herokuapp.com/babyanimals/25fa3b881803/enhance)
 
 **Lomo**
 
-<!-- ![baby elephant](http://babyanimals.herokuapp.com/babyanimals/f1a80b583b7c/lomo) -->
+![baby elephant](http://babyanimals.herokuapp.com/babyanimals/25fa3b881803/lomo)
 
 **Gotham**
 
-<!-- ![baby elephant](http://babyanimals.herokuapp.com/babyanimals/f1a80b583b7c/gotham) -->
+![baby elephant](http://babyanimals.herokuapp.com/babyanimals/25fa3b881803/gotham)
 
 **Bw_gradient**
 
-<!-- ![baby elephant](http://babyanimals.herokuapp.com/babyanimals/f1a80b583b7c/bw_gradient) -->
+![baby elephant](http://babyanimals.herokuapp.com/babyanimals/25fa3b881803/bw_gradient)
 
 **Vintage**
 
-<!-- ![baby elephant](http://babyanimals.herokuapp.com/babyanimals/f1a80b583b7c/vintage) -->
+![baby elephant](http://babyanimals.herokuapp.com/babyanimals/25fa3b881803/vintage)
 
 
  ## Fetching Image Metadata
