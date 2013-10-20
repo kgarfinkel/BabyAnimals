@@ -82,7 +82,7 @@ GET /babyanimals/{{id}}
 curl -X GET http://localhost:3000/babyanimals/b21f37508f1c
 ```
 
-![baby rhino](http://localhost:5000/babyanimals/4bce34d0fc39)
+![baby rhino](https://raw.github.com/kbrainwave/BabyAnimals/master/assets/readme/babyduckoriginal.jpg)
 
 ### Image Resizing
 
