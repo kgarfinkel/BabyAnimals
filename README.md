@@ -11,15 +11,12 @@ BabyAnimals service can resize, blur, and filter images. The service is built ov
 * Image Fetching
 * Image Resizing
 * Image Transforming:
-  * blur
   * bw
   * sepia
-  * nashville
   * auroral 
   * enhance
-  * lomo
   * gotham
-  * bw_gradient
+  * bw_grad
   * vintage
 * Image Metadata
 * S3, for reliable image uploading
@@ -82,7 +79,7 @@ GET /babyanimals/{{id}}
 curl -X GET http://localhost:3000/babyanimals/b21f37508f1c
 ```
 
-![baby rhino](https://raw.github.com/kbrainwave/BabyAnimals/master/assets/readme/babyduckoriginal.jpg)
+![baby duck](https://raw.github.com/kbrainwave/BabyAnimals/master/assets/readme/babyduckoriginal.jpg)
 
 ### Image Resizing
 
@@ -100,11 +97,11 @@ curl -X GET http://localhost:3000/babyanimals/b21f37508f1c/size?w=150&h=200
 
 **Original Image:**
 
-![baby penguin](http://babyanimals.herokuapp.com//babyanimals/4dbd80a06682)
+![baby penguin](https://raw.github.com/kbrainwave/BabyAnimals/master/assets/readme/babypenguinoriginal.jpg)
 
 **Resized Image:**
 
-![baby penguin](http://babyanimals.herokuapp.com/babyanimals/4dbd80a06682/size?w=200&h=200)
+![baby penguin](https://raw.github.com/kbrainwave/BabyAnimals/master/assets/readme/babypenguinresize.jpg)
 
 
 ### Image Filtering
@@ -122,39 +119,35 @@ curl -X GET http://localhost:3000/b21f37508f1c/vintage
 
 **Original Image**
 
-> ![baby elephant](http://babyanimals.herokuapp.com/babyanimals25fa3b881803)
+![baby elephant](https://raw.github.com/kbrainwave/BabyAnimals/master/assets/readme/babyelephantoriginal.jpg)
 
-> **Sepia**
+**bw**
 
-> ![baby elephant](http://babyanimals.herokuapp.com/babyanimals/25fa3b881803/sepia)
+![baby elephant](https://raw.github.com/kbrainwave/BabyAnimals/master/assets/readme/babyelephantbw.jpg)
 
-> **Nashville**
+**Sepia**
 
-> ![baby elephant](http://babyanimals.herokuapp.com/babyanimals/25fa3b881803/nashville)
+![baby elephant](https://raw.github.com/kbrainwave/BabyAnimals/master/assets/readme/babyelephantsepia.jpg)
 
-> **Auroral**
+**Auroral**
 
-> ![baby elephant](http://babyanimals.herokuapp.com/babyanimals/25fa3b881803/auroral)
+![baby elephant](https://raw.github.com/kbrainwave/BabyAnimals/master/assets/readme/babyelephantauroral.jpg)
 
-> **Enhance**
+**Enhance**
 
-> ![baby elephant](http://babyanimals.herokuapp.com/babyanimals/25fa3b881803/enhance)
+![baby elephant](https://raw.github.com/kbrainwave/BabyAnimals/master/assets/readme/babyelephantenhance.jpg)
 
-> **Lomo**
+**Gotham**
 
-> ![baby elephant](http://babyanimals.herokuapp.com/babyanimals/25fa3b881803/lomo)
+![baby elephant](https://raw.github.com/kbrainwave/BabyAnimals/master/assets/readme/babyelephantgotham.jpg)
 
-> **Gotham**
+**Bw_gradient**
 
-> ![baby elephant](http://babyanimals.herokuapp.com/babyanimals/25fa3b881803/gotham)
+![baby elephant](https://raw.github.com/kbrainwave/BabyAnimals/master/assets/readme/babyelephantbw_grad.jpg)
 
-> **Bw_gradient**
+**Vintage**
 
-> ![baby elephant](http://babyanimals.herokuapp.com/babyanimals/25fa3b881803/bw_gradient)
-
-> **Vintage**
-
-> ![baby elephant](http://babyanimals.herokuapp.com/babyanimals/25fa3b881803/vintage)
+![baby elephant](https://raw.github.com/kbrainwave/BabyAnimals/master/assets/readme/babyelephantvintage.jpg)
 
 
  ## Fetching Image Metadata
@@ -198,18 +191,15 @@ BabyAnimals is designed to be deployed with your application. Before deployment,
 
 To define environment variables with Heroku, set up an .env file and assign the following variables to point to your AWS access key, secret key, bucket, and region:
 
-[AWS screen shot!](/app/assets.screenshots/s3_screenshot.png)
+![AWS screen shot](https://raw.github.com/kbrainwave/BabyAnimals/master/assets/readme/s3config.png)
+
 
 You will need to configure your application to use MongoDB. If you're deploying with Heroku, add a MongoHQ database to your application.
 
-Adding MongoHQ will configure a MONGOHQ_URL environment variable.
+Adding MongoHQ will configure a MONGOHQ_URL environment variable of the following format:
 
-[AWS screen shot!](app/assets.screenshots/s3_screenshot.png)
+![AWS screen shot](https://raw.github.com/kbrainwave/BabyAnimals/master/assets/readme/mongoconfig.png)
 
 ## Tech Stack
 
-BabyAnimals was built using express.js, and Imagemagick for all server-side image processing. All image and metadata storage is hosted by s3 and MongoDB.
-
-I built BabyAnimals in under two weeks at Hack Reactor -- a wonderful programming bootcamp aimed towards teaching beginner programmers to become fullstack software engineers. 
- 
- 
+BabyAnimals is built using node.js and express.js on the backend, and Imagemagick for all server-side image processing. All image storage is hosted by s3, and MongoDB for image reference. Tests where asserted by Mocha. Grunt was used for automated testing, and overall task management. 
