@@ -150,7 +150,7 @@ curl -X GET http://localhost:3000/b21f37508f1c/vintage
 ![baby elephant](https://raw.github.com/kbrainwave/BabyAnimals/master/assets/readme/babyelephantvintage.jpg)
 
 
- ## Fetching Image Metadata
+## Fetching Image Metadata
 
  Returns the S3 URL pointing to the image, as well as metadata about the image itself. This request only works for images that have already been uploaded to S3.
 
